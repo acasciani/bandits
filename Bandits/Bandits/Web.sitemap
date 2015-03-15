@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+    <siteMapNode url="~/Modules/PlayerManagement" title="Player Management"  description="Pages responsible for player management">
+        <siteMapNode url="~/Modules/PlayerManagement/ViewAll.aspx" title="View All"  description="View all players in the system" />
+    </siteMapNode>
+</siteMap>

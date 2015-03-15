@@ -1,0 +1,57 @@
+﻿<#+
+    private Telerik.OpenAccess.DSW.Entity _item;
+    private string _itemPluralName;
+    private string _itemName;
+    private string _itemLowerName;
+    private string _itemPluralLowerName;
+    private string _itemDtoName;
+    private string _itemServiceInterfaceName;
+    private string _itemServicePropertyName;
+    private string _itemServiceFieldName;
+    private string _itemAssemblerInterfaceName;
+    private string _itemAssemblerName;
+    private string _itemRepositoryInterfaceName;
+    private string _itemRepositoryName;
+    private string _itemPkPropertyName;
+    private Type   _itemPkType = typeof(System.Object);
+
+    private void InitializeRestTemplateGenerationCore()
+    {
+        Telerik.OpenAccess.CodeGeneration.TextTemplatingHost _host = 
+            this.Host as Telerik.OpenAccess.CodeGeneration.TextTemplatingHost;
+    
+        string keyName = "Entity";
+        if (_host.Arguments.ContainsKey(keyName))
+        {
+            this._item = _host.Arguments[keyName].Value as Telerik.OpenAccess.DSW.Entity;
+            if (this._item != null)
+            {
+                this._itemPluralName = Telerik.OpenAccess.DSW.EntitiesUtility.GetPluralEntityNameOld(this._item);
+                this._itemName = this._item.PersistentType.Name;
+                this._itemLowerName = this._itemName.ToLowerInvariant();
+                this._itemPluralLowerName = this._itemPluralName.ToLowerInvariant();
+                        
+                this._itemDtoName = this.nameService.GetDTOName(this._itemName);
+                this._itemServiceInterfaceName = this.nameService.GetServiceInterfaceName(this._itemName);
+                this._itemServicePropertyName = this.nameService.GetServiceName(this._itemName);
+                this._itemServiceFieldName = this.nameService.GetServiceName(this._itemName).ToLowerInvariant();
+                this._itemAssemblerInterfaceName = this.nameService.GetAssemblerInterfaceName(this._itemName);
+                this._itemAssemblerName = this.nameService.GetAssemblerName(this._itemName);
+                this._itemRepositoryInterfaceName = this.nameService.GetRepositoryInterfaceName(this._itemName);
+                this._itemRepositoryName = this.nameService.GetRepositoryName(this._itemName);
+
+                List<Telerik.OpenAccess.Metadata.MetaPrimitiveMember> pkMembers = Telerik.OpenAccess.Metadata.MetadataWorker.GetIdentityMembers(_item.PersistentType);
+                if (pkMembers.Count == 1 && 
+                    _item.PersistentType.BaseType == null /* work around for a DTO generation bug with inheritance */)
+                {
+                    this._itemPkPropertyName = pkMembers[0].PropertyName;
+                    Telerik.OpenAccess.Metadata.MetaPrimitiveType metaType = pkMembers[0].MemberType as Telerik.OpenAccess.Metadata.MetaPrimitiveType;
+                    if(metaType != null)
+                    {
+                        this._itemPkType = metaType.ClrType;
+                    }
+                }
+            }
+        }
+    }
+#>

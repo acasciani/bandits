@@ -1,0 +1,298 @@
+﻿<#+
+    private Telerik.OpenAccess.DSW.Entity entity;
+    private List<Telerik.OpenAccess.DSW.Entity> entities;
+    private Telerik.OpenAccess.CodeGeneration.CodeClass respectiveCodeClass;
+    private string entityName;
+    private string entityType;
+    private string lowerCaseEntityName;
+    private string serviceName;
+    private string pluralEntityName;
+    private string lowerCasePluralEntityName;
+    private string contextName;
+    private string codeFileNamespace;
+    private string codeBehindProjectNamespace;
+    private string dtosProjectNamespace;
+    private string webOutProjectNamespace;
+    private string contextNamespace;
+    private List<string> selectedEntitiesNames;
+    private List<string> notSelectedEntitiesNames;
+    private List<string> identityDefinitions;
+    private List<string> identityMembersNames;
+    private List<string> entityNavPropsNames;
+    private Dictionary<string, string> refNavPropsNameAndType;
+    private Dictionary<string, string> collNavPropsNameAndType;
+    private string identityLambda;
+    private string identityCompariosn;
+
+    private void InitializeServiceStackTemplateGenerationCore()
+    {
+        Telerik.OpenAccess.CodeGeneration.TextTemplatingHost _host = 
+            this.Host as Telerik.OpenAccess.CodeGeneration.TextTemplatingHost;
+
+        string keyName = "Entity";
+        if (_host.Arguments.ContainsKey(keyName))
+        {
+            this.entity = _host.Arguments[keyName].Value as Telerik.OpenAccess.DSW.Entity;
+        }
+
+        keyName = "Entities";
+        if (_host.Arguments.ContainsKey(keyName))
+        {
+            this.entities = _host.Arguments[keyName].Value as List<Telerik.OpenAccess.DSW.Entity>;
+        }
+
+        keyName = "RespectiveCodeClass";
+        if (_host.Arguments.ContainsKey(keyName))
+        {
+            this.respectiveCodeClass = _host.Arguments[keyName].Value as Telerik.OpenAccess.CodeGeneration.CodeClass;
+        }
+
+        keyName = "ServiceName";
+        if (_host.Arguments.ContainsKey(keyName))
+        {
+            this.serviceName = _host.Arguments[keyName].Value as string;
+        }
+
+        keyName = "ContextName";
+        if (_host.Arguments.ContainsKey(keyName))
+        {
+            this.contextName = _host.Arguments[keyName].Value as string;
+        }
+
+        keyName = "CodeBehindProjectNamespace";
+        if (_host.Arguments.ContainsKey(keyName))
+        {
+            this.codeBehindProjectNamespace = _host.Arguments[keyName].Value as string;
+        }
+
+        keyName = "DtosProjectNamespace";
+        if (_host.Arguments.ContainsKey(keyName))
+        {
+            this.dtosProjectNamespace = _host.Arguments[keyName].Value as string;
+        }
+
+        keyName = "WebOutProjectNamespace";
+        if (_host.Arguments.ContainsKey(keyName))
+        {
+            this.webOutProjectNamespace = _host.Arguments[keyName].Value as string;
+        }
+
+        keyName = "ContextNamespace";
+        if (_host.Arguments.ContainsKey(keyName))
+        {
+            this.contextNamespace = _host.Arguments[keyName].Value as string;
+        }
+
+        keyName = "CodeFileNamespace";
+        if(_host.Arguments.ContainsKey(keyName))
+        {
+            this.codeFileNamespace = _host.Arguments[keyName].Value as string;
+        }
+
+        keyName = "SelectedEntitiesNames";
+        if(_host.Arguments.ContainsKey(keyName))
+        {
+            this.selectedEntitiesNames = _host.Arguments[keyName].Value as List<string>;
+        }
+
+        keyName = "NotSelectedEntitiesNames";
+        if(_host.Arguments.ContainsKey(keyName))
+        {
+            this.notSelectedEntitiesNames = _host.Arguments[keyName].Value as List<string>;
+        }
+
+        if(this.entity!=null)
+        {
+            this.entityName = this.entity.PersistentType.Name;
+            this.entityType = this.entity.PersistentType.FullName;
+            this.lowerCaseEntityName = this.GetValidCamelCaseIdentifier(this.entity.PersistentType.Name);
+            this.pluralEntityName = Telerik.OpenAccess.DSW.EntitiesUtility.GetPluralEntityName(this.entity);
+            this.lowerCasePluralEntityName = this.GetValidCamelCaseIdentifier(this.pluralEntityName);
+            this.identityDefinitions = this.GetIdentityDefinitions(this.entity);
+            this.identityLambda = this.GetGetByIdentityLambda(this.entity);
+            this.identityMembersNames = this.GetIndentityMembersNames(this.entity);
+            this.identityCompariosn = this.GetIdentityComparisonStatement(this.entity);
+        }
+
+        if(this.respectiveCodeClass!=null)
+        {
+            this.GetNavPropsDetails();
+        }
+    }
+
+    private string GetPropertyTypeAsString(Telerik.OpenAccess.CodeGeneration.CodeProperty property, string propertyTypeName)
+    {
+        string propertyType = property.Type;
+        if (!string.IsNullOrEmpty(propertyTypeName))
+        {
+            propertyType = propertyTypeName;
+        }
+        
+        bool isGeneric = false;
+        if (property.UserData.Contains("IsGeneric"))
+        {
+            isGeneric = (bool) property.UserData["IsGeneric"];
+        }
+
+        if (isGeneric)
+        {
+            bool isNullable = (bool)property.UserData["IsNullable"];
+            if (isNullable)
+            {
+                string genericParameterConstraints = (string)property.UserData["GenericParameters"];
+                string[] parts = 
+                    genericParameterConstraints.Split(new string[]{", "}, StringSplitOptions.RemoveEmptyEntries);
+                string underlyingSystemType = string.Empty;
+                if (parts.Length > 0)
+                {
+                    if (GeneratedTextTransformation.typeDefaultPresentation != null && 
+                        GeneratedTextTransformation.typeDefaultPresentation.TryGetValue(parts[0], out underlyingSystemType))
+                    {
+                        return string.Format("{0}?", underlyingSystemType);
+                    }
+                    return string.Format("System.Nullable<{0}>", parts[0]);
+                }
+            }
+            return string.Empty;
+        }
+        else if (property.IsIEnumerable)
+        {
+            return string.Format("List<{0}>", propertyType);
+        }
+
+        string mappedType = string.Empty;
+        if (GeneratedTextTransformation.typeDefaultPresentation.TryGetValue(propertyType, out mappedType))
+        {
+            return mappedType;
+        }
+                                                                                                       
+        return propertyType;
+    }
+
+    private List<string> GetIdentityDefinitions(Telerik.OpenAccess.DSW.Entity entity)
+    {
+        var identityMembers = Telerik.OpenAccess.Metadata.MetadataWorker.GetIdentityMembers(entity.PersistentType);
+
+        List<string> identityDefinitions = new List<string>();
+        foreach (var identityMember in identityMembers)
+        {
+            identityDefinitions.Add(String.Format("{0} {1}", identityMember.MemberType.Name, identityMember.PropertyName));
+        }
+
+        return identityDefinitions;
+    }
+
+    private string GetIdentityRestPathPlaceholder(Telerik.OpenAccess.DSW.Entity entity)
+    {
+        var identityMembers = Telerik.OpenAccess.Metadata.MetadataWorker.GetIdentityMembers(entity.PersistentType);
+
+        StringBuilder placeholder= new StringBuilder();
+
+        foreach (var identityMember in identityMembers)
+        {
+            placeholder.Append("/{"+ identityMember.PropertyName + "}");
+        }
+
+        return placeholder.ToString();
+    }
+
+    private List<string> GetIndentityMembersNames(Telerik.OpenAccess.DSW.Entity entity)
+    {
+        var identityMembers = Telerik.OpenAccess.Metadata.MetadataWorker.GetIdentityMembers(entity.PersistentType);
+
+        List<string> identityMembersNames = new List<string>();
+        foreach (var identityMember in identityMembers)
+        {
+            identityMembersNames.Add(identityMember.PropertyName);
+        }
+
+        return identityMembersNames;
+    }
+
+    private string GetGetByIdentityLambda(Telerik.OpenAccess.DSW.Entity entity)
+    {
+        var identityMembers = Telerik.OpenAccess.Metadata.MetadataWorker.GetIdentityMembers(entity.PersistentType);
+        string entitySymbol = entityName.TrimStart('_')[0].ToString().ToLowerInvariant();
+        //string entitySymbol = entity.PersistentType.Name[0].ToString().ToLowerInvariant();
+        StringBuilder builder = new StringBuilder();
+        builder.Append(entitySymbol);
+        builder.Append(" => ");
+        foreach (var identityMember in identityMembers)
+        {
+            //c => c.CarID == carId
+            builder.AppendFormat("{0}.{1} == {2}.{3} && ", entitySymbol, identityMember.PropertyName, "request", identityMember.PropertyName);
+        }
+        if(builder.Length > 4)
+        {
+            builder = builder.Remove(builder.Length-4, 4);
+        }
+        return builder.ToString();
+    }
+
+    private string GetIdentityComparisonStatement(Telerik.OpenAccess.DSW.Entity  entity)
+    {
+        var identityMembers = Telerik.OpenAccess.Metadata.MetadataWorker.GetIdentityMembers(entity.PersistentType);
+        
+        //carId != entity.CarID
+        StringBuilder builder = new StringBuilder();
+        foreach (var identityMember in identityMembers)
+        {
+            builder.AppendFormat("request.{0} != request.{1}.{2} || ", identityMember.PropertyName, this.entityName, identityMember.PropertyName);
+        }
+        if (builder.Length > 4)
+        {
+           builder = builder.Remove(builder.Length - 4, 4);
+        }
+        return builder.ToString();
+    }
+
+    //GetStringWithLowerCaseFirstLetter
+    //returns a valid camel case identifier
+    //the input will have its first letter in lower case and it will be valid (non keyword)
+    private string GetValidCamelCaseIdentifier(string input)
+    {
+        return Telerik.OpenAccess.DSW.InflectorUtility.GetValidCamelizedIdentifierCS(input);
+        //return Telerik.OpenAccess.Metadata.Inflector.Camelize(input);
+        //return Char.ToLowerInvariant(input[0]) + input.Substring(1);
+    }
+
+    //returns a camel case identifier without any special processing
+    //useful for plural identifiers
+    private string GetCamelCaseIdentifier(string input)
+    {
+        return Telerik.OpenAccess.DSW.InflectorUtility.Camelize(input);
+    }
+
+    private void GetNavPropsDetails()
+    {
+        this.refNavPropsNameAndType = new Dictionary<string, string>();
+        this.collNavPropsNameAndType = new Dictionary<string, string>();
+
+        List<Telerik.OpenAccess.CodeGeneration.CodeProperty> classProperties = this.respectiveCodeClass.Properties.ToList();
+        
+        Telerik.OpenAccess.CodeGeneration.CodeClass baseClassToEvaluate = this.respectiveCodeClass.BaseClass;
+        while(baseClassToEvaluate != null)
+        {
+            classProperties.AddRange(baseClassToEvaluate.Properties.Where(p => p.IsPrivate == false).ToList());
+            baseClassToEvaluate = baseClassToEvaluate.BaseClass;
+        }
+
+        foreach (Telerik.OpenAccess.CodeGeneration.CodeProperty prop in classProperties)
+        {
+            //check if the property is of a persistent type (aka check whether the respective generated property should be of DTO type
+            if(this.selectedEntitiesNames.Contains(prop.Type))
+            {
+                //collection navigation property
+                if(prop.IsIEnumerable)
+                {
+                    this.collNavPropsNameAndType.Add(prop.Name, prop.Type);
+                }
+                else //reference navigation property
+                {
+                    this.refNavPropsNameAndType.Add(prop.Name, prop.Type);
+                }
+            }
+        }
+    }
+
+#>

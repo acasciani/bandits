@@ -1,0 +1,151 @@
+﻿<#+ 
+    private string _serviceName;
+    private string _serviceFullName;	
+    
+    private List<Telerik.OpenAccess.DSW.Entity> _items;
+    private List<IGrouping<string, Telerik.OpenAccess.DSW.Entity>> _groupedItems;
+    private int _frmVersionMajor;
+    private int _frmVersionMinor;
+    private bool _existEntityWithInsertEnabled;
+    private bool _existEntityWithUpdateEnabled;
+    private bool _existEntityWithDeleteEnabled;
+    
+    private void InitializeDswTemplateGenerationCore()
+    {
+        Telerik.OpenAccess.CodeGeneration.TextTemplatingHost _host = 
+            this.Host as Telerik.OpenAccess.CodeGeneration.TextTemplatingHost;
+    
+        string keyName = "Entities";
+        if (_host.Arguments.ContainsKey(keyName))
+        {
+            this._items = _host.Arguments[keyName].Value as List<Telerik.OpenAccess.DSW.Entity>;
+            if (this._items != null)
+            {
+                this._existEntityWithInsertEnabled = this._items.Exists(t => t.Insert);
+                this._existEntityWithUpdateEnabled = this._items.Exists(t => t.Update);
+                this._existEntityWithDeleteEnabled = this._items.Exists(t => t.Delete);
+            }
+        }
+        
+        this._serviceName = _host.Arguments["ServiceName"].Value as string;
+        this._serviceFullName = _host.Arguments["ServiceFullName"].Value as string;
+        this._frmVersionMajor = (int)_host.Arguments["CodeBehindProjectFrameworkVersionMajor"].Value;
+        this._frmVersionMinor = (int)_host.Arguments["CodeBehindProjectFrameworkVersionMinor"].Value;
+		if(this._frmVersionMajor == 4 && this._frmVersionMinor == 5)
+		{
+			this._frmVersionMinor = 0;
+		}
+    }
+    
+    public string GetIdentityFields(Telerik.OpenAccess.DSW.Entity item)
+    {
+        List<Telerik.OpenAccess.DSW.Property> identities = Telerik.OpenAccess.DSW.EntitiesUtility.GetIdentities(item);		
+        if (identities.Count > 0)
+        {
+            StringBuilder builder = new StringBuilder();
+            if (identities.Count == 1)
+            {
+                if (identities[0].PersistentMember != null)
+                {
+                    builder.Append("\"");
+                    builder.Append(identities[0].PersistentMember.PropertyName);
+                    builder.Append("\"");
+                }
+            }
+            else
+            {
+                builder.Append("new string[] {");
+                for (int j = 0; j < identities.Count; j++)
+                {
+                    if (identities[j].PersistentMember != null)
+                    {
+                        builder.Append("\"");
+                        builder.Append(identities[j].PersistentMember.PropertyName);
+                        builder.Append("\"");
+                        // Is not last
+                        if ( j < identities.Count - 1)
+                        {
+                            builder.Append(", ");
+                        }
+                    }
+                }
+                builder.Append("}");
+            }
+
+            return builder.ToString();
+        }
+        
+        return string.Empty;
+    }
+    
+    string GetFlags(Telerik.OpenAccess.DSW.Entity item)
+    {
+        if(item.Insert && item.Update && item.Delete)
+        {
+            return "EntitySetRights.All";
+        }
+        
+        string flags = "EntitySetRights.AllRead";
+        if(item.Insert)
+        {
+            flags += " | EntitySetRights.WriteAppend";
+        }
+        if(item.Update)
+        {
+            flags += " | EntitySetRights.WriteMerge | EntitySetRights.WriteReplace";
+        }
+        if(item.Delete)
+        {
+            flags += " | EntitySetRights.WriteDelete";
+        }
+        
+        return flags;
+    }
+
+	public void IncludeModelNamespaces(string projectNamespace, string rootNamespace)
+	{
+		List<string> namespaces = this.GetEntityNamespaces(rootNamespace);
+		namespaces.RemoveAll(n => string.Equals(n, projectNamespace));
+
+        this.GenerateNamespaceUsings(namespaces.Distinct());
+	}
+
+	public List<string> GetEntityNamespaces(string rootNamespace)
+	{
+		List<string> namespaces = new List<string>();
+
+		if (this._items != null)
+		{
+			foreach(var entity in this._items)
+			{
+				string @namespace = entity.PersistentType.Namespace;
+
+                //if (!string.IsNullOrEmpty(rootNamespace) && !string.IsNullOrEmpty(@namespace)) // && name != this.rootNamespace
+                //{
+                //    @namespace = string.Concat(rootNamespace, ".", @namespace);
+                //}
+
+				namespaces.Add(@namespace);
+			}
+		}
+
+		return namespaces;
+	}
+
+	private void GenerateNamespaceUsings(System.Collections.Generic.IEnumerable<string> namespaces)
+    {
+        foreach (string @namespace in namespaces)
+        {
+            this.GenerateNamespaceUsing(@namespace);
+        }
+    }
+
+	private void GenerateNamespaceUsing(string @namespace)
+	{
+		if(!string.IsNullOrWhiteSpace(@namespace))
+		{
+			string @using = string.Format("using {0};", @namespace);
+			this.WriteLine(@using);
+		}
+	}
+#>

@@ -1,0 +1,396 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DomainModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="2.0.0.0" name="BanditsModel" namespace="BanditsModel" showPropertiesCompartment="true" xmlns="http://www.telerik.com/ORM">
+  <orm:orm name="BanditsModel" backend="mssql" xmlns:orm="http://tempuri.org/ORM">
+    <orm:namespace name="BanditsModel" default="true">
+      <orm:class name="WebUser" uniqueId="599ee4fa-d2bd-441d-bccd-0aed890239be">
+        <orm:identity>
+          <orm:key-generator name="autoinc">
+            <orm:key-generator-member property-name="WebUserId" />
+          </orm:key-generator>
+          <orm:single-field field-name="_webUserId" />
+        </orm:identity>
+        <orm:field name="_webUserId" property="WebUserId" uniqueId="b687fa65-6bee-40e7-aaa4-a091af1b9700" type="System.Int32" />
+        <orm:field name="_email" property="Email" uniqueId="92ba8f56-7fed-4604-b013-fa93f8eb30ba" type="System.String" />
+        <orm:field name="_password" property="Password" uniqueId="9666c9ac-c7d1-4797-b8b1-49fac4338a2b" type="System.String" />
+        <orm:field name="_createDate" property="CreateDate" uniqueId="5f357377-cedf-43d3-a255-37017db16776" type="System.DateTime" />
+        <orm:field name="_modifyDate" property="ModifyDate" uniqueId="d6640481-bdd4-4df9-9e14-9e3f1adb0550" type="System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]" />
+        <orm:field name="_person" property="Person" behavior="readwrite" uniqueId="5d1ab400-1bb6-4a88-a542-fcb352da2716" type="BanditsModel.Person" dependent="true">
+          <orm:reference uniqueId="c3db0c78-f7be-4798-9346-ce311ac61226" association-name="WebUserHasPerson" />
+        </orm:field>
+        <orm:field name="_userRoles" property="UserRoles" behavior="readwrite" uniqueId="b9df062a-f2ae-46b9-9d9c-fb9d62c40c85" type="BanditsModel.UserRole" default-fetch-group="true">
+          <orm:join-table uniqueId="001c543a-4e6e-4bcf-83ac-40adc58727ac" association-name="WebUsersHaveUserRoles" />
+        </orm:field>
+      </orm:class>
+      <orm:class name="UserRole" uniqueId="90afdc1d-8c40-4cef-b695-77839e68dcaf">
+        <orm:identity>
+          <orm:key-generator name="autoinc">
+            <orm:key-generator-member property-name="UserRoleId" />
+          </orm:key-generator>
+          <orm:single-field field-name="_userRoleId" />
+        </orm:identity>
+        <orm:field name="_userRoleId" property="UserRoleId" uniqueId="a123eeaf-aba2-4eb7-a7cc-e1f3fb844b35" type="System.Int32" />
+        <orm:field name="_roleName" property="RoleName" uniqueId="7a288c11-074c-44e8-8392-ae97b3de1698" type="System.String" />
+      </orm:class>
+      <orm:class name="Team" uniqueId="8a10939b-07d2-4429-9a88-2d9f405524ac">
+        <orm:identity>
+          <orm:key-generator name="autoinc">
+            <orm:key-generator-member property-name="TeamId" />
+          </orm:key-generator>
+          <orm:single-field field-name="_teamId" />
+        </orm:identity>
+        <orm:field name="_teamId" property="TeamId" uniqueId="080181a6-17e0-4db5-b38b-0225d5516525" type="System.Int32" />
+        <orm:field name="_name" property="Name" uniqueId="5cfe8590-eac2-4144-a1df-3ceee7093d8c" type="System.String" />
+        <orm:field name="_minDOB" property="MinDOB" uniqueId="8ee7b268-aebf-497e-bf60-3b01281882fe" type="System.DateTime" />
+        <orm:field name="_maxDOB" property="MaxDOB" uniqueId="cc99e871-7624-4df5-8d08-c547f93c0ded" type="System.DateTime" />
+        <orm:field name="_startDate" property="StartDate" uniqueId="1b65ad99-ea2a-4b47-8dfc-85b6f263d7b4" type="System.DateTime" />
+        <orm:field name="_endDate" property="EndDate" uniqueId="75a9fbef-14d3-48d8-85b7-ca053eeb058e" type="System.DateTime" />
+        <orm:field name="_program" property="Program" behavior="readwrite" uniqueId="54d1ea75-af90-4583-996a-63074d58c437" type="BanditsModel.Program">
+          <orm:reference uniqueId="15938891-d56e-4386-ad69-7120eb4842d2" association-name="TeamHasProgram" />
+        </orm:field>
+        <orm:field name="_teamPlayers" property="Roster" behavior="readwrite" uniqueId="4555b378-3e69-4a06-bee0-50957edfff78" type="BanditsModel.TeamPlayer">
+          <orm:collection element-class="BanditsModel.TeamPlayer" inverse-field="_team" order-by="" uniqueId="06061146-34c1-407d-be86-93c84a2f153f" />
+        </orm:field>
+      </orm:class>
+      <orm:class name="TeamPlayer" uniqueId="6c100164-c288-4ec4-b472-c64a4bb5d082">
+        <orm:identity>
+          <orm:key-generator name="autoinc">
+            <orm:key-generator-member property-name="TeamPlayerId" />
+          </orm:key-generator>
+          <orm:single-field field-name="_teamPlayerId" />
+        </orm:identity>
+        <orm:field name="_teamPlayerId" property="TeamPlayerId" uniqueId="38e5a776-172c-4791-ad0f-5936bc284332" type="System.Int32" />
+        <orm:field name="_isDeleted" property="IsDeleted" uniqueId="8e919c83-bf7e-4dd5-a182-a7759656798e" type="System.Boolean" />
+        <orm:field name="_isPrimary" property="IsPrimary" uniqueId="127dcab7-e9b1-4bf2-bb88-f36fff78ade3" type="System.Boolean" />
+        <orm:field name="_team" property="Team" behavior="readwrite" uniqueId="6532c2d2-a884-4ccd-b7b7-92d21564620e" type="BanditsModel.Team">
+          <orm:reference uniqueId="06061146-34c1-407d-be86-93c84a2f153f" association-name="TeamPlayerHasTeam" />
+        </orm:field>
+        <orm:field name="_player" property="Player" behavior="readwrite" uniqueId="bcb88134-159f-49f7-b552-5eaf889d19f7" type="BanditsModel.Player">
+          <orm:reference uniqueId="92c6c090-9c8c-4b9c-b29f-4f79edd3b0b7" association-name="TeamPlayerHasPlayer" />
+        </orm:field>
+      </orm:class>
+      <orm:class name="Person" uniqueId="e441df23-a46b-464c-ab61-3414e5236e16">
+        <orm:identity>
+          <orm:key-generator name="autoinc">
+            <orm:key-generator-member property-name="PersonId" />
+          </orm:key-generator>
+          <orm:single-field field-name="_personId" />
+        </orm:identity>
+        <orm:field name="_personId" property="PersonId" uniqueId="d26342ef-b081-4495-8d01-d81da094205e" type="System.Int32" />
+        <orm:field name="_fName" property="FName" uniqueId="1d2e91e8-1225-4656-a0df-cdfd38edd237" type="System.String" />
+        <orm:field name="_lName" property="LName" uniqueId="a889cc2f-20e4-44bf-b0d3-8b87d3138f6f" type="System.String" />
+        <orm:field name="_mInitial" property="MInitial" uniqueId="5e7b8a47-7f80-447b-9bab-d0a737aefe5f" type="System.Nullable`1[[System.Char, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]" />
+        <orm:field name="_gender" property="Gender" uniqueId="9679b8bb-478f-48fd-88e1-48b5e7512a37" type="System.Nullable`1[[System.Char, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]" />
+        <orm:field name="_dOB" property="DOB" uniqueId="57c3ee50-2eff-4bd2-8669-5a3e8db7e8d8" type="System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]" />
+        <orm:field name="_createDate" property="CreateDate" uniqueId="15859409-94bb-4a23-b210-1e987a404ae5" type="System.DateTime" />
+        <orm:field name="_modifyDate" property="ModifyDate" uniqueId="67d5e375-f4b2-47ae-a5e4-0bcc9e86252c" type="System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]" />
+        <orm:field name="_isDeleted" property="IsDeleted" uniqueId="8767d33a-affb-48dd-a32a-c0cf2319cc35" type="System.Boolean" />
+        <orm:field name="_createUser" property="CreateUser" behavior="readwrite" uniqueId="e4dd2bce-fd9c-47f0-9000-348fbb142a6f" type="BanditsModel.WebUser">
+          <orm:reference uniqueId="e424e568-5a1d-4d4a-8402-2a83e641614b" association-name="PersonHasCreateWebUser" />
+        </orm:field>
+        <orm:field name="_modifyUser" property="ModifyUser" behavior="readwrite" uniqueId="05f955a6-a99f-4058-b6e6-d127090a38e7" type="BanditsModel.WebUser">
+          <orm:reference uniqueId="53b7c49c-8d0c-49a5-806c-193308a9e2c2" association-name="PersonHasModifyWebUser" />
+        </orm:field>
+      </orm:class>
+      <orm:class name="Player" uniqueId="a174b67e-b1f3-4ede-9a17-ddbe6e3acc13">
+        <orm:identity>
+          <orm:key-generator name="autoinc">
+            <orm:key-generator-member property-name="PlayerId" />
+          </orm:key-generator>
+          <orm:single-field field-name="_playerId" />
+        </orm:identity>
+        <orm:field name="_isDeleted" property="IsDeleted" uniqueId="bc0a5d80-418d-4ba5-8a5e-6fe252a93f4f" type="System.Boolean" />
+        <orm:field name="_playerId" property="PlayerId" uniqueId="22cc28b2-c4ed-4312-881f-04a8210048f8" type="System.Int32" />
+        <orm:field name="_createDate" property="CreateDate" uniqueId="faa2af61-f859-431d-82e5-3110556abedb" type="System.DateTime" />
+        <orm:field name="_modifyDate" property="ModifyDate" uniqueId="bea708e5-03dc-4c8b-b28b-58e82cda8130" type="System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]" />
+        <orm:field name="_person" property="Person" behavior="readwrite" uniqueId="fb08e916-4bbc-42a8-b99b-433df36f4d7a" type="BanditsModel.Person" default-fetch-group="true" dependent="true">
+          <orm:reference uniqueId="b51821d0-3dbb-4510-8d73-122a2868dc2b" association-name="PlayerHasPerson" />
+        </orm:field>
+        <orm:field name="_guardians" property="Guardians" behavior="readwrite" uniqueId="ebd152da-04cd-497c-a746-bae5e40bb730" type="BanditsModel.Guardian">
+          <orm:join-table uniqueId="3d86b9c5-7685-4a9c-8310-c28784bd8cf9" association-name="PlayerHasGuardian" />
+        </orm:field>
+      </orm:class>
+      <orm:class name="Guardian" uniqueId="e8bde938-45f1-4ba5-af75-e9b06ccd5c94">
+        <orm:identity>
+          <orm:key-generator name="autoinc">
+            <orm:key-generator-member property-name="GuardianId" />
+          </orm:key-generator>
+          <orm:single-field field-name="_guardianId" />
+        </orm:identity>
+        <orm:field name="_guardianId" property="GuardianId" uniqueId="94635b3b-2451-4945-bcf6-2b0877e2b790" type="System.Int32" />
+        <orm:field name="_createDate" property="CreateDate" uniqueId="69e1ba97-c0e7-4711-a5e6-52a82964cd33" type="System.DateTime" />
+        <orm:field name="_modifyDate" property="ModifyDate" uniqueId="9e3cd13b-b1e4-4c9e-a695-086da4e640d4" type="System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]" />
+        <orm:field name="_person" property="Person" behavior="readwrite" uniqueId="afb78da6-9bb4-4728-a817-2fe431622250" type="BanditsModel.Person" default-fetch-group="true" dependent="true">
+          <orm:reference uniqueId="06cd0988-c247-4f01-97bd-9a6a4f1589bd" association-name="GuardianHasPerson" />
+        </orm:field>
+        <orm:field name="_players" property="Players" behavior="readwrite" uniqueId="edd60e77-c50e-40e2-a219-e466baf98de7" type="BanditsModel.Player">
+          <orm:collection element-class="BanditsModel.Player" inverse-field="_guardians" order-by="" uniqueId="3d86b9c5-7685-4a9c-8310-c28784bd8cf9" />
+        </orm:field>
+      </orm:class>
+      <orm:class name="Program" uniqueId="e825227e-ecee-4c1c-88cf-f34723f8b6bf">
+        <orm:identity>
+          <orm:key-generator name="autoinc">
+            <orm:key-generator-member property-name="ProgramId" />
+          </orm:key-generator>
+          <orm:single-field field-name="_programId" />
+        </orm:identity>
+        <orm:concurrency strategy="changed" />
+        <orm:field name="_programId" property="ProgramId" behavior="readwrite" uniqueId="0f8553f3-c494-4fe7-8a66-2283425889eb" type="System.Int32" />
+        <orm:field name="_name" property="Name" behavior="readwrite" uniqueId="ed550984-4333-41a4-a1fd-560f42ab6177" type="System.String" />
+      </orm:class>
+    </orm:namespace>
+    <orm:schema schema="" />
+    <orm:relational-naming-settings>
+      <orm:source-strategy>Property</orm:source-strategy>
+      <orm:remove-camel-case>False</orm:remove-camel-case>
+    </orm:relational-naming-settings>
+  </orm:orm>
+  <ModelSettings xmlns="">
+    <AppConfigConnectionPropertyName>BanditsConnection</AppConfigConnectionPropertyName>
+    <AppConfigConnectionString>data source=ALEX;initial catalog=Bandits;integrated security=True</AppConfigConnectionString>
+    <NamingSettings>
+      <ClassRules>
+        <CaseMode>PascalCase</CaseMode>
+        <PluralizationMode>Singularize</PluralizationMode>
+      </ClassRules>
+      <FieldRules>
+        <AddPrefix>_</AddPrefix>
+        <CaseMode>CamelCase</CaseMode>
+      </FieldRules>
+      <PropertyRules>
+        <CaseMode>PascalCase</CaseMode>
+      </PropertyRules>
+      <NavigationPropertyRules />
+    </NamingSettings>
+    <CodeGenerationSettings>
+      <MappingDefinitionType>Xml</MappingDefinitionType>
+    </CodeGenerationSettings>
+    <SchemaUpdateSettings>
+      <ExecuteScript>true</ExecuteScript>
+      <DeploymentProject>BanditsModel</DeploymentProject>
+      <UpdateDatabaseOperation>Migrate</UpdateDatabaseOperation>
+      <ShowAllTables>true</ShowAllTables>
+    </SchemaUpdateSettings>
+    <BackendConfigurationSettings>
+      <BackendConfiguration>
+        <Backend>MsSql</Backend>
+        <ProviderName>System.Data.SqlClient</ProviderName>
+      </BackendConfiguration>
+    </BackendConfigurationSettings>
+  </ModelSettings>
+  <Types>
+    <DomainClass Id="599ee4fa-d2bd-441d-bccd-0aed890239be" name="WebUser" namespace="BanditsModel" showPropertiesCompartment="true" identityMechanism="DatabaseServerCalculated" showNavigationCompartment="true" showImplementationCompartment="true" identityMechanismMember="WebUserId">
+      <Property Id="b687fa65-6bee-40e7-aaa4-a091af1b9700" name="WebUserId" type="System.Int32" label="WebUserId : System.Int32" identity="true" fieldName="_webUserId" />
+      <Property Id="92ba8f56-7fed-4604-b013-fa93f8eb30ba" name="Email" label="Email : String" fieldName="_email" />
+      <Property Id="9666c9ac-c7d1-4797-b8b1-49fac4338a2b" name="Password" label="Password : String" fieldName="_password" />
+      <Property Id="5f357377-cedf-43d3-a255-37017db16776" name="CreateDate" type="DateTime" label="CreateDate : DateTime" fieldName="_createDate" />
+      <Property Id="d6640481-bdd4-4df9-9e14-9e3f1adb0550" name="ModifyDate" type="DateTime" label="ModifyDate : DateTime" nullable="true" fieldName="_modifyDate" />
+      <AssociationTargets>
+        <Association Id="c3db0c78-f7be-4798-9346-ce311ac61226" SourceMultiplicity="ZeroOne" name="WebUserHasPerson">
+          <DomainClassMoniker name="/BanditsModel/Person" />
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="687e5be1-3dcd-4a75-86c8-c6b8df518bcd">
+              <NavigationalPropertyMoniker name="/BanditsModel/WebUser/Person" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+        <Association Id="001c543a-4e6e-4bcf-83ac-40adc58727ac" name="WebUsersHaveUserRoles">
+          <DomainClassMoniker name="/BanditsModel/UserRole" />
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="034238c6-414c-40f4-b30f-eefc35fb4709">
+              <NavigationalPropertyMoniker name="/BanditsModel/WebUser/UserRoles" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+      </AssociationTargets>
+      <navigationalProperties>
+        <classHasNavigationalProperties Id="36df2ba2-b734-4044-8331-d5af25f9cc08">
+          <NavigationalProperty Id="5d1ab400-1bb6-4a88-a542-fcb352da2716" name="Person" type="Person" label="Person : Person" nullable="true" kind="Persistent" fieldName="_person" isDependent="true" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="8b95096e-676e-4936-aa0a-6fe7c769a0e2">
+          <NavigationalProperty Id="b9df062a-f2ae-46b9-9d9c-fb9d62c40c85" name="UserRoles" type="IList&lt;UserRole&gt;" label="UserRoles : IList&lt;UserRole&gt;" nullable="true" kind="Persistent" loadBehavior="Eager" fieldName="_userRoles" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+      </navigationalProperties>
+    </DomainClass>
+    <DomainClass Id="90afdc1d-8c40-4cef-b695-77839e68dcaf" name="UserRole" namespace="BanditsModel" showPropertiesCompartment="true" identityMechanism="DatabaseServerCalculated" showNavigationCompartment="true" showImplementationCompartment="true" identityMechanismMember="UserRoleId">
+      <Property Id="a123eeaf-aba2-4eb7-a7cc-e1f3fb844b35" name="UserRoleId" type="System.Int32" label="UserRoleId : System.Int32" identity="true" fieldName="_userRoleId" />
+      <Property Id="7a288c11-074c-44e8-8392-ae97b3de1698" name="RoleName" label="RoleName : String" fieldName="_roleName" />
+    </DomainClass>
+    <DomainClass Id="8a10939b-07d2-4429-9a88-2d9f405524ac" name="Team" namespace="BanditsModel" showPropertiesCompartment="true" identityMechanism="DatabaseServerCalculated" showNavigationCompartment="true" showImplementationCompartment="true" identityMechanismMember="TeamId">
+      <Property Id="080181a6-17e0-4db5-b38b-0225d5516525" name="TeamId" type="System.Int32" label="TeamId : System.Int32" identity="true" fieldName="_teamId" />
+      <Property Id="5cfe8590-eac2-4144-a1df-3ceee7093d8c" name="Name" label="Name : String" fieldName="_name" />
+      <Property Id="8ee7b268-aebf-497e-bf60-3b01281882fe" name="MinDOB" type="DateTime" label="MinDOB : DateTime" fieldName="_minDOB" />
+      <Property Id="cc99e871-7624-4df5-8d08-c547f93c0ded" name="MaxDOB" type="DateTime" label="MaxDOB : DateTime" fieldName="_maxDOB" />
+      <Property Id="1b65ad99-ea2a-4b47-8dfc-85b6f263d7b4" name="StartDate" type="DateTime" label="StartDate : DateTime" fieldName="_startDate" />
+      <Property Id="75a9fbef-14d3-48d8-85b7-ca053eeb058e" name="EndDate" type="DateTime" label="EndDate : DateTime" fieldName="_endDate" />
+      <AssociationTargets>
+        <Association Id="15938891-d56e-4386-ad69-7120eb4842d2" SourceMultiplicity="ZeroOne" name="TeamHasProgram">
+          <DomainClassMoniker name="/BanditsModel/Program" />
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="ce1339f9-04a7-4b37-bbbb-bcfdb214ba18">
+              <NavigationalPropertyMoniker name="/BanditsModel/Team/Program" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+      </AssociationTargets>
+      <navigationalProperties>
+        <classHasNavigationalProperties Id="836d3bbb-94d7-4665-9f72-03d85d93db6a">
+          <NavigationalProperty Id="4555b378-3e69-4a06-bee0-50957edfff78" name="Roster" type="IList&lt;TeamPlayer&gt;" label="Roster : IList&lt;TeamPlayer&gt;" nullable="true" kind="Persistent" fieldName="_teamPlayers" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="296e0e90-1fbd-40f9-8b5a-d5796fdf283f">
+          <NavigationalProperty Id="54d1ea75-af90-4583-996a-63074d58c437" name="Program" type="Program" label="Program : Program" nullable="true" kind="Persistent" fieldName="_program" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+      </navigationalProperties>
+    </DomainClass>
+    <DomainClass Id="6c100164-c288-4ec4-b472-c64a4bb5d082" name="TeamPlayer" namespace="BanditsModel" showPropertiesCompartment="true" identityMechanism="DatabaseServerCalculated" showNavigationCompartment="true" showImplementationCompartment="true" identityMechanismMember="TeamPlayerId">
+      <Property Id="38e5a776-172c-4791-ad0f-5936bc284332" name="TeamPlayerId" type="System.Int32" label="TeamPlayerId : System.Int32" identity="true" fieldName="_teamPlayerId" />
+      <Property Id="8e919c83-bf7e-4dd5-a182-a7759656798e" name="IsDeleted" type="Boolean" label="IsDeleted : Boolean" fieldName="_isDeleted" />
+      <Property Id="127dcab7-e9b1-4bf2-bb88-f36fff78ade3" name="IsPrimary" type="Boolean" label="IsPrimary : Boolean" fieldName="_isPrimary" />
+      <AssociationTargets>
+        <Association Id="06061146-34c1-407d-be86-93c84a2f153f" SourceMultiplicity="ZeroOne" name="TeamPlayerHasTeam">
+          <DomainClassMoniker name="/BanditsModel/Team" />
+          <targetNavigationalProperty>
+            <associationDefinesTargetProperty Id="21fbf42e-8ae5-4417-b78e-a9fd7961667b">
+              <NavigationalPropertyMoniker name="/BanditsModel/Team/Roster" />
+            </associationDefinesTargetProperty>
+          </targetNavigationalProperty>
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="a49d2934-514b-48b6-995b-9e2860a37f9f">
+              <NavigationalPropertyMoniker name="/BanditsModel/TeamPlayer/Team" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+        <Association Id="92c6c090-9c8c-4b9c-b29f-4f79edd3b0b7" SourceMultiplicity="ZeroOne" name="TeamPlayerHasPlayer">
+          <DomainClassMoniker name="/BanditsModel/Player" />
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="442569cb-5aa2-4380-9194-18f7632e5aef">
+              <NavigationalPropertyMoniker name="/BanditsModel/TeamPlayer/Player" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+      </AssociationTargets>
+      <navigationalProperties>
+        <classHasNavigationalProperties Id="e8e759c5-3bef-434f-b074-64dd9c65dac6">
+          <NavigationalProperty Id="6532c2d2-a884-4ccd-b7b7-92d21564620e" name="Team" type="Team" label="Team : Team" nullable="true" kind="Persistent" fieldName="_team" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="b306384a-6353-43b2-9599-c87f22063d81">
+          <NavigationalProperty Id="bcb88134-159f-49f7-b552-5eaf889d19f7" name="Player" type="Player" label="Player : Player" nullable="true" kind="Persistent" fieldName="_player" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+      </navigationalProperties>
+    </DomainClass>
+    <DomainClass Id="e441df23-a46b-464c-ab61-3414e5236e16" name="Person" namespace="BanditsModel" showPropertiesCompartment="true" identityMechanism="DatabaseServerCalculated" showNavigationCompartment="true" showImplementationCompartment="true" identityMechanismMember="PersonId">
+      <Property Id="d26342ef-b081-4495-8d01-d81da094205e" name="PersonId" type="System.Int32" label="PersonId : System.Int32" identity="true" fieldName="_personId" />
+      <Property Id="1d2e91e8-1225-4656-a0df-cdfd38edd237" name="FName" label="FName : String" fieldName="_fName" />
+      <Property Id="a889cc2f-20e4-44bf-b0d3-8b87d3138f6f" name="LName" label="LName : String" fieldName="_lName" />
+      <Property Id="5e7b8a47-7f80-447b-9bab-d0a737aefe5f" name="MInitial" type="Char" label="MInitial : Char" nullable="true" fieldName="_mInitial" />
+      <Property Id="9679b8bb-478f-48fd-88e1-48b5e7512a37" name="Gender" type="Char" label="Gender : Char" nullable="true" fieldName="_gender" />
+      <Property Id="57c3ee50-2eff-4bd2-8669-5a3e8db7e8d8" name="DOB" type="DateTime" label="DOB : DateTime" nullable="true" fieldName="_dOB" />
+      <Property Id="8767d33a-affb-48dd-a32a-c0cf2319cc35" name="IsDeleted" type="Boolean" label="IsDeleted : Boolean" fieldName="_isDeleted" />
+      <Property Id="15859409-94bb-4a23-b210-1e987a404ae5" name="CreateDate" type="DateTime" label="CreateDate : DateTime" fieldName="_createDate" />
+      <Property Id="67d5e375-f4b2-47ae-a5e4-0bcc9e86252c" name="ModifyDate" type="DateTime" label="ModifyDate : DateTime" nullable="true" fieldName="_modifyDate" />
+      <AssociationTargets>
+        <Association Id="e424e568-5a1d-4d4a-8402-2a83e641614b" SourceMultiplicity="ZeroOne" name="PersonHasCreateWebUser">
+          <DomainClassMoniker name="/BanditsModel/WebUser" />
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="26ccb1bf-65d5-4433-9a2d-e20a090e579c">
+              <NavigationalPropertyMoniker name="/BanditsModel/Person/CreateUser" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+        <Association Id="53b7c49c-8d0c-49a5-806c-193308a9e2c2" SourceMultiplicity="ZeroOne" name="PersonHasModifyWebUser">
+          <DomainClassMoniker name="/BanditsModel/WebUser" />
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="c06fd6d8-0547-4492-bb30-5b4ef9a24139">
+              <NavigationalPropertyMoniker name="/BanditsModel/Person/ModifyUser" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+      </AssociationTargets>
+      <navigationalProperties>
+        <classHasNavigationalProperties Id="e0affc3e-b892-47ed-b2f6-ef398af4183a">
+          <NavigationalProperty Id="e4dd2bce-fd9c-47f0-9000-348fbb142a6f" name="CreateUser" type="WebUser" label="CreateUser : WebUser" nullable="true" kind="Persistent" fieldName="_createUser" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="ac82f1f8-d3e9-43c3-849e-4d37093f17fc">
+          <NavigationalProperty Id="05f955a6-a99f-4058-b6e6-d127090a38e7" name="ModifyUser" type="WebUser" label="ModifyUser : WebUser" nullable="true" kind="Persistent" fieldName="_modifyUser" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+      </navigationalProperties>
+    </DomainClass>
+    <DomainClass Id="a174b67e-b1f3-4ede-9a17-ddbe6e3acc13" name="Player" namespace="BanditsModel" showPropertiesCompartment="true" identityMechanism="DatabaseServerCalculated" showNavigationCompartment="true" showImplementationCompartment="true" identityMechanismMember="PlayerId">
+      <Property Id="22cc28b2-c4ed-4312-881f-04a8210048f8" name="PlayerId" type="System.Int32" label="PlayerId : System.Int32" identity="true" fieldName="_playerId" />
+      <Property Id="bc0a5d80-418d-4ba5-8a5e-6fe252a93f4f" name="IsDeleted" type="Boolean" label="IsDeleted : Boolean" fieldName="_isDeleted" />
+      <Property Id="faa2af61-f859-431d-82e5-3110556abedb" name="CreateDate" type="DateTime" label="CreateDate : DateTime" fieldName="_createDate" />
+      <Property Id="bea708e5-03dc-4c8b-b28b-58e82cda8130" name="ModifyDate" type="DateTime" label="ModifyDate : DateTime" nullable="true" fieldName="_modifyDate" />
+      <AssociationTargets>
+        <Association Id="b51821d0-3dbb-4510-8d73-122a2868dc2b" SourceMultiplicity="ZeroOne" name="PlayerHasPerson">
+          <DomainClassMoniker name="/BanditsModel/Person" />
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="2ac391db-0554-4987-8d49-689c924ac85e">
+              <NavigationalPropertyMoniker name="/BanditsModel/Player/Person" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+        <Association Id="3d86b9c5-7685-4a9c-8310-c28784bd8cf9" name="PlayerHasGuardian">
+          <DomainClassMoniker name="/BanditsModel/Guardian" />
+          <targetNavigationalProperty>
+            <associationDefinesTargetProperty Id="06c48b5b-8d3b-4611-b1aa-5dc3d0b6ce5a">
+              <NavigationalPropertyMoniker name="/BanditsModel/Guardian/Players" />
+            </associationDefinesTargetProperty>
+          </targetNavigationalProperty>
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="11aa1827-c81a-4079-9c28-8b8f25e944d1">
+              <NavigationalPropertyMoniker name="/BanditsModel/Player/Guardians" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+      </AssociationTargets>
+      <navigationalProperties>
+        <classHasNavigationalProperties Id="7eeadc92-af2e-4ee2-82cd-67b7bf031bcc">
+          <NavigationalProperty Id="fb08e916-4bbc-42a8-b99b-433df36f4d7a" name="Person" type="Person" label="Person : Person" nullable="true" kind="Persistent" loadBehavior="Eager" fieldName="_person" isDependent="true" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="2e034afe-bdbc-410b-aaf7-4ec2c3d3d87d">
+          <NavigationalProperty Id="ebd152da-04cd-497c-a746-bae5e40bb730" name="Guardians" type="IList&lt;Guardian&gt;" label="Guardians : IList&lt;Guardian&gt;" nullable="true" kind="Persistent" fieldName="_guardians" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+      </navigationalProperties>
+    </DomainClass>
+    <DomainClass Id="e8bde938-45f1-4ba5-af75-e9b06ccd5c94" name="Guardian" namespace="BanditsModel" showPropertiesCompartment="true" identityMechanism="DatabaseServerCalculated" showNavigationCompartment="true" showImplementationCompartment="true" identityMechanismMember="GuardianId">
+      <Property Id="94635b3b-2451-4945-bcf6-2b0877e2b790" name="GuardianId" type="System.Int32" label="GuardianId : System.Int32" identity="true" fieldName="_guardianId" />
+      <Property Id="69e1ba97-c0e7-4711-a5e6-52a82964cd33" name="CreateDate" type="DateTime" label="CreateDate : DateTime" fieldName="_createDate" />
+      <Property Id="9e3cd13b-b1e4-4c9e-a695-086da4e640d4" name="ModifyDate" type="DateTime" label="ModifyDate : DateTime" nullable="true" fieldName="_modifyDate" />
+      <AssociationTargets>
+        <Association Id="06cd0988-c247-4f01-97bd-9a6a4f1589bd" SourceMultiplicity="ZeroOne" name="GuardianHasPerson">
+          <DomainClassMoniker name="/BanditsModel/Person" />
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="560e75a2-628c-4755-b114-f5947e67aaf7">
+              <NavigationalPropertyMoniker name="/BanditsModel/Guardian/Person" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+      </AssociationTargets>
+      <navigationalProperties>
+        <classHasNavigationalProperties Id="5d05f41c-1632-43fc-9ec2-6f56fa24a703">
+          <NavigationalProperty Id="afb78da6-9bb4-4728-a817-2fe431622250" name="Person" type="Person" label="Person : Person" nullable="true" kind="Persistent" loadBehavior="Eager" fieldName="_person" isDependent="true" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="8729fa7f-5302-4346-9214-5337394802c2">
+          <NavigationalProperty Id="edd60e77-c50e-40e2-a219-e466baf98de7" name="Players" type="IList&lt;Player&gt;" label="Players : IList&lt;Player&gt;" nullable="true" kind="Persistent" fieldName="_players" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+      </navigationalProperties>
+    </DomainClass>
+    <DomainClass Id="e825227e-ecee-4c1c-88cf-f34723f8b6bf" name="Program" namespace="BanditsModel" showPropertiesCompartment="true" identityMechanism="DatabaseServerCalculated" concurrencyMode="Changed" showNavigationCompartment="true" showImplementationCompartment="true" identityMechanismMember="ProgramId">
+      <Property Id="0f8553f3-c494-4fe7-8a66-2283425889eb" name="ProgramId" type="Int32" label="ProgramId : Int32" kind="Persistent" identity="true" fieldName="_programId" />
+      <Property Id="ed550984-4333-41a4-a1fd-560f42ab6177" name="Name" label="Name : String" kind="Persistent" fieldName="_name" />
+    </DomainClass>
+  </Types>
+  <domainContext>
+    <domainModelHasDomainContext Id="704e9590-d4d8-4567-b910-a1cdf7a3c331">
+      <domainContainer name="BanditsModel" namespace="BanditsModel" showPropertiesCompartment="true">
+        <entitySetProperty name="WebUsers" namespace="BanditsModel" type="WebUser" label="WebUsers : IQueryable&lt;BanditsModel.WebUser&gt;" />
+        <entitySetProperty name="UserRoles" namespace="BanditsModel" type="UserRole" label="UserRoles : IQueryable&lt;BanditsModel.UserRole&gt;" />
+        <entitySetProperty name="Teams" namespace="BanditsModel" type="Team" label="Teams : IQueryable&lt;BanditsModel.Team&gt;" />
+        <entitySetProperty name="TeamPlayers" namespace="BanditsModel" type="TeamPlayer" label="TeamPlayers : IQueryable&lt;BanditsModel.TeamPlayer&gt;" />
+        <entitySetProperty name="People" namespace="BanditsModel" type="Person" label="People : IQueryable&lt;BanditsModel.Person&gt;" />
+        <entitySetProperty name="Players" namespace="BanditsModel" type="Player" label="Players : IQueryable&lt;BanditsModel.Player&gt;" />
+        <entitySetProperty name="Guardians" namespace="BanditsModel" type="Guardian" label="Guardians : IQueryable&lt;BanditsModel.Guardian&gt;" />
+        <entitySetProperty name="Programs" namespace="BanditsModel" type="Program" label="Programs : IQueryable&lt;BanditsModel.Program&gt;" />
+      </domainContainer>
+    </domainModelHasDomainContext>
+  </domainContext>
+</DomainModel>
