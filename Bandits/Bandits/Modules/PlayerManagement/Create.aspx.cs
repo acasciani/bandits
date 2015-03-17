@@ -12,10 +12,17 @@ namespace Bandits.Modules.PlayerManagement
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (IsPostBack)
+            {
+                return;
+            }
+
             PlayerWizard.Player = new Player();
             PlayerWizard.Player.Person = new Person();
             PlayerWizard.IsNewPlayer = true;
         }
 
+
+        
     }
 }

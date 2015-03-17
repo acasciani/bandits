@@ -14,6 +14,7 @@ using System.Web.Security;
 using BanditsModel;
 using Bandits;
 using System.Net.Http;
+using System.Web;
 
 namespace Bandits.Providers.Security
 {
@@ -338,7 +339,16 @@ namespace Bandits.Providers.Security
         public override bool ValidateUser(string email, string password)
         {
             WebUser user = GetUser(u => (u.Email == email && u.Password == EncodePassword(password)));
-            return user != null;
+
+            if (user != null)
+            {
+                // store the user temporarily in the context for this request
+                HttpContext.Current.Items.Add("User", user);
+
+                return true;
+            }
+
+            return false;
         }
 
         public override bool UnlockUser(string username)

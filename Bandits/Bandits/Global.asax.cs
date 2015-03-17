@@ -5,6 +5,9 @@ using System.Web;
 using System.Web.Routing;
 using System.Web.Security;
 using Bandits;
+using System.Web.Script.Serialization;
+using Bandits.Providers.Security;
+using System.Security.Principal;
 
 namespace Bandits
 {

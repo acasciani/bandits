@@ -425,6 +425,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\GuardiansController.cs" />
     <Compile Include="Controllers\Partials\OpenAccessBaseApiController.Partial.cs" />
+    <Compile Include="Controllers\Partials\WebUsersController.Partial.cs" />
     <Compile Include="Controllers\PeopleController.cs" />
     <Compile Include="Controllers\PlayersController.cs" />
     <Compile Include="Controllers\ProgramsController.cs" />
@@ -452,7 +453,9 @@
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
     <Compile Include="Providers\Security\ActivityAuthorized.cs" />
+    <Compile Include="Providers\Security\BanditsPrincipal.cs" />
     <Compile Include="Providers\Security\EFRoleProvider.cs" />
+    <Compile Include="Providers\Security\IBanditsPrincipal.cs" />
     <Compile Include="Repositories\BanditsModelRepositories.cs" />
     <Compile Include="Contact.aspx.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
@@ -506,9 +509,11 @@
     <Compile Include="Source\PlayerManagement\PlayerWizard.ascx.designer.cs">
       <DependentUpon>PlayerWizard.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Source\PlayerManagement\PMFunctions.cs" />
     <Compile Include="Source\Usability\PageRef.cs" />
     <Compile Include="Source\Usability\PageStack.cs" />
     <Compile Include="Source\Utils\LinqExtensions.cs" />
+    <Compile Include="Source\Utils\UserManagement.cs" />
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

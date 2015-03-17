@@ -7,13 +7,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bandits.Account
-{
-
-
-    public partial class Login
-    {
-
+namespace Bandits.Account {
+    
+    
+    public partial class Login {
+        
+        /// <summary>
+        /// loginControl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Login loginControl;
+        
         /// <summary>
         /// RegisterHyperLink control.
         /// </summary>
@@ -22,7 +29,7 @@ namespace Bandits.Account
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HyperLink RegisterHyperLink;
-
+        
         /// <summary>
         /// OpenAuthLogin control.
         /// </summary>

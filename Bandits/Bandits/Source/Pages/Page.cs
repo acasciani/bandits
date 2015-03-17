@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using BanditsModel;
+using Bandits.Utils;
 
 namespace Bandits
 {
@@ -34,6 +36,14 @@ namespace Bandits
                     // TODO do some other logic when i have more time
                     throw new ApplicationException("You are not authorized to perform actions on this page.");
                 }
+            }
+        }
+
+        protected WebUser CurrentUser
+        {
+            get
+            {
+                return UserManagement.GetCurrentWebUser();
             }
         }
     }
