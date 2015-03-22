@@ -195,6 +195,12 @@ namespace Bandits.Providers.Security
                         response = wuc.AddNew(newUser);
                     }
 
+                    if (response != null)
+                    {
+                        // store the user temporarily in the context for this request
+                        HttpContext.Current.Items.Add("NewUser", newUser);
+                    }
+
                     status = (response != null) ? MembershipCreateStatus.Success : MembershipCreateStatus.ProviderError;
                 }
                 catch (Exception ex)

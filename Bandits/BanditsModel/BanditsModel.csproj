@@ -60,6 +60,9 @@
     <Compile Include="Guardian.generated.cs">
       <DependentUpon>EntitiesModel.rlinq</DependentUpon>
     </Compile>
+    <Compile Include="GuardianType.generated.cs">
+      <DependentUpon>EntitiesModel.rlinq</DependentUpon>
+    </Compile>
     <Compile Include="Person.generated.cs">
       <DependentUpon>EntitiesModel.rlinq</DependentUpon>
     </Compile>
@@ -100,6 +103,12 @@
     <Content Include="BanditsConnection%282015-03-14 22-17-42%29.rlinq.sql" />
     <Content Include="BanditsConnection%282015-03-14 22-21-07%29.rlinq.sql" />
     <Content Include="BanditsConnection%282015-03-14 22-22-14%29.rlinq.sql" />
+    <Content Include="BanditsConnection%282015-03-17 21-09-20%29.rlinq.sql" />
+    <Content Include="BanditsConnection%282015-03-17 22-28-14%29.rlinq.sql" />
+    <Content Include="BanditsConnection%282015-03-17 22-30-51%29.rlinq.sql" />
+    <Content Include="BanditsConnection%282015-03-17 22-32-21%29.rlinq.sql" />
+    <Content Include="BanditsConnection%282015-03-17 22-44-30%29.rlinq.sql" />
+    <Content Include="BanditsConnection%282015-03-19 22-38-49%29.rlinq.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Condition="Exists('$(MSBuildExtensionsPath)\OpenAccess.targets')" Project="$(MSBuildExtensionsPath)\OpenAccess.targets" />

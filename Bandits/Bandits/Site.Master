@@ -29,7 +29,7 @@
 </head>
 <body>
     <form runat="server">
-    <asp:ScriptManager runat="server">
+    <asp:ScriptManager runat="server" EnablePartialRendering="true">
         <Scripts>
             <asp:ScriptReference Name="jquery" />
             <asp:ScriptReference Name="jquery.ui.combined" />

@@ -6,6 +6,8 @@ using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Microsoft.AspNet.Membership.OpenAuth;
+using BanditsModel;
+using Bandits.Utils;
 
 namespace Bandits.Account
 {
@@ -19,6 +21,16 @@ namespace Bandits.Account
         protected void RegisterUser_CreatedUser(object sender, EventArgs e)
         {
             FormsAuthentication.SetAuthCookie(RegisterUser.UserName, createPersistentCookie: false);
+
+            if (HttpContext.Current.Items != null && HttpContext.Current.Items["NewUser"] != null)
+            {
+                WebUser createdUser = HttpContext.Current.Items["NewUser"] as WebUser;
+
+                if (createdUser != null)
+                {
+                    UserManagement.BindWebUserToSession(createdUser);
+                }
+            }
 
             string continueUrl = RegisterUser.ContinueDestinationPageUrl;
             if (!OpenAuth.IsLocalUrl(continueUrl))

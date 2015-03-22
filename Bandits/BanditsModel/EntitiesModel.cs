@@ -114,6 +114,14 @@ namespace BanditsModel
 			}
 		}
 		
+		public IQueryable<GuardianType> GuardianTypes 
+		{
+			get
+			{
+				return this.GetAll<GuardianType>();
+			}
+		}
+		
 		public static BackendConfiguration GetBackendConfiguration()
 		{
 			BackendConfiguration backend = new BackendConfiguration();
@@ -164,6 +172,10 @@ namespace BanditsModel
 			get;
 		}
 		IQueryable<Program> Programs
+		{
+			get;
+		}
+		IQueryable<GuardianType> GuardianTypes
 		{
 			get;
 		}

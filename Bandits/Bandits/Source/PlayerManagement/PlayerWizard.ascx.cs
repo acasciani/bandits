@@ -7,33 +7,46 @@ using System.Web.UI.WebControls;
 using Bandits;
 using BanditsModel;
 using Bandits.Utils;
+using Bandits.ObjectCreation;
 
 namespace Bandits.PlayerManagement
 {
     public partial class PlayerWizard : System.Web.UI.UserControl
     {
-        public bool IsNewPlayer { get; set; }
-
-        private Player _player;
-        public Player Player
+        public bool IsNewPlayer
         {
-            get { return _player; }
-            set
+            get
             {
-                if (_player == null)
+                if (Player != null)
                 {
-                    // if already set we don't want to reset
-                    _player = value;
+                    return Player.PlayerId == 0;
                 }
                 else
                 {
-                    throw new ApplicationException("Player was already set on wizard, cannot set again.");
+                    throw new ApplicationException("Player was null, can't tell if it is new or not.");
                 }
             }
         }
 
+        public bool HasPlayerAttached
+        {
+            get { return Player != null; }
+        }
+
+        public Player Player
+        {
+            get { return HttpContext.Current.Session["PlayerWizard_Player"] as Player; }
+            set { HttpContext.Current.Session["PlayerWizard_Player"] = value; }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!HasPlayerAttached) throw new ApplicationException("No player was attached on the player wizard.");
+
+            GuardianTypesDataSource.TypeName = typeof(PlayerWizard).AssemblyQualifiedName;
+
+            BindGuardians();
+
             if (IsPostBack)
             {
                 return;
@@ -59,18 +72,7 @@ namespace Bandits.PlayerManagement
             if (ValidateForm())
             {
                 MapFormToModel();
-
-                using (PlayersController pc = new PlayersController())
-                {
-                    if (IsNewPlayer)
-                    {
-                        pc.AddNew(_player);
-                    }
-                    else
-                    {
-                        pc.Update(_player);
-                    }
-                }
+                AbstractFactoryCreation.GetFactory<Player>().AddNewObject(Player);
             }
         }
 
@@ -82,8 +84,8 @@ namespace Bandits.PlayerManagement
 
             if (Player.Person.Gender.HasValue)
             {
-                char gender = Player.Person.Gender.Value;
-                playersGender.SelectedValue = gender == 'M' ? "Male" : "Female";
+                Gender gender = Player.Person.Gender.GetGender();
+                playersGender.SelectedValue = gender.GetLabel();
             }
 
             if (Player.Person.DOB.HasValue)
@@ -94,23 +96,98 @@ namespace Bandits.PlayerManagement
 
         private bool ValidateForm()
         {
-            DateTime tryParseDTCatchAll;
-            bool fnameValid = playersFirstName.Text.Length > 0 && playersFirstName.Text.Length <= 75;
-            bool lnameValid = playersLastName.Text.Length > 0 && playersFirstName.Text.Length <= 75;
-            bool minitValid = playersMiddleInitial.Text.Length <= 1;
-            bool genderValid = playersGender.SelectedValue.In("M", "F");
-            bool dobValid = DateTime.TryParse(playersDateOfBirth.Text, out tryParseDTCatchAll);
+            bool isPersonValid;
 
-            return fnameValid && lnameValid && minitValid && genderValid && dobValid;
+            // validate person
+            using (PeopleController c = new PeopleController())
+            {
+                isPersonValid = c.IsValid(Player.Person);
+            }
+
+            // validate player
+
+            // validate guardian
+
+            return isPersonValid;
         }
 
         private void MapFormToModel()
         {
-            _player.Person.FName = playersFirstName.Text.Trim();
-            _player.Person.LName = playersLastName.Text.Trim();
-            if (playersMiddleInitial.Text.Trim().Length > 0) _player.Person.MInitial = playersMiddleInitial.Text.Trim().ToCharArray()[0];
-            _player.Person.Gender = playersGender.SelectedValue.Trim().ToCharArray()[0];
-            _player.Person.DOB = DateTime.Parse(playersDateOfBirth.Text);
+            Player.Person.WithName(playersFirstName.Text.Trim(), playersMiddleInitial.Text.Trim(), playersLastName.Text.Trim())
+                .WithGender(playersGender.SelectedValue.Trim().ToCharArray()[0].ToGender())
+                .WithDOB(DateTime.Parse(playersDateOfBirth.Text));
+
+            // map guardians
+            foreach (RepeaterItem item in GuardiansRepeater.Items)
+            {
+                TextBox fname = (TextBox)item.FindControl("guardianFirstName");
+                TextBox mInit = (TextBox)item.FindControl("guardianMInitial");
+                TextBox lname = (TextBox)item.FindControl("guardianLastName");
+                DropDownList relation = (DropDownList)item.FindControl("guardianRelation");
+
+                Guardian thisGuardian = GuardianCreation.Create().WithGuardianType(relation.SelectedValue);
+                thisGuardian.Person.WithName(fname.Text.Trim(), mInit.Text.Trim(), lname.Text.Trim());
+
+                // add guardian to player
+                Player.HasGuardian(thisGuardian);
+            }
+        }
+
+        public IEnumerable<DropdownListStruct<int>> SelectGuardianTypes()
+        {
+            using (GuardianTypesController c = new GuardianTypesController())
+            {
+                
+                return c.Get().Select(t => new DropdownListStruct<int>() { Label = t.Name, Value = t.GuardianTypeId.ToString() }).OrderBy(t => t.Label);
+            }
+        }
+
+        private void BindGuardians()
+        {
+            GuardiansRepeater.DataSource = Player.Guardians;
+            GuardiansRepeater.DataBind();
+        }
+
+        protected void GuardiansRepeater_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            switch (e.CommandName)
+            {
+                case "RemoveGuardian":
+                    int index;
+                    if (int.TryParse(e.CommandArgument.ToString(), out index))
+                    {
+                        IList<Guardian> guardians = Player.Guardians;
+                        guardians.RemoveAt(index);
+                        Player.HasGuardian(guardians.ToArray());
+                        BindGuardians();
+                    }
+                    break;
+                
+                default: break;
+            }
+        }
+
+        protected void AddGuardian_Click(object sender, EventArgs e)
+        {
+            IList<Guardian> guardians = Player.Guardians;
+            guardians.Add(GuardianCreation.Create());
+            Player.HasGuardian(guardians.ToArray());
+            BindGuardians();
+        }
+
+        protected void guardianFirstName_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void guardianMInitial_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void guardianLastName_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

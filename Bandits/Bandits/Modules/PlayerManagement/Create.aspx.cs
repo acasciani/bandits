@@ -17,10 +17,10 @@ namespace Bandits.Modules.PlayerManagement
                 return;
             }
 
-            PlayerWizard.Player = new Player();
-            PlayerWizard.Player.Person = new Person();
-            PlayerWizard.IsNewPlayer = true;
+            PlayerWizard.Player = PlayerCreation.Create();
+            
         }
+
 
 
         

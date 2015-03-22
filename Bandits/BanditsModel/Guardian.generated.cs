@@ -76,6 +76,19 @@ namespace BanditsModel
 			}
 		}
 		
+		private GuardianType _guardianType;
+		public virtual GuardianType GuardianType
+		{
+			get
+			{
+				return this._guardianType;
+			}
+			set
+			{
+				this._guardianType = value;
+			}
+		}
+		
 		private IList<Player> _players = new List<Player>();
 		public virtual IList<Player> Players
 		{

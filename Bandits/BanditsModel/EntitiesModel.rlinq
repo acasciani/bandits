@@ -103,7 +103,9 @@
         <orm:field name="_createDate" property="CreateDate" uniqueId="faa2af61-f859-431d-82e5-3110556abedb" type="System.DateTime" />
         <orm:field name="_modifyDate" property="ModifyDate" uniqueId="bea708e5-03dc-4c8b-b28b-58e82cda8130" type="System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]" />
         <orm:field name="_person" property="Person" behavior="readwrite" uniqueId="fb08e916-4bbc-42a8-b99b-433df36f4d7a" type="BanditsModel.Person" default-fetch-group="true" dependent="true">
-          <orm:reference uniqueId="b51821d0-3dbb-4510-8d73-122a2868dc2b" association-name="PlayerHasPerson" />
+          <orm:reference uniqueId="b51821d0-3dbb-4510-8d73-122a2868dc2b" association-name="PlayerHasPerson">
+            <orm:sharedfield name="_personId" target-class="BanditsModel.Person" target-field="_personId" />
+          </orm:reference>
         </orm:field>
         <orm:field name="_guardians" property="Guardians" behavior="readwrite" uniqueId="ebd152da-04cd-497c-a746-bae5e40bb730" type="BanditsModel.Guardian">
           <orm:join-table uniqueId="3d86b9c5-7685-4a9c-8310-c28784bd8cf9" association-name="PlayerHasGuardian" />
@@ -122,6 +124,9 @@
         <orm:field name="_person" property="Person" behavior="readwrite" uniqueId="afb78da6-9bb4-4728-a817-2fe431622250" type="BanditsModel.Person" default-fetch-group="true" dependent="true">
           <orm:reference uniqueId="06cd0988-c247-4f01-97bd-9a6a4f1589bd" association-name="GuardianHasPerson" />
         </orm:field>
+        <orm:field name="_guardianType" property="GuardianType" behavior="readwrite" uniqueId="83b03085-fb6c-4db3-837e-4d6a877086f9" type="BanditsModel.GuardianType">
+          <orm:reference uniqueId="3d641194-76fd-46b5-b113-233b7d6b0b5b" association-name="GuardianHasGuardianType" />
+        </orm:field>
         <orm:field name="_players" property="Players" behavior="readwrite" uniqueId="edd60e77-c50e-40e2-a219-e466baf98de7" type="BanditsModel.Player">
           <orm:collection element-class="BanditsModel.Player" inverse-field="_guardians" order-by="" uniqueId="3d86b9c5-7685-4a9c-8310-c28784bd8cf9" />
         </orm:field>
@@ -136,6 +141,16 @@
         <orm:concurrency strategy="changed" />
         <orm:field name="_programId" property="ProgramId" behavior="readwrite" uniqueId="0f8553f3-c494-4fe7-8a66-2283425889eb" type="System.Int32" />
         <orm:field name="_name" property="Name" behavior="readwrite" uniqueId="ed550984-4333-41a4-a1fd-560f42ab6177" type="System.String" />
+      </orm:class>
+      <orm:class name="GuardianType" uniqueId="75c08e53-8759-4303-9fb0-7af10e761de4">
+        <orm:identity>
+          <orm:key-generator name="autoinc">
+            <orm:key-generator-member property-name="GuardianTypeId" />
+          </orm:key-generator>
+          <orm:single-field field-name="_guardianTypeId" />
+        </orm:identity>
+        <orm:field name="_guardianTypeId" property="GuardianTypeId" uniqueId="25cbd4b8-3173-4c31-95b2-12247568c531" type="System.Int32" />
+        <orm:field name="_name" property="Name" uniqueId="bc612890-3deb-4821-8d1e-b401ee138a5d" type="System.String" />
       </orm:class>
     </orm:namespace>
     <orm:schema schema="" />
@@ -364,6 +379,14 @@
             </associationDefinesSourceProperty>
           </sourceNavigationalProperty>
         </Association>
+        <Association Id="3d641194-76fd-46b5-b113-233b7d6b0b5b" SourceMultiplicity="ZeroOne" name="GuardianHasGuardianType">
+          <DomainClassMoniker name="/BanditsModel/GuardianType" />
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="cd8be947-4efe-454e-b2a6-0c4d3f830387">
+              <NavigationalPropertyMoniker name="/BanditsModel/Guardian/GuardianType" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
       </AssociationTargets>
       <navigationalProperties>
         <classHasNavigationalProperties Id="5d05f41c-1632-43fc-9ec2-6f56fa24a703">
@@ -372,11 +395,18 @@
         <classHasNavigationalProperties Id="8729fa7f-5302-4346-9214-5337394802c2">
           <NavigationalProperty Id="edd60e77-c50e-40e2-a219-e466baf98de7" name="Players" type="IList&lt;Player&gt;" label="Players : IList&lt;Player&gt;" nullable="true" kind="Persistent" fieldName="_players" isDependent="false" isManaged="false" />
         </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="57e4d809-d7ae-454f-a440-2a76f2bf5116">
+          <NavigationalProperty Id="83b03085-fb6c-4db3-837e-4d6a877086f9" name="GuardianType" type="GuardianType" label="GuardianType : GuardianType" nullable="true" kind="Persistent" fieldName="_guardianType" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
       </navigationalProperties>
     </DomainClass>
     <DomainClass Id="e825227e-ecee-4c1c-88cf-f34723f8b6bf" name="Program" namespace="BanditsModel" showPropertiesCompartment="true" identityMechanism="DatabaseServerCalculated" concurrencyMode="Changed" showNavigationCompartment="true" showImplementationCompartment="true" identityMechanismMember="ProgramId">
       <Property Id="0f8553f3-c494-4fe7-8a66-2283425889eb" name="ProgramId" type="Int32" label="ProgramId : Int32" kind="Persistent" identity="true" fieldName="_programId" />
       <Property Id="ed550984-4333-41a4-a1fd-560f42ab6177" name="Name" label="Name : String" kind="Persistent" fieldName="_name" />
+    </DomainClass>
+    <DomainClass Id="75c08e53-8759-4303-9fb0-7af10e761de4" name="GuardianType" namespace="BanditsModel" showPropertiesCompartment="true" identityMechanism="DatabaseServerCalculated" showNavigationCompartment="true" showImplementationCompartment="true" identityMechanismMember="GuardianTypeId">
+      <Property Id="25cbd4b8-3173-4c31-95b2-12247568c531" name="GuardianTypeId" type="System.Int32" label="GuardianTypeId : System.Int32" identity="true" fieldName="_guardianTypeId" />
+      <Property Id="bc612890-3deb-4821-8d1e-b401ee138a5d" name="Name" label="Name : String" fieldName="_name" />
     </DomainClass>
   </Types>
   <domainContext>
@@ -390,6 +420,7 @@
         <entitySetProperty name="Players" namespace="BanditsModel" type="Player" label="Players : IQueryable&lt;BanditsModel.Player&gt;" />
         <entitySetProperty name="Guardians" namespace="BanditsModel" type="Guardian" label="Guardians : IQueryable&lt;BanditsModel.Guardian&gt;" />
         <entitySetProperty name="Programs" namespace="BanditsModel" type="Program" label="Programs : IQueryable&lt;BanditsModel.Program&gt;" />
+        <entitySetProperty name="GuardianTypes" namespace="BanditsModel" type="GuardianType" label="GuardianTypes : IQueryable&lt;BanditsModel.GuardianType&gt;" />
       </domainContainer>
     </domainModelHasDomainContext>
   </domainContext>

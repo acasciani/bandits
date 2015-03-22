@@ -6,6 +6,7 @@ using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using BanditsModel;
+using Bandits.Utils;
 
 namespace Bandits.Account
 {
@@ -29,17 +30,14 @@ namespace Bandits.Account
 
         protected void loginControl_LoggedIn(object sender, EventArgs e)
         {
-            if (HttpContext.Current == null || HttpContext.Current.Items == null || HttpContext.Current.Items["User"] == null)
+            if (HttpContext.Current.Items != null && HttpContext.Current.Items["User"] != null)
             {
-                    return;
-                
-            }
+                WebUser loggedInUser = HttpContext.Current.Items["User"] as WebUser;
 
-            WebUser loggedInUser = HttpContext.Current.Items["User"] as WebUser;
-
-            if (loggedInUser != null)
-            {
-                HttpContext.Current.Session["CurrentUser"] = loggedInUser;
+                if (loggedInUser != null)
+                {
+                    UserManagement.BindWebUserToSession(loggedInUser);
+                }                
             }
         }
     }

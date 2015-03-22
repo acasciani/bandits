@@ -15,6 +15,11 @@ namespace Bandits
 	
     }
 
+	public partial class GuardianTypeRepository : OpenAccessBaseRepository<BanditsModel.GuardianType, BanditsModel.BanditsModel>
+    {
+	
+    }
+
 	public partial class PersonRepository : OpenAccessBaseRepository<BanditsModel.Person, BanditsModel.BanditsModel>
     {
 	
