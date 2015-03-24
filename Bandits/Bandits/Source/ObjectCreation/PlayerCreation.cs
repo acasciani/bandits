@@ -16,7 +16,8 @@ namespace BanditsModel
 
         public static Player AsPerson(this Player refr, Person person) { refr.Person = person; return refr; }
 
-        public static Player HasGuardian(this Player refr, params Guardian[] guardians){
+        public static Player HasGuardians(this Player refr, params Guardian[] guardians)
+        {
             foreach (Guardian guardian in guardians)
             {
                 // We don't want to add the same guardian more than once
@@ -26,6 +27,12 @@ namespace BanditsModel
                     refr.Guardians.Add(guardian);
                 }
             }
+            return refr;
+        }
+
+        public static Player HasGuardian(this Player refr, Guardian guardian)
+        {
+            refr.Guardians.Add(guardian);
             return refr;
         }
     }

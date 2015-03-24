@@ -39,18 +39,36 @@ namespace Bandits.PlayerManagement
             set { HttpContext.Current.Session["PlayerWizard_Player"] = value; }
         }
 
+        public IEnumerable<GuardianType> GuardianTypes
+        {
+            get
+            {
+                IEnumerable<GuardianType> types = HttpContext.Current.Session["PlayerWizard_GuardianTypes"] as IEnumerable<GuardianType>;
+                if (types == null)
+                {
+                    using (GuardianTypesController c = new GuardianTypesController())
+                    {
+                        types = c.Get();
+                        HttpContext.Current.Session["PlayerWizard_GuardianTypes"] = types;
+                    }
+                }
+                return types;
+            }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!HasPlayerAttached) throw new ApplicationException("No player was attached on the player wizard.");
 
             GuardianTypesDataSource.TypeName = typeof(PlayerWizard).AssemblyQualifiedName;
 
-            BindGuardians();
-
             if (IsPostBack)
             {
+                MapFormToModel();
                 return;
             }
+
+            BindGuardians();
         }
 
         protected void sideBarList_ItemDataBound(object sender, ListViewItemEventArgs e)
@@ -71,7 +89,6 @@ namespace Bandits.PlayerManagement
         {
             if (ValidateForm())
             {
-                MapFormToModel();
                 AbstractFactoryCreation.GetFactory<Player>().AddNewObject(Player);
             }
         }
@@ -113,9 +130,11 @@ namespace Bandits.PlayerManagement
 
         private void MapFormToModel()
         {
+            DateTime dob;
+
             Player.Person.WithName(playersFirstName.Text.Trim(), playersMiddleInitial.Text.Trim(), playersLastName.Text.Trim())
                 .WithGender(playersGender.SelectedValue.Trim().ToCharArray()[0].ToGender())
-                .WithDOB(DateTime.Parse(playersDateOfBirth.Text));
+                .WithDOB(DateTime.TryParse(playersDateOfBirth.Text, out dob) ? dob : (DateTime?)null);
 
             // map guardians
             foreach (RepeaterItem item in GuardiansRepeater.Items)
@@ -125,27 +144,34 @@ namespace Bandits.PlayerManagement
                 TextBox lname = (TextBox)item.FindControl("guardianLastName");
                 DropDownList relation = (DropDownList)item.FindControl("guardianRelation");
 
-                Guardian thisGuardian = GuardianCreation.Create().WithGuardianType(relation.SelectedValue);
-                thisGuardian.Person.WithName(fname.Text.Trim(), mInit.Text.Trim(), lname.Text.Trim());
-
-                // add guardian to player
-                Player.HasGuardian(thisGuardian);
+                Guardian guardian = Player.Guardians.ElementAt(item.ItemIndex);
+                guardian.Person.WithName(fname.Text.Trim(), mInit.Text.Trim(), lname.Text.Trim());
+                
+                int guardianTypeId;
+                if (int.TryParse(relation.SelectedValue, out guardianTypeId)) guardian.GuardianType = GuardianTypes.Where(gt => gt.GuardianTypeId == guardianTypeId).First();
             }
         }
 
         public IEnumerable<DropdownListStruct<int>> SelectGuardianTypes()
         {
-            using (GuardianTypesController c = new GuardianTypesController())
-            {
-                
-                return c.Get().Select(t => new DropdownListStruct<int>() { Label = t.Name, Value = t.GuardianTypeId.ToString() }).OrderBy(t => t.Label);
-            }
+            return GuardianTypes.Select(t => new DropdownListStruct<int>() { Label = t.Name, Value = t.GuardianTypeId.ToString() }).OrderBy(t => t.Label);
         }
 
         private void BindGuardians()
         {
             GuardiansRepeater.DataSource = Player.Guardians;
             GuardiansRepeater.DataBind();
+
+            foreach (RepeaterItem item in GuardiansRepeater.Items)
+            {
+                DropDownList relation = (DropDownList)item.FindControl("guardianRelation");
+                Guardian guardian = Player.Guardians.ElementAt(item.ItemIndex);
+
+                if (guardian != null && guardian.GuardianType != null)
+                {
+                    relation.SelectedValue = Player.Guardians.ElementAt(item.ItemIndex).GuardianType.GuardianTypeId.ToString();
+                }
+            }
         }
 
         protected void GuardiansRepeater_ItemCommand(object source, RepeaterCommandEventArgs e)
@@ -158,7 +184,7 @@ namespace Bandits.PlayerManagement
                     {
                         IList<Guardian> guardians = Player.Guardians;
                         guardians.RemoveAt(index);
-                        Player.HasGuardian(guardians.ToArray());
+                        Player.HasGuardians(guardians.ToArray());
                         BindGuardians();
                     }
                     break;
@@ -169,25 +195,8 @@ namespace Bandits.PlayerManagement
 
         protected void AddGuardian_Click(object sender, EventArgs e)
         {
-            IList<Guardian> guardians = Player.Guardians;
-            guardians.Add(GuardianCreation.Create());
-            Player.HasGuardian(guardians.ToArray());
+            Player.HasGuardian(GuardianCreation.Create());
             BindGuardians();
-        }
-
-        protected void guardianFirstName_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void guardianMInitial_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void guardianLastName_TextChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }

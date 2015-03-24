@@ -27,7 +27,7 @@ namespace BanditsModel
             return refr.WithName(first, (middleI.Trim().Length > 0 ? middleI.Trim().ToCharArray()[0] : (char?)null), last);
         }
 
-        public static Person WithDOB(this Person refr, DateTime dob)
+        public static Person WithDOB(this Person refr, DateTime? dob)
         {
             refr.DOB = dob;
             return refr;

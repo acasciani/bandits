@@ -537,6 +537,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Source\CacheManagement\" />
     <Folder Include="Source\UI\" />
   </ItemGroup>
   <ItemGroup>

@@ -62,7 +62,7 @@
                     <div class="col-sm-12"><label for="<%=playersGender.ClientID %>">Player's Gender</label></div>
                     <div class="col-sm-12">
                         <asp:DropDownList runat="server" ID="playersGender" CssClass="form-control">
-                            <asp:ListItem Enabled="true" Text="Select Gender" Value="" />
+                            <asp:ListItem Enabled="true" Text="Select Gender" Value="U" />
                             <asp:ListItem Enabled="true" Text="Male" Value="M" />
                             <asp:ListItem Enabled="true" Text="Female" Value="F" />
                         </asp:DropDownList>
@@ -74,18 +74,18 @@
 
             <asp:WizardStep runat="server" title="Guardians">
                 <asp:UpdatePanel ID="GuardiansUpdatePanel" runat="server" UpdateMode="Conditional"><ContentTemplate>
-                    <asp:Repeater runat="server" ID="GuardiansRepeater" EnableViewState="true" OnItemCommand="GuardiansRepeater_ItemCommand">
+                    <asp:Repeater runat="server" ID="GuardiansRepeater" OnItemCommand="GuardiansRepeater_ItemCommand">
                         <ItemTemplate>
                             <div class="well">
                                 <div class="form-group">
-                                    <div class="col-sm-12"><label for="MainContent_ModuleContent_PlayerWizard_ThePlayerWizard_GuardiansRepeater_guardianFirstName_<%#DataBinder.Eval(Container, "ItemIndex", "")%>">Guardian's Name</label></div>
-                                    <div class="col-sm-5"><asp:TextBox ID="guardianFirstName" runat="server" MaxLength="75" placeholder="First Name" CssClass="form-control" EnableViewState="true" Text="<%# ((BanditsModel.Guardian)Container.DataItem).Person.FName %>" /></div>
-                                    <div class="col-sm-2"><asp:TextBox ID="guardianMInitial" runat="server" MaxLength="1" placeholder="M.I." CssClass="form-control" /></div>
-                                    <div class="col-sm-5"><asp:TextBox ID="guardianLastName" runat="server" MaxLength="75" placeholder="Last Name" CssClass="form-control" /></div>
+                                    <div class="col-sm-12"><label for="MainContent_ModuleContent_PlayerWizard_ThePlayerWizard_GuardiansRepeater_guardianFirstName_<%# Container.ItemIndex %>">Guardian's Name</label></div>
+                                    <div class="col-sm-5"><asp:TextBox ID="guardianFirstName" runat="server" MaxLength="75" placeholder="First Name" CssClass="form-control" Text='<%# Bind("Person.FName") %>'/></div>
+                                    <div class="col-sm-2"><asp:TextBox ID="guardianMInitial" runat="server" MaxLength="1" placeholder="M.I." CssClass="form-control" Text='<%# Bind("Person.MInitial") %>'/></div>
+                                    <div class="col-sm-5"><asp:TextBox ID="guardianLastName" runat="server" MaxLength="75" placeholder="Last Name" CssClass="form-control" Text='<%# Bind("Person.LName") %>'/></div>
                                 </div>
 
                                 <div class="form-group">
-                                    <div class="col-sm-12"><label for="MainContent_ModuleContent_PlayerWizard_ThePlayerWizard_GuardiansRepeater_guardianRelation_<%#DataBinder.Eval(Container, "ItemIndex", "")%>">Relation to Player</label></div>
+                                    <div class="col-sm-12"><label for="MainContent_ModuleContent_PlayerWizard_ThePlayerWizard_GuardiansRepeater_guardianRelation_<%# Container.ItemIndex %>">Relation to Player</label></div>
                                     <div class="col-sm-12">
                                         <asp:DropDownList runat="server" ID="guardianRelation" DataSourceID="GuardianTypesDataSource" DataTextField="Label" DataValueField="Value" CssClass="form-control">
                                             <asp:ListItem Enabled="true" Text="Select Relation to Player" Value="" />

@@ -127,6 +127,9 @@ namespace BanditsModel
 			BackendConfiguration backend = new BackendConfiguration();
 			backend.Backend = "MsSql";
 			backend.ProviderName = "System.Data.SqlClient";
+			backend.Logging.MetricStoreSnapshotInterval = 0;
+			backend.SecondLevelCache.Enabled = true;
+			backend.SecondLevelCache.CacheQueryResults = true;
 		
 			CustomizeBackendConfiguration(ref backend);
 		

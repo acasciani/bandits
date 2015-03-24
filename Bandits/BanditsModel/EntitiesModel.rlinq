@@ -103,9 +103,7 @@
         <orm:field name="_createDate" property="CreateDate" uniqueId="faa2af61-f859-431d-82e5-3110556abedb" type="System.DateTime" />
         <orm:field name="_modifyDate" property="ModifyDate" uniqueId="bea708e5-03dc-4c8b-b28b-58e82cda8130" type="System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]" />
         <orm:field name="_person" property="Person" behavior="readwrite" uniqueId="fb08e916-4bbc-42a8-b99b-433df36f4d7a" type="BanditsModel.Person" default-fetch-group="true" dependent="true">
-          <orm:reference uniqueId="b51821d0-3dbb-4510-8d73-122a2868dc2b" association-name="PlayerHasPerson">
-            <orm:sharedfield name="_personId" target-class="BanditsModel.Person" target-field="_personId" />
-          </orm:reference>
+          <orm:reference uniqueId="b51821d0-3dbb-4510-8d73-122a2868dc2b" association-name="PlayerHasPerson" />
         </orm:field>
         <orm:field name="_guardians" property="Guardians" behavior="readwrite" uniqueId="ebd152da-04cd-497c-a746-bae5e40bb730" type="BanditsModel.Guardian">
           <orm:join-table uniqueId="3d86b9c5-7685-4a9c-8310-c28784bd8cf9" association-name="PlayerHasGuardian" />
@@ -155,6 +153,7 @@
     </orm:namespace>
     <orm:schema schema="" />
     <orm:relational-naming-settings>
+      <orm:remove-leading-underscore>False</orm:remove-leading-underscore>
       <orm:source-strategy>Property</orm:source-strategy>
       <orm:remove-camel-case>False</orm:remove-camel-case>
     </orm:relational-naming-settings>
@@ -189,6 +188,13 @@
       <BackendConfiguration>
         <Backend>MsSql</Backend>
         <ProviderName>System.Data.SqlClient</ProviderName>
+        <Logging>
+          <MetricStoreSnapshotInterval>0</MetricStoreSnapshotInterval>
+        </Logging>
+        <SecondLevelCache>
+          <Enabled>True</Enabled>
+          <CacheQueryResults>True</CacheQueryResults>
+        </SecondLevelCache>
       </BackendConfiguration>
     </BackendConfigurationSettings>
   </ModelSettings>
