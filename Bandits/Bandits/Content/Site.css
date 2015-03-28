@@ -103,3 +103,8 @@ body {
   display: inline-block;
   border-radius: 50%;
 }
+
+/** left navigation theming*/
+hr.left-navigation {
+    border-top-color: #ddd;
+}

@@ -16,7 +16,7 @@ namespace Bandits
             return allEntities;
         }
 
-        public virtual IQueryable<TEntity> GetWhere(Expression<Func<TEntity, bool>> filter, params Expression<Func<object, IEnumerable<object>>>[] loadWith)
+        public virtual IQueryable<TEntity> GetWhere(Expression<Func<TEntity, bool>> filter, params Expression<Func<TEntity, object>>[] loadWith)
         {
             var allEntities = repository.GetWhere(filter, loadWith);
             return allEntities;

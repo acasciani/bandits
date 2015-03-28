@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Bandits.Utils;
 
 namespace Bandits
 {
@@ -15,8 +16,7 @@ namespace Bandits
         private const string AntiXsrfUserNameKey = "__AntiXsrfUserName";
         private string _antiXsrfTokenValue;
 
-        private static readonly PageStack _breadcrumbs = new PageStack();
-        public PageStack Breadcrumbs { get { return _breadcrumbs; } }
+        public override string ModuleCacheKey { get { return "SiteMaster"; } }
 
         protected void Page_Init(object sender, EventArgs e)
         {
@@ -69,9 +69,5 @@ namespace Bandits
             }
         }
 
-        protected void Page_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }

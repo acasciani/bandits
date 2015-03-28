@@ -64,27 +64,9 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
-          <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">Dashboard <span class="sr-only">(current)</span></a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="">Player Management</a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="">Team Management</a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="">Volunteer Management</a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="">Tournament Management</a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="">Skills Management</a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="">Accounting</a></li>
-          </ul>
+            <asp:ContentPlaceHolder ID="LeftNavigation" runat="server">
+
+            </asp:ContentPlaceHolder>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <asp:ContentPlaceHolder runat="server" ID="MainContent" />

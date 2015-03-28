@@ -11,7 +11,7 @@ namespace Bandits
     public partial interface IOpenAccessBaseRepository<TEntity, TContext> where TContext : OpenAccessContext, new()
     {
         IQueryable<TEntity> GetWhere(Expression<Func<TEntity, bool>> filter);
-        IQueryable<TEntity> GetWhere(Expression<Func<TEntity, bool>> filter, params Expression<Func<object, IEnumerable<object>>>[] loadWith);
+        IQueryable<TEntity> GetWhere(Expression<Func<TEntity, bool>> filter, params Expression<Func<TEntity, object>>[] loadWith);
     }
 
     public abstract partial class OpenAccessBaseRepository<TEntity, TContext> : IOpenAccessBaseRepository<TEntity, TContext> where TContext : OpenAccessContext, new()
@@ -24,7 +24,7 @@ namespace Bandits
             return detachedEntities.AsQueryable();
         }
 
-        public virtual IQueryable<TEntity> GetWhere(Expression<Func<TEntity, bool>> filter, params Expression<Func<object, IEnumerable<object>>>[] loadWith)
+        public virtual IQueryable<TEntity> GetWhere(Expression<Func<TEntity, bool>> filter, params Expression<Func<TEntity, object>>[] loadWith)
         {
             FetchStrategy fetch = new FetchStrategy();
             fetch.LoadWith(loadWith);

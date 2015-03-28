@@ -10,16 +10,25 @@
 namespace Bandits.Modules.PlayerManagement {
     
     
-    public partial class Default {
+    public partial class PlayerManagement {
         
         /// <summary>
-        /// PlayersResults control.
+        /// LeftNav control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView PlayersResults;
+        protected global::Bandits.UI.LeftNavigation LeftNav;
+        
+        /// <summary>
+        /// ModuleContent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder ModuleContent;
         
         /// <summary>
         /// Master property.
@@ -27,9 +36,9 @@ namespace Bandits.Modules.PlayerManagement {
         /// <remarks>
         /// Auto-generated property.
         /// </remarks>
-        public new Bandits.Modules.PlayerManagement.PlayerManagement Master {
+        public new Bandits.SiteMaster Master {
             get {
-                return ((Bandits.Modules.PlayerManagement.PlayerManagement)(base.Master));
+                return ((Bandits.SiteMaster)(base.Master));
             }
         }
     }

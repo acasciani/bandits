@@ -6,8 +6,15 @@ using Microsoft.AspNet.Membership.OpenAuth;
 
 namespace Bandits.Account
 {
-    public partial class RegisterExternalLogin : System.Web.UI.Page
+    public partial class RegisterExternalLogin : Page
     {
+        public const string PageKeyConst = "Admin.Account.RegisterExternalLogin";
+        public const string PageDisplayConst = "Register External Login";
+        public const string PageLinkConst = "/Account/RegisterExternalLogin.aspx";
+        public override string PageKey { get { return PageKeyConst; } }
+        public override string PageDisplay { get { return PageDisplayConst; } }
+
+
         protected string ProviderName
         {
             get { return (string)ViewState["ProviderName"] ?? String.Empty; }

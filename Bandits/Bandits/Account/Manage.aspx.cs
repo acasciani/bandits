@@ -6,8 +6,15 @@ using Microsoft.AspNet.Membership.OpenAuth;
 
 namespace Bandits.Account
 {
-    public partial class Manage : System.Web.UI.Page
+    public partial class Manage : Page
     {
+        public const string PageKeyConst = "Admin.Account.Manage";
+        public const string PageDisplayConst = "Manage Account";
+        public const string PageLinkConst = "/Account/Manage.aspx";
+        public override string PageKey { get { return PageKeyConst; } }
+        public override string PageDisplay { get { return PageDisplayConst; } }
+
+
         protected string SuccessMessage
         {
             get;

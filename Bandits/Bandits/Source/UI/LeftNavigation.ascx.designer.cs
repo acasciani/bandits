@@ -7,30 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bandits.Modules {
+namespace Bandits.UI {
     
     
-    public partial class Module {
+    public partial class LeftNavigation {
         
         /// <summary>
-        /// ModuleContent control.
+        /// Groups control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder ModuleContent;
-        
-        /// <summary>
-        /// Master property.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated property.
-        /// </remarks>
-        public new Bandits.SiteMaster Master {
-            get {
-                return ((Bandits.SiteMaster)(base.Master));
-            }
-        }
+        protected global::System.Web.UI.WebControls.Repeater Groups;
     }
 }
