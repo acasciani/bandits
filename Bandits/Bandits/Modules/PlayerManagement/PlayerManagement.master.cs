@@ -36,7 +36,7 @@ namespace Bandits.Modules.PlayerManagement
 
                 PlayerManagementGroup.Items.Add(new LeftNavigationItem() { Key = Default.PageKeyConst, Display = Default.PageDisplayConst, Link = Default.PageLinkConst });
                 PlayerManagementGroup.Items.Add(new LeftNavigationItem() { Key = Create.PageKeyConst, Display = Create.PageDisplayConst, Link = Create.PageLinkConst });
-                PlayerManagementGroup.Items.Add(new LeftNavigationItem() { Key = "PlayerManagement.ManagePlayer", Display = "Manage Player", Link = "#" });
+                PlayerManagementGroup.Items.Add(new LeftNavigationItem() { Key = ManageFind.PageKeyConst, Display = ManageFind.PageDisplayConst, Link = ManageFind.PageLinkConst });
                 PlayerManagementGroup.Items.Add(new LeftNavigationItem() { Key = "PlayerManagement.ContactPlayer", Display = "Contact Player", Link = "#" });
 
                 PlayerReportsGroup.Items.Add(new LeftNavigationItem() { Key = "PlayerManagement.Reports.Payments", Display = "Payments", Link = "#" });

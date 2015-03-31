@@ -21,5 +21,16 @@ namespace Bandits.ObjectCreation
                 return c.AddNew(entity);
             }
         }
+
+        public Person UpdateObject(Person entity)
+        {
+            // Set modify info
+            entity.ModifyDate = DateTime.Now;
+
+            using (PeopleController c = new PeopleController())
+            {
+                return c.Update(entity);
+            }
+        }
     }
 }

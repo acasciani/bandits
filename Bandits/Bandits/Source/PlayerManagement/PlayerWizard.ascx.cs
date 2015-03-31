@@ -68,6 +68,8 @@ namespace Bandits.PlayerManagement
                 return;
             }
 
+            MapModelToForm();
+
             BindGuardians();
         }
 
@@ -89,7 +91,14 @@ namespace Bandits.PlayerManagement
         {
             if (ValidateForm())
             {
-                AbstractFactoryCreation.GetFactory<Player>().AddNewObject(Player);
+                if (IsNewPlayer)
+                {
+                    AbstractFactoryCreation.GetFactory<Player>().AddNewObject(Player);
+                }
+                else
+                {
+                    AbstractFactoryCreation.GetFactory<Player>().UpdateObject(Player);
+                }
             }
         }
 
@@ -107,7 +116,7 @@ namespace Bandits.PlayerManagement
 
             if (Player.Person.DOB.HasValue)
             {
-                playersDateOfBirth.Text = Player.Person.DOB.Value.ToString("mm/dd/yyyy");
+                playersDateOfBirth.Text = Player.Person.DOB.Value.ToString("yyyy-MM-dd");
             }
         }
 
@@ -179,12 +188,11 @@ namespace Bandits.PlayerManagement
             switch (e.CommandName)
             {
                 case "RemoveGuardian":
-                    int index;
-                    if (int.TryParse(e.CommandArgument.ToString(), out index))
+                    int guardianId;
+                    if (int.TryParse(e.CommandArgument.ToString(), out guardianId))
                     {
-                        IList<Guardian> guardians = Player.Guardians;
-                        guardians.RemoveAt(index);
-                        Player.HasGuardians(guardians.ToArray());
+                        Guardian guardian = Player.Guardians.Where(g => g.GuardianId == guardianId).First();
+                        Player.Guardians.Remove(guardian);
                         BindGuardians();
                     }
                     break;

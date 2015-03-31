@@ -8,5 +8,6 @@ namespace Bandits.ObjectCreation
     public interface IFactoryCreation<TEntity>
     {
         TEntity AddNewObject(TEntity entity);
+        TEntity UpdateObject(TEntity entity);
     }
 }

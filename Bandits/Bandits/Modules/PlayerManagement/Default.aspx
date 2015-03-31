@@ -2,8 +2,6 @@
 <%@ MasterType virtualPath="~/Modules/PlayerManagement/PlayerManagement.master" %>
 
 <asp:Content ID="MainContent" ContentPlaceHolderID="ModuleContent" runat="server">
-    <h1>Player Management</h1>
-
     <div class="row">
         <div class="col-sm-12">
             <asp:GridView runat="server" ID="PlayersResults" UseAccessibleHeader="true" CssClass="table table-responsive table-striped table-hover table-condensed" GridLines="None" AutoGenerateColumns="false" OnSorting="PlayersResults_Sorting" AllowSorting="true">

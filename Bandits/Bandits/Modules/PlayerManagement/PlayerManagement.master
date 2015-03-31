@@ -10,5 +10,6 @@
 
 
 <asp:Content ID="MainContent" ContentPlaceHolderID="MainContent" runat="server">
+    <h3>Player Management - <%=((Bandits.Page)Page).PageDisplay %></h3>
     <asp:ContentPlaceHolder runat="server" ID="ModuleContent" />
 </asp:Content>

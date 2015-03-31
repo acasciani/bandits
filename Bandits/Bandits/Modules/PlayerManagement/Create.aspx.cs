@@ -25,7 +25,6 @@ namespace Bandits.Modules.PlayerManagement
             }
 
             PlayerWizard.Player = PlayerCreation.Create();
-            
         }
 
 

@@ -19,6 +19,7 @@ namespace Bandits
         protected void Page_Init(object sender, EventArgs e)
         {
             Authorize();
+            Page.Title = PageDisplay;
         }
 
         protected void AllowRole(string role)

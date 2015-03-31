@@ -20,5 +20,16 @@ namespace Bandits.ObjectCreation
                 return c.AddNew(entity);
             }
         }
+
+        public Player UpdateObject(Player entity)
+        {
+            // Set modify info
+            entity.ModifyDate = DateTime.Now;
+
+            using (PlayersController c = new PlayersController())
+            {
+                return c.Update(entity);
+            }
+        }
     }
 }

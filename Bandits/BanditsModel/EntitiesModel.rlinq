@@ -105,7 +105,7 @@
         <orm:field name="_person" property="Person" behavior="readwrite" uniqueId="fb08e916-4bbc-42a8-b99b-433df36f4d7a" type="BanditsModel.Person" default-fetch-group="true" dependent="true">
           <orm:reference uniqueId="b51821d0-3dbb-4510-8d73-122a2868dc2b" association-name="PlayerHasPerson" />
         </orm:field>
-        <orm:field name="_guardians" property="Guardians" behavior="readwrite" uniqueId="ebd152da-04cd-497c-a746-bae5e40bb730" type="BanditsModel.Guardian">
+        <orm:field name="_guardians" property="Guardians" behavior="readwrite" uniqueId="ebd152da-04cd-497c-a746-bae5e40bb730" type="BanditsModel.Guardian" default-fetch-group="true">
           <orm:join-table uniqueId="3d86b9c5-7685-4a9c-8310-c28784bd8cf9" association-name="PlayerHasGuardian" />
         </orm:field>
       </orm:class>
@@ -122,11 +122,11 @@
         <orm:field name="_person" property="Person" behavior="readwrite" uniqueId="afb78da6-9bb4-4728-a817-2fe431622250" type="BanditsModel.Person" default-fetch-group="true" dependent="true">
           <orm:reference uniqueId="06cd0988-c247-4f01-97bd-9a6a4f1589bd" association-name="GuardianHasPerson" />
         </orm:field>
-        <orm:field name="_guardianType" property="GuardianType" behavior="readwrite" uniqueId="83b03085-fb6c-4db3-837e-4d6a877086f9" type="BanditsModel.GuardianType">
+        <orm:field name="_guardianType" property="GuardianType" behavior="readwrite" uniqueId="83b03085-fb6c-4db3-837e-4d6a877086f9" type="BanditsModel.GuardianType" default-fetch-group="true">
           <orm:reference uniqueId="3d641194-76fd-46b5-b113-233b7d6b0b5b" association-name="GuardianHasGuardianType" />
         </orm:field>
         <orm:field name="_players" property="Players" behavior="readwrite" uniqueId="edd60e77-c50e-40e2-a219-e466baf98de7" type="BanditsModel.Player">
-          <orm:collection element-class="BanditsModel.Player" inverse-field="_guardians" order-by="" uniqueId="3d86b9c5-7685-4a9c-8310-c28784bd8cf9" />
+          <orm:collection element-class="BanditsModel.Player" inverse-field="_guardians" managed="true" order-by="" uniqueId="3d86b9c5-7685-4a9c-8310-c28784bd8cf9" />
         </orm:field>
       </orm:class>
       <orm:class name="Program" uniqueId="e825227e-ecee-4c1c-88cf-f34723f8b6bf">
@@ -368,7 +368,7 @@
           <NavigationalProperty Id="fb08e916-4bbc-42a8-b99b-433df36f4d7a" name="Person" type="Person" label="Person : Person" nullable="true" kind="Persistent" loadBehavior="Eager" fieldName="_person" isDependent="true" isManaged="false" />
         </classHasNavigationalProperties>
         <classHasNavigationalProperties Id="2e034afe-bdbc-410b-aaf7-4ec2c3d3d87d">
-          <NavigationalProperty Id="ebd152da-04cd-497c-a746-bae5e40bb730" name="Guardians" type="IList&lt;Guardian&gt;" label="Guardians : IList&lt;Guardian&gt;" nullable="true" kind="Persistent" fieldName="_guardians" isDependent="false" isManaged="false" />
+          <NavigationalProperty Id="ebd152da-04cd-497c-a746-bae5e40bb730" name="Guardians" type="IList&lt;Guardian&gt;" label="Guardians : IList&lt;Guardian&gt;" nullable="true" kind="Persistent" loadBehavior="Eager" fieldName="_guardians" isDependent="false" isManaged="true" />
         </classHasNavigationalProperties>
       </navigationalProperties>
     </DomainClass>
@@ -399,10 +399,10 @@
           <NavigationalProperty Id="afb78da6-9bb4-4728-a817-2fe431622250" name="Person" type="Person" label="Person : Person" nullable="true" kind="Persistent" loadBehavior="Eager" fieldName="_person" isDependent="true" isManaged="false" />
         </classHasNavigationalProperties>
         <classHasNavigationalProperties Id="8729fa7f-5302-4346-9214-5337394802c2">
-          <NavigationalProperty Id="edd60e77-c50e-40e2-a219-e466baf98de7" name="Players" type="IList&lt;Player&gt;" label="Players : IList&lt;Player&gt;" nullable="true" kind="Persistent" fieldName="_players" isDependent="false" isManaged="false" />
+          <NavigationalProperty Id="edd60e77-c50e-40e2-a219-e466baf98de7" name="Players" type="IList&lt;Player&gt;" label="Players : IList&lt;Player&gt;" nullable="true" kind="Persistent" fieldName="_players" isDependent="false" isManaged="true" />
         </classHasNavigationalProperties>
         <classHasNavigationalProperties Id="57e4d809-d7ae-454f-a440-2a76f2bf5116">
-          <NavigationalProperty Id="83b03085-fb6c-4db3-837e-4d6a877086f9" name="GuardianType" type="GuardianType" label="GuardianType : GuardianType" nullable="true" kind="Persistent" fieldName="_guardianType" isDependent="false" isManaged="false" />
+          <NavigationalProperty Id="83b03085-fb6c-4db3-837e-4d6a877086f9" name="GuardianType" type="GuardianType" label="GuardianType : GuardianType" nullable="true" kind="Persistent" loadBehavior="Eager" fieldName="_guardianType" isDependent="false" isManaged="false" />
         </classHasNavigationalProperties>
       </navigationalProperties>
     </DomainClass>

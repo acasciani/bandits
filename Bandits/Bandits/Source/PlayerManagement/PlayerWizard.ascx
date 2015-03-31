@@ -30,10 +30,6 @@
             </div>
         </FinishNavigationTemplate>
 
-        <HeaderTemplate>
-            <h2>Add New Player</h2>
-        </HeaderTemplate>
-
         <SideBarTemplate>
             <asp:ListView runat="server" ID="sideBarList" OnItemDataBound="sideBarList_ItemDataBound">               
                 <LayoutTemplate><ul class="nav nav-pills nav-stacked"><div id="itemPlaceholder" runat="server"/></ul></LayoutTemplate>
@@ -62,9 +58,9 @@
                     <div class="col-sm-12"><label for="<%=playersGender.ClientID %>">Player's Gender</label></div>
                     <div class="col-sm-12">
                         <asp:DropDownList runat="server" ID="playersGender" CssClass="form-control">
-                            <asp:ListItem Enabled="true" Text="Select Gender" Value="U" />
-                            <asp:ListItem Enabled="true" Text="Male" Value="M" />
-                            <asp:ListItem Enabled="true" Text="Female" Value="F" />
+                            <asp:ListItem Enabled="true" Text="Select Gender" Value="N/A" />
+                            <asp:ListItem Enabled="true" Text="Male" Value="Male" />
+                            <asp:ListItem Enabled="true" Text="Female" Value="Female" />
                         </asp:DropDownList>
                     </div>
                 </div>
@@ -96,7 +92,7 @@
                                 <div class="row" runat="server" visible="<%# GuardiansRepeater.Items.Count > 0 %>">
                                     <div class="col-sm-12">
                                         <i class="glyphicon glyphicon-minus-sign"></i>&nbsp;
-                                        <asp:LinkButton runat="server" Text="Remove Guardian" CommandArgument='<%# Container.ItemIndex%>' CommandName="RemoveGuardian" />
+                                        <asp:LinkButton runat="server" Text="Remove Guardian" CommandArgument='<%# Eval("GuardianId")%>' CommandName="RemoveGuardian" />
                                     </div>
                                 </div>
                             </div>

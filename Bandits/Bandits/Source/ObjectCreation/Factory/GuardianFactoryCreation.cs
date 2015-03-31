@@ -18,5 +18,16 @@ namespace Bandits.ObjectCreation
                 return c.AddNew(entity);
             }
         }
+
+        public Guardian UpdateObject(Guardian entity)
+        {
+            // Set modify info
+            entity.ModifyDate = DateTime.Now;
+
+            using (GuardiansController c = new GuardiansController())
+            {
+                return c.Update(entity);
+            }
+        }
     }
 }

@@ -276,6 +276,8 @@
     <Content Include="img\glyphicons-halflings.png" />
     <Content Include="Modules\PlayerManagement\Create.aspx" />
     <Content Include="Modules\PlayerManagement\Default.aspx" />
+    <Content Include="Modules\PlayerManagement\Manage.aspx" />
+    <Content Include="Modules\PlayerManagement\ManageFind.aspx" />
     <Content Include="packages.config" />
     <Content Include="OpenAccessTemplates\WebApiBaseRepository.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -426,6 +428,20 @@
     <Compile Include="Controllers\ProgramsController.cs" />
     <Compile Include="Controllers\TeamPlayersController.cs" />
     <Compile Include="Controllers\TeamsController.cs" />
+    <Compile Include="Modules\PlayerManagement\Manage.aspx.cs">
+      <DependentUpon>Manage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\PlayerManagement\Manage.aspx.designer.cs">
+      <DependentUpon>Manage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\PlayerManagement\ManageFind.aspx.cs">
+      <DependentUpon>ManageFind.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\PlayerManagement\ManageFind.aspx.designer.cs">
+      <DependentUpon>ManageFind.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Modules\PlayerManagement\PlayerManagement.master.cs">
       <DependentUpon>PlayerManagement.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
