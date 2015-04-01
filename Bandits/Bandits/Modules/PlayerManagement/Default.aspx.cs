@@ -45,6 +45,7 @@ namespace Bandits.Modules.PlayerManagement
         protected void Page_Init(object sender, EventArgs e)
         {
             AllowRole("Admin");
+            base.Page_Init(sender, e);
         }
 
         protected void Page_Load(object sender, EventArgs e)

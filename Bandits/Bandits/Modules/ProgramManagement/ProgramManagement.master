@@ -1,0 +1,14 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ProgramManagement.master.cs" Inherits="Bandits.Modules.ProgramManagement.ProgramManagement" %>
+
+<asp:Content ID="HeadContent" ContentPlaceHolderID="HeadContent" runat="server">
+</asp:Content>
+
+<asp:Content ID="LeftNavigationContent" ContentPlaceHolderID="LeftNavigation" runat="server">
+    <ui:LeftNavigation runat="server" id="LeftNav"></ui:LeftNavigation>
+</asp:Content>
+
+
+<asp:Content ID="MainContent" ContentPlaceHolderID="MainContent" runat="server">
+    <h3>Program Management - <%=((Bandits.Page)Page).PageDisplay %></h3>
+    <asp:ContentPlaceHolder runat="server" ID="ModuleContent" />
+</asp:Content>

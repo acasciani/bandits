@@ -14,35 +14,14 @@ namespace Bandits
         public abstract string PageKey { get; }
         public abstract string PageDisplay { get; }
 
-        private List<string> _allowableRoles = new List<string>();
-
         protected void Page_Init(object sender, EventArgs e)
         {
-            Authorize();
             Page.Title = PageDisplay;
         }
 
-        protected void AllowRole(string role)
-        {
-            if (!_allowableRoles.Contains(role)) _allowableRoles.Add(role);
-        }
+        public void AllowRole(string role) { ((MasterPage)Master).AllowRole(role); }
 
-        protected void DenyRole(string role)
-        {
-            _allowableRoles.Remove(role);
-        }
-
-        protected void Authorize()
-        {
-            foreach (string role in _allowableRoles)
-            {
-                if (!Context.User.IsInRole(role))
-                {
-                    // TODO do some other logic when i have more time
-                    throw new ApplicationException("You are not authorized to perform actions on this page.");
-                }
-            }
-        }
+        public void DenyRole(string role) { ((MasterPage)Master).DenyRole(role); }
 
         protected WebUser CurrentUser
         {

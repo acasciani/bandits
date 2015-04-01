@@ -278,6 +278,9 @@
     <Content Include="Modules\PlayerManagement\Default.aspx" />
     <Content Include="Modules\PlayerManagement\Manage.aspx" />
     <Content Include="Modules\PlayerManagement\ManageFind.aspx" />
+    <Content Include="Modules\ProgramManagement\CreateProgram.aspx" />
+    <Content Include="Modules\ProgramManagement\Default.aspx" />
+    <Content Include="Modules\ProgramManagement\ManageProgram.aspx" />
     <Content Include="packages.config" />
     <Content Include="OpenAccessTemplates\WebApiBaseRepository.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -288,6 +291,8 @@
     <Content Include="OpenAccessTemplates\Includes\GeneralServiceStack.ttinclude" />
     <Content Include="Modules\PlayerManagement\PlayerManagement.master" />
     <Compile Include="Controllers\Partials\PeopleController.Partial.cs" />
+    <Content Include="Modules\ProgramManagement\ProgramManagement.master" />
+    <None Include="Properties\PublishProfiles\deploy stage.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -365,6 +370,7 @@
     <Content Include="Scripts\locales\bootstrap-datepicker.zh-TW.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Source\PlayerManagement\PlayerWizard.ascx" />
+    <Content Include="Source\ProgramManagement\ProgramWizard.ascx" />
     <Content Include="Source\UI\LeftNavigation.ascx" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
@@ -422,6 +428,7 @@
     <Compile Include="Controllers\GuardianTypesController.cs" />
     <Compile Include="Controllers\Partials\OpenAccessBaseApiController.Partial.cs" />
     <Compile Include="Controllers\Partials\PlayersController.Partial.cs" />
+    <Compile Include="Controllers\Partials\ProgramsController.Partial.cs" />
     <Compile Include="Controllers\Partials\WebUsersController.Partial.cs" />
     <Compile Include="Controllers\PeopleController.cs" />
     <Compile Include="Controllers\PlayersController.cs" />
@@ -463,6 +470,34 @@
     <Compile Include="Modules\PlayerManagement\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Modules\ProgramManagement\CreateProgram.aspx.cs">
+      <DependentUpon>CreateProgram.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\ProgramManagement\CreateProgram.aspx.designer.cs">
+      <DependentUpon>CreateProgram.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\ProgramManagement\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\ProgramManagement\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\ProgramManagement\ManageProgram.aspx.cs">
+      <DependentUpon>ManageProgram.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\ProgramManagement\ManageProgram.aspx.designer.cs">
+      <DependentUpon>ManageProgram.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\ProgramManagement\ProgramManagement.master.cs">
+      <DependentUpon>ProgramManagement.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\ProgramManagement\ProgramManagement.master.designer.cs">
+      <DependentUpon>ProgramManagement.master</DependentUpon>
+    </Compile>
     <Compile Include="Providers\Security\ActivityAuthorized.cs" />
     <Compile Include="Providers\Security\EFRoleProvider.cs" />
     <Compile Include="Repositories\BanditsModelRepositories.cs" />
@@ -502,10 +537,12 @@
     <Compile Include="Source\ObjectCreation\Factory\GuardianFactoryCreation.cs" />
     <Compile Include="Source\ObjectCreation\Factory\PersonFactoryCreation.cs" />
     <Compile Include="Source\ObjectCreation\Factory\PlayerFactoryCreation.cs" />
+    <Compile Include="Source\ObjectCreation\Factory\ProgramFactoryCreation.cs" />
     <Compile Include="Source\ObjectCreation\GuardianCreation.cs" />
     <Compile Include="Source\ObjectCreation\Factory\IFactoryCreation.cs" />
     <Compile Include="Source\ObjectCreation\PersonCreation.cs" />
     <Compile Include="Source\ObjectCreation\PlayerCreation.cs" />
+    <Compile Include="Source\ObjectCreation\ProgramCreation.cs" />
     <Compile Include="Source\Pages\MasterPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -521,6 +558,13 @@
       <DependentUpon>PlayerWizard.ascx</DependentUpon>
     </Compile>
     <Compile Include="Source\PlayerManagement\PMFunctions.cs" />
+    <Compile Include="Source\ProgramManagement\ProgramWizard.ascx.cs">
+      <DependentUpon>ProgramWizard.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Source\ProgramManagement\ProgramWizard.ascx.designer.cs">
+      <DependentUpon>ProgramWizard.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Source\Typecodes\Gender.cs" />
     <Compile Include="Source\UI\LeftNavigation.ascx.cs">
       <DependentUpon>LeftNavigation.ascx</DependentUpon>

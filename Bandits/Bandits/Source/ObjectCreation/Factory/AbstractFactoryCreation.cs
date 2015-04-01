@@ -25,6 +25,11 @@ namespace Bandits.ObjectCreation
                 return (IFactoryCreation<TEntity>)new PlayerFactoryCreation();
             }
 
+            if (typeof(TEntity) == typeof(Program))
+            {
+                return (IFactoryCreation<TEntity>)new ProgramFactoryCreation();
+            }
+
 
             return null;
         }

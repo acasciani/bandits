@@ -94,10 +94,12 @@ namespace Bandits.PlayerManagement
                 if (IsNewPlayer)
                 {
                     AbstractFactoryCreation.GetFactory<Player>().AddNewObject(Player);
+                    Response.Redirect("~/Modules/PlayerManagement/");
                 }
                 else
                 {
                     AbstractFactoryCreation.GetFactory<Player>().UpdateObject(Player);
+                    Response.Redirect("~/Modules/PlayerManagement/");
                 }
             }
         }
