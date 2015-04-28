@@ -17,7 +17,7 @@ namespace BanditsModel
 
         public static Program WithBasicInfo(this Program refr, string programName)
         {
-            refr.Name = programName;
+            refr.ProgramName = programName;
             return refr;
         }
     }

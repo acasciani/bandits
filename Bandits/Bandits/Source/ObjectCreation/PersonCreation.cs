@@ -1,4 +1,5 @@
-﻿using Bandits.Utils;
+﻿using Bandits;
+using Bandits.Utils;
 using BanditsModel;
 using System;
 using System.Collections.Generic;

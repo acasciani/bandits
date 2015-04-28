@@ -11,11 +11,7 @@ namespace Bandits.Modules.ProgramManagement
     public partial class CreateProgram : Page
     {
         #region page definition
-        public const string PageKeyConst = "ProgramManagement.CreateProgram";
-        public const string PageDisplayConst = "Create Program";
-        public const string PageLinkConst = "/Modules/ProgramManagement/CreateProgram.aspx";
-        public override string PageKey { get { return PageKeyConst; } }
-        public override string PageDisplay { get { return PageDisplayConst; } }
+        public override string PageKey { get { return "ProgramManagement.CreateProgram"; } }
         #endregion
 
 

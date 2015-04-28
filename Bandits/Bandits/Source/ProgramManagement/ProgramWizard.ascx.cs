@@ -83,7 +83,7 @@ namespace Bandits.ProgramManagement
 
         private void MapModelToForm()
         {
-            programName.Text = Program.Name;
+            programName.Text = Program.ProgramName;
         }
 
         private bool ValidateForm()

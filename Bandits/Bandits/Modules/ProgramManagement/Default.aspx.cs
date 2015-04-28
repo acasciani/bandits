@@ -10,14 +10,10 @@ using System.Web.UI.WebControls;
 
 namespace Bandits.Modules.ProgramManagement
 {
-    public partial class Default : Page
+    public partial class Default : LoggedInPage
     {
         #region page definition
-        public const string PageKeyConst = "ProgramManagement.Default";
-        public const string PageDisplayConst = "All Programs";
-        public const string PageLinkConst = "/Modules/ProgramManagement/Default.aspx";
-        public override string PageKey { get { return PageKeyConst; } }
-        public override string PageDisplay { get { return PageDisplayConst; } }
+        public override string PageKey { get { return "Default"; } }
         #endregion
 
 
@@ -38,13 +34,10 @@ namespace Bandits.Modules.ProgramManagement
             }
         }
 
-        protected void Page_Init(object sender, EventArgs e)
-        {
-            AllowRole("Admin");
-        }
-
         protected void Page_Load(object sender, EventArgs e)
         {
+            this.RequirePermission(Permissions.ViewAllPrograms);
+
             if (IsPostBack)
             {
                 return;
@@ -55,7 +48,7 @@ namespace Bandits.Modules.ProgramManagement
 
         private IEnumerable<ProgramSortable> ProgramsSortable(IEnumerable<Program> data)
         {
-            return data.Select(p => new ProgramSortable() { ProgramName = p.Name, ProgramObject = p });
+            return data.Select(p => new ProgramSortable() { ProgramName = p.ProgramName, ProgramObject = p });
         }
 
         private void BindProgramsResults()

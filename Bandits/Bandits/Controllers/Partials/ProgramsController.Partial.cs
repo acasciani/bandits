@@ -11,7 +11,7 @@ namespace Bandits
         #region validation checks
         public bool IsValid(Program program)
         {
-            bool isNameValid = IsNameValid(program.Name);
+            bool isNameValid = IsNameValid(program.ProgramName);
 
             return isNameValid;
         }

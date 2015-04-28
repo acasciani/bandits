@@ -36,16 +36,16 @@ namespace BanditsModel
 			}
 		}
 		
-		private string _name;
-		public virtual string Name
+		private string _programName;
+		public virtual string ProgramName
 		{
 			get
 			{
-				return this._name;
+				return this._programName;
 			}
 			set
 			{
-				this._name = value;
+				this._programName = value;
 			}
 		}
 		

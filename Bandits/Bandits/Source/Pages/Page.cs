@@ -12,16 +12,6 @@ namespace Bandits
     public abstract class Page : System.Web.UI.Page
     {
         public abstract string PageKey { get; }
-        public abstract string PageDisplay { get; }
-
-        protected void Page_Init(object sender, EventArgs e)
-        {
-            Page.Title = PageDisplay;
-        }
-
-        public void AllowRole(string role) { ((MasterPage)Master).AllowRole(role); }
-
-        public void DenyRole(string role) { ((MasterPage)Master).DenyRole(role); }
 
         protected WebUser CurrentUser
         {

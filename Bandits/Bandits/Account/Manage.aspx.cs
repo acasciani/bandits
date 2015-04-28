@@ -8,11 +8,7 @@ namespace Bandits.Account
 {
     public partial class Manage : Page
     {
-        public const string PageKeyConst = "Admin.Account.Manage";
-        public const string PageDisplayConst = "Manage Account";
-        public const string PageLinkConst = "/Account/Manage.aspx";
-        public override string PageKey { get { return PageKeyConst; } }
-        public override string PageDisplay { get { return PageDisplayConst; } }
+        public override string PageKey { get { return "Admin.Account.Manage"; } }
 
 
         protected string SuccessMessage

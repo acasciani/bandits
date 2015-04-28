@@ -13,11 +13,7 @@ namespace Bandits.Account
 {
     public partial class Register : Page
     {
-        public const string PageKeyConst = "Admin.Account.Register";
-        public const string PageDisplayConst = "Dashboard Registration";
-        public const string PageLinkConst = "/Account/Register.aspx";
-        public override string PageKey { get { return PageKeyConst; } }
-        public override string PageDisplay { get { return PageDisplayConst; } }
+        public override string PageKey { get { return "Admin.Account.Register"; } }
 
         protected void Page_Load(object sender, EventArgs e)
         {

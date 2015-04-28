@@ -15,11 +15,7 @@ namespace Bandits.Modules.PlayerManagement
 {
     public partial class Default : Page
     {
-        public const string PageKeyConst = "PlayerManagement.CurrentPlayers";
-        public const string PageDisplayConst = "Current Players";
-        public const string PageLinkConst = "/Modules/PlayerManagement/Default.aspx";
-        public override string PageKey { get { return PageKeyConst; } }
-        public override string PageDisplay { get { return PageDisplayConst; } }
+        public override string PageKey { get { return "PlayerManagement.CurrentPlayers"; } }
 
 
         protected class PlayerSortable
@@ -44,8 +40,7 @@ namespace Bandits.Modules.PlayerManagement
 
         protected void Page_Init(object sender, EventArgs e)
         {
-            AllowRole("Admin");
-            base.Page_Init(sender, e);
+
         }
 
         protected void Page_Load(object sender, EventArgs e)

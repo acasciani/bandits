@@ -10,6 +10,31 @@ using BanditsModel;
 
 namespace Bandits
 {
+	public partial class Auth_PermissionRepository : OpenAccessBaseRepository<BanditsModel.Auth_Permission, BanditsModel.BanditsModel>
+    {
+	
+    }
+
+	public partial class Auth_RoleRepository : OpenAccessBaseRepository<BanditsModel.Auth_Role, BanditsModel.BanditsModel>
+    {
+	
+    }
+
+	public partial class Auth_RoleAssignmentRepository : OpenAccessBaseRepository<BanditsModel.Auth_RoleAssignment, BanditsModel.BanditsModel>
+    {
+	
+    }
+
+	public partial class Auth_ScopeRepository : OpenAccessBaseRepository<BanditsModel.Auth_Scope, BanditsModel.BanditsModel>
+    {
+	
+    }
+
+	public partial class Auth_ScopeAssignmentRepository : OpenAccessBaseRepository<BanditsModel.Auth_ScopeAssignment, BanditsModel.BanditsModel>
+    {
+	
+    }
+
 	public partial class GuardianRepository : OpenAccessBaseRepository<BanditsModel.Guardian, BanditsModel.BanditsModel>
     {
 	
@@ -41,11 +66,6 @@ namespace Bandits
     }
 
 	public partial class TeamPlayerRepository : OpenAccessBaseRepository<BanditsModel.TeamPlayer, BanditsModel.BanditsModel>
-    {
-	
-    }
-
-	public partial class UserRoleRepository : OpenAccessBaseRepository<BanditsModel.UserRole, BanditsModel.BanditsModel>
     {
 	
     }

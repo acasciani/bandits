@@ -165,7 +165,7 @@ namespace Bandits.PlayerManagement
 
         public IEnumerable<DropdownListStruct<int>> SelectGuardianTypes()
         {
-            return GuardianTypes.Select(t => new DropdownListStruct<int>() { Label = t.Name, Value = t.GuardianTypeId.ToString() }).OrderBy(t => t.Label);
+            return GuardianTypes.Select(t => new DropdownListStruct<int>() { Label = t.GuardianName, Value = t.GuardianTypeId.ToString() }).OrderBy(t => t.Label);
         }
 
         private void BindGuardians()

@@ -10,11 +10,7 @@ namespace Bandits.Modules.PlayerManagement
 {
     public partial class Create : Page
     {
-        public const string PageKeyConst = "PlayerManagement.Create";
-        public const string PageDisplayConst = "Add Player";
-        public const string PageLinkConst = "/Modules/PlayerManagement/Create.aspx";
-        public override string PageKey { get { return PageKeyConst; } }
-        public override string PageDisplay { get { return PageDisplayConst; } }
+        public override string PageKey { get { return "PlayerManagement.Create"; } }
 
 
         protected void Page_Load(object sender, EventArgs e)

@@ -52,6 +52,21 @@
     <Reference Include="Telerik.OpenAccess.35.Extensions" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Auth_Permission.generated.cs">
+      <DependentUpon>EntitiesModel.rlinq</DependentUpon>
+    </Compile>
+    <Compile Include="Auth_Role.generated.cs">
+      <DependentUpon>EntitiesModel.rlinq</DependentUpon>
+    </Compile>
+    <Compile Include="Auth_RoleAssignment.generated.cs">
+      <DependentUpon>EntitiesModel.rlinq</DependentUpon>
+    </Compile>
+    <Compile Include="Auth_Scope.generated.cs">
+      <DependentUpon>EntitiesModel.rlinq</DependentUpon>
+    </Compile>
+    <Compile Include="Auth_ScopeAssignment.generated.cs">
+      <DependentUpon>EntitiesModel.rlinq</DependentUpon>
+    </Compile>
     <Compile Include="EntitiesModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -79,9 +94,7 @@
     <Compile Include="TeamPlayer.generated.cs">
       <DependentUpon>EntitiesModel.rlinq</DependentUpon>
     </Compile>
-    <Compile Include="UserRole.generated.cs">
-      <DependentUpon>EntitiesModel.rlinq</DependentUpon>
-    </Compile>
+    <Compile Include="TypeCode\ModelEnums.cs" />
     <Compile Include="WebUser.generated.cs">
       <DependentUpon>EntitiesModel.rlinq</DependentUpon>
     </Compile>
@@ -109,6 +122,8 @@
     <Content Include="BanditsConnection%282015-03-17 22-32-21%29.rlinq.sql" />
     <Content Include="BanditsConnection%282015-03-17 22-44-30%29.rlinq.sql" />
     <Content Include="BanditsConnection%282015-03-19 22-38-49%29.rlinq.sql" />
+    <Content Include="BanditsConnection%282015-04-09 21-42-29%29.rlinq.sql" />
+    <Content Include="BanditsConnection%282015-04-10 20-28-10%29.rlinq.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Condition="Exists('$(MSBuildExtensionsPath)\OpenAccess.targets')" Project="$(MSBuildExtensionsPath)\OpenAccess.targets" />

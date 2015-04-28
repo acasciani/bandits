@@ -58,14 +58,6 @@ namespace BanditsModel
 			}
 		}
 		
-		public IQueryable<UserRole> UserRoles 
-		{
-			get
-			{
-				return this.GetAll<UserRole>();
-			}
-		}
-		
 		public IQueryable<Team> Teams 
 		{
 			get
@@ -122,6 +114,46 @@ namespace BanditsModel
 			}
 		}
 		
+		public IQueryable<Auth_Scope> Auth_Scopes 
+		{
+			get
+			{
+				return this.GetAll<Auth_Scope>();
+			}
+		}
+		
+		public IQueryable<Auth_Role> Auth_Roles 
+		{
+			get
+			{
+				return this.GetAll<Auth_Role>();
+			}
+		}
+		
+		public IQueryable<Auth_ScopeAssignment> Auth_ScopeAssignments 
+		{
+			get
+			{
+				return this.GetAll<Auth_ScopeAssignment>();
+			}
+		}
+		
+		public IQueryable<Auth_Permission> Auth_Permissions 
+		{
+			get
+			{
+				return this.GetAll<Auth_Permission>();
+			}
+		}
+		
+		public IQueryable<Auth_RoleAssignment> Auth_RoleAssignments 
+		{
+			get
+			{
+				return this.GetAll<Auth_RoleAssignment>();
+			}
+		}
+		
 		public static BackendConfiguration GetBackendConfiguration()
 		{
 			BackendConfiguration backend = new BackendConfiguration();
@@ -150,10 +182,6 @@ namespace BanditsModel
 		{
 			get;
 		}
-		IQueryable<UserRole> UserRoles
-		{
-			get;
-		}
 		IQueryable<Team> Teams
 		{
 			get;
@@ -179,6 +207,26 @@ namespace BanditsModel
 			get;
 		}
 		IQueryable<GuardianType> GuardianTypes
+		{
+			get;
+		}
+		IQueryable<Auth_Scope> Auth_Scopes
+		{
+			get;
+		}
+		IQueryable<Auth_Role> Auth_Roles
+		{
+			get;
+		}
+		IQueryable<Auth_ScopeAssignment> Auth_ScopeAssignments
+		{
+			get;
+		}
+		IQueryable<Auth_Permission> Auth_Permissions
+		{
+			get;
+		}
+		IQueryable<Auth_RoleAssignment> Auth_RoleAssignments
 		{
 			get;
 		}

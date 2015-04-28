@@ -11,11 +11,7 @@ namespace Bandits.Modules.PlayerManagement
     public partial class Manage : Page
     {
         #region page definition
-        public const string PageKeyConst = "PlayerManagement.Manage";
-        public const string PageDisplayConst = "Manage Player";
-        public const string PageLinkConst = "/Modules/PlayerManagement/Manage.aspx";
-        public override string PageKey { get { return PageKeyConst; } }
-        public override string PageDisplay { get { return PageDisplayConst; } }
+        public override string PageKey { get { return "PlayerManagement.Manage"; } }
         #endregion
 
 

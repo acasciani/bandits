@@ -18,34 +18,61 @@ using Telerik.OpenAccess.Metadata;
 using Telerik.OpenAccess.Data.Common;
 using Telerik.OpenAccess.Metadata.Fluent;
 using Telerik.OpenAccess.Metadata.Fluent.Advanced;
+using BanditsModel;
 
 namespace BanditsModel	
 {
-	public partial class GuardianType
+	public partial class Auth_ScopeAssignment
 	{
-		private int _guardianTypeId;
-		public virtual int GuardianTypeId
+		private int _scopeAssignmentId;
+		public virtual int ScopeAssignmentId
 		{
 			get
 			{
-				return this._guardianTypeId;
+				return this._scopeAssignmentId;
 			}
 			set
 			{
-				this._guardianTypeId = value;
+				this._scopeAssignmentId = value;
 			}
 		}
 		
-		private string _guardianName;
-		public virtual string GuardianName
+		private long _resourceId;
+		public virtual long ResourceId
 		{
 			get
 			{
-				return this._guardianName;
+				return this._resourceId;
 			}
 			set
 			{
-				this._guardianName = value;
+				this._resourceId = value;
+			}
+		}
+		
+		private bool _deny;
+		public virtual bool Deny
+		{
+			get
+			{
+				return this._deny;
+			}
+			set
+			{
+				this._deny = value;
+			}
+		}
+		
+		private Auth_Scope _auth_Scope;
+		public virtual Auth_Scope Scope
+		{
+			get
+			{
+				return this._auth_Scope;
+			}
+			set
+			{
+				this._auth_Scope = value;
 			}
 		}
 		

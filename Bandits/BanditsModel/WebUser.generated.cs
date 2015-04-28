@@ -102,12 +102,30 @@ namespace BanditsModel
 			}
 		}
 		
-		private IList<UserRole> _userRoles = new List<UserRole>();
-		public virtual IList<UserRole> UserRoles
+		private IList<Auth_Permission> _auth_Permissions = new List<Auth_Permission>();
+		public virtual IList<Auth_Permission> Permissions
 		{
 			get
 			{
-				return this._userRoles;
+				return this._auth_Permissions;
+			}
+		}
+		
+		private IList<Auth_RoleAssignment> _auth_RoleAssignments = new List<Auth_RoleAssignment>();
+		public virtual IList<Auth_RoleAssignment> RoleAssignments
+		{
+			get
+			{
+				return this._auth_RoleAssignments;
+			}
+		}
+		
+		private IList<Auth_ScopeAssignment> _auth_ScopeAssignments = new List<Auth_ScopeAssignment>();
+		public virtual IList<Auth_ScopeAssignment> ScopeAssignments
+		{
+			get
+			{
+				return this._auth_ScopeAssignments;
 			}
 		}
 		

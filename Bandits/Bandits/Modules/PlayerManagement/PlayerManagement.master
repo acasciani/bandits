@@ -5,11 +5,57 @@
 </asp:Content>
 
 <asp:Content ID="LeftNavigationContent" ContentPlaceHolderID="LeftNavigation" runat="server">
-    <ui:LeftNavigation runat="server" id="LeftNav"></ui:LeftNavigation>
+    <ul class="nav nav-sidebar" runat="server" id="ddlPlayers">
+        <li runat="server" id="optCurrentPlayers"><a href="/Modules/PlayerManagement/Default">Current Players</a></li>
+        <li runat="server" id="optAddPlayer"><a href="/Modules/PlayerManagement/Create">Add Player</a></li>
+        <li runat="server" id="optManagePlayer"><a href="/Modules/PlayerManagement/ManageFind">Manage Player</a></li>
+    </ul>
+    <ul class="nav nav-sidebar" runat="server" id="ddlPayments">
+        <li runat="server" id="optPaymentsOverview"><a href="/Modules/PlayerManagement/PaymentsOverview">Overview</a></li>
+        <li runat="server" id="optPaymentsReconcile"><a href="/Modules/PlayerManagement/PaymentsReconcile">Reconcile</a></li>
+        <li runat="server" id="optPaymentsPlayer"><a href="/Modules/PlayerManagement/PlayerPayments">Player Payments</a></li>
+    </ul>
+    <ul class="nav nav-sidebar" runat="server" id="ddlDisciplinary">
+        <li runat="server" id="optDisciplineOverview"><a href="/Modules/PlayerManagement/DisciplinaryOverview">Overview</a></li>
+        <li runat="server" id="optDisciplineClub"><a href="/Modules/PlayerManagement/ClubInfractions">Club Infraction</a></li>
+        <li runat="server" id="optDisciplinePlayer"><a href="/Modules/PlayerManagement/PlayerInfractions">Player Infractions</a></li>
+    </ul>
+    <ul class="nav nav-sidebar" runat="server" id="ddlSkills">
+        <li runat="server" id="optSkillsOverview"><a href="/Modules/PlayerManagement/SkillsOverview">Overview</a></li>
+        <li runat="server" id="optSkillsPlayer"><a href="/Modules/PlayerManagement/PlayerSkills">Player Skills</a></li>
+    </ul>
+    <hr class="left-navigation" runat="server" id="hrSubdivider" />
+    <ul class="nav nav-sidebar" runat="server" id="ddlPlayersHead">
+        <li><a href=""</li>
+    </ul>
 </asp:Content>
 
 
 <asp:Content ID="MainContent" ContentPlaceHolderID="MainContent" runat="server">
-    <h3>Player Management - <%=((Bandits.Page)Page).PageDisplay %></h3>
+
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#module-navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/Modules/PlayerManagement/Default.aspx">Player Management</a>
+            </div>
+            <div class="collapse navbar-collapse" id="module-navbar">
+                <ul class="nav navbar-nav">
+                    <li><a href="#">Players</a></li>
+                    <li><a href="#">Payments</a></li>
+                    <li><a href="#">Disciplinary</a></li>
+                    <li><a href="#">Skills</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <h3><%=((Bandits.Page)Page).PageDisplay %></h3>
     <asp:ContentPlaceHolder runat="server" ID="ModuleContent" />
 </asp:Content>

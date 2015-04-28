@@ -12,11 +12,7 @@ namespace Bandits.Account
 {
     public partial class Login : Page
     {
-        public const string PageKeyConst = "Admin.Account.Login";
-        public const string PageDisplayConst = "Dashboard Login";
-        public const string PageLinkConst = "/Account/Login.aspx";
-        public override string PageKey { get { return PageKeyConst; } }
-        public override string PageDisplay { get { return PageDisplayConst; } }
+        public override string PageKey { get { return "Admin.Account.Login"; } }
 
 
         protected void Page_Load(object sender, EventArgs e)

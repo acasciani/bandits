@@ -13,16 +13,16 @@ using BanditsModel;
 namespace Bandits
 {
     /// <summary>
-    /// Web API Controller for UserRoles entity defined in BanditsModel.BanditsModel data model
+    /// Web API Controller for Auth_Scopes entity defined in BanditsModel.BanditsModel data model
     /// </summary>
-    public partial class UserRolesController : OpenAccessBaseApiController<BanditsModel.UserRole, BanditsModel.BanditsModel>
+    public partial class Auth_ScopesController : OpenAccessBaseApiController<BanditsModel.Auth_Scope, BanditsModel.BanditsModel>
     {
         /// <summary>
         /// Constructor used by the Web API infrastructure.
         /// </summary>
-        public UserRolesController()
+        public Auth_ScopesController()
         {
-            this.repository = new UserRoleRepository();
+            this.repository = new Auth_ScopeRepository();
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Bandits
         /// </summary>
         /// <remarks>Web API Infrastructure will ALWAYS use the default constructor!</remarks>
         /// <param name="repository">Repository instance of the specific type</param>
-        public UserRolesController(IOpenAccessBaseRepository<BanditsModel.UserRole , BanditsModel.BanditsModel> repository)
+        public Auth_ScopesController(IOpenAccessBaseRepository<BanditsModel.Auth_Scope , BanditsModel.BanditsModel> repository)
         {
             this.repository = repository;
         }
@@ -43,9 +43,9 @@ namespace Bandits
         /// </summary>
         /// <param name="id">Primary key value to filter by</param>
         /// <returns>Entity instance if a matching entity is found</returns>
-        public virtual BanditsModel.UserRole Get(Int32 id)
+        public virtual BanditsModel.Auth_Scope Get(Int32 id)
         {
-            BanditsModel.UserRole entity = repository.GetBy(b => b.UserRoleId == id);
+            BanditsModel.Auth_Scope entity = repository.GetBy(b => b.ScopeId == id);
 
             if (entity == null)
             {
@@ -64,10 +64,10 @@ namespace Bandits
         /// <param name="entity">Entity with the new updated values</param>
         /// <returns>HttpStatusCode.BadRequest if ID parameter does not match the ID value of the entity,
         /// or HttpStatusCode.NoContent if the operation was successful</returns>
-        public virtual HttpResponseMessage Put(Int32 id, BanditsModel.UserRole entity)
+        public virtual HttpResponseMessage Put(Int32 id, BanditsModel.Auth_Scope entity)
         {
                         if (entity == null ||
-                id != entity.UserRoleId)
+                id != entity.ScopeId)
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
 
             repository.Update(entity);
@@ -82,7 +82,7 @@ namespace Bandits
         /// <returns>Always HttpStatusCode.OK</returns>
         public virtual HttpResponseMessage Delete(Int32 id)
         {
-                        BanditsModel.UserRole entity = repository.GetBy(b => b.UserRoleId == id);
+                        BanditsModel.Auth_Scope entity = repository.GetBy(b => b.ScopeId == id);
             if (entity != null)
             {
                 repository.Delete(entity);
@@ -100,11 +100,11 @@ namespace Bandits
         /// <param name="httpStatusCode">Status code to return</param>
         /// <param name="entityToEmbed">Entity instance to embed in the response</param>
         /// <returns>HttpResponseMessage with the provided status code and object to embed</returns>
-        protected override HttpResponseMessage CreateResponse(HttpStatusCode httpStatusCode, BanditsModel.UserRole entityToEmbed)
+        protected override HttpResponseMessage CreateResponse(HttpStatusCode httpStatusCode, BanditsModel.Auth_Scope entityToEmbed)
         {
-            HttpResponseMessage response = Request.CreateResponse<BanditsModel.UserRole>(httpStatusCode, entityToEmbed);
+            HttpResponseMessage response = Request.CreateResponse<BanditsModel.Auth_Scope>(httpStatusCode, entityToEmbed);
 
-            string uri = Url.Link("DefaultApi", new { id = entityToEmbed.UserRoleId });
+            string uri = Url.Link("DefaultApi", new { id = entityToEmbed.ScopeId });
             response.Headers.Location = new Uri(uri);
 
             return response;

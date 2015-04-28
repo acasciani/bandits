@@ -190,6 +190,24 @@
     <Reference Include="Telerik.OpenAccess.35.Extensions, Version=2014.3.1209.1, Culture=neutral, PublicKeyToken=7ce17eeaf1d59342, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\Auth_PermissionsController.cs" />
+    <Compile Include="Controllers\Auth_RoleAssignmentsController.cs" />
+    <Compile Include="Controllers\Auth_RolesController.cs" />
+    <Compile Include="Controllers\Auth_ScopeAssignmentsController.cs" />
+    <Compile Include="Controllers\Auth_ScopesController.cs" />
+    <Compile Include="Controllers\GuardiansController.cs" />
+    <Compile Include="Controllers\GuardianTypesController.cs" />
+    <Compile Include="Controllers\OpenAccessBaseApiController.cs" />
+    <Compile Include="Controllers\PeopleController.cs" />
+    <Compile Include="Controllers\PlayersController.cs" />
+    <Compile Include="Controllers\ProgramsController.cs" />
+    <Compile Include="Controllers\Scoped\Controllers\ProgramsControllerScoped.cs" />
+    <Compile Include="Controllers\Scoped\IScopable.cs" />
+    <Compile Include="Controllers\Scoped\Scoped.cs" />
+    <Compile Include="Controllers\Scoped\Controllers\TeamsControllerScoped.cs" />
+    <Compile Include="Controllers\TeamPlayersController.cs" />
+    <Compile Include="Controllers\TeamsController.cs" />
+    <Compile Include="Controllers\WebUsersController.cs" />
     <Content Include="Account\Login.aspx" />
     <Content Include="Account\Manage.aspx" />
     <Content Include="Account\OpenAuthProviders.ascx" />
@@ -424,17 +442,10 @@
       <DependentUpon>RegisterExternalLogin.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\GuardiansController.cs" />
-    <Compile Include="Controllers\GuardianTypesController.cs" />
     <Compile Include="Controllers\Partials\OpenAccessBaseApiController.Partial.cs" />
     <Compile Include="Controllers\Partials\PlayersController.Partial.cs" />
     <Compile Include="Controllers\Partials\ProgramsController.Partial.cs" />
     <Compile Include="Controllers\Partials\WebUsersController.Partial.cs" />
-    <Compile Include="Controllers\PeopleController.cs" />
-    <Compile Include="Controllers\PlayersController.cs" />
-    <Compile Include="Controllers\ProgramsController.cs" />
-    <Compile Include="Controllers\TeamPlayersController.cs" />
-    <Compile Include="Controllers\TeamsController.cs" />
     <Compile Include="Modules\PlayerManagement\Manage.aspx.cs">
       <DependentUpon>Manage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -491,6 +502,7 @@
     <Compile Include="Modules\ProgramManagement\ManageProgram.aspx.designer.cs">
       <DependentUpon>ManageProgram.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Modules\ProgramManagement\Permissions.cs" />
     <Compile Include="Modules\ProgramManagement\ProgramManagement.master.cs">
       <DependentUpon>ProgramManagement.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -499,8 +511,6 @@
       <DependentUpon>ProgramManagement.master</DependentUpon>
     </Compile>
     <Compile Include="Providers\Security\ActivityAuthorized.cs" />
-    <Compile Include="Providers\Security\EFRoleProvider.cs" />
-    <Compile Include="Repositories\BanditsModelRepositories.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -512,11 +522,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.Routes.cs" />
-    <Compile Include="Controllers\OpenAccessBaseApiController.cs" />
-    <Compile Include="Repositories\OpenAccessBaseRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ProviderUtils.cs" />
     <Compile Include="Providers\Security\EFMembershipProvider.cs" />
+    <Compile Include="Repositories\BanditsModelRepositories.cs" />
+    <Compile Include="Repositories\OpenAccessBaseRepository.cs" />
     <Compile Include="Repositories\Partials\OpenAccessBaseRepository.Partial.cs" />
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
@@ -532,7 +542,6 @@
     <Compile Include="Site.Mobile.Master.designer.cs">
       <DependentUpon>Site.Mobile.Master</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\UserRolesController.cs" />
     <Compile Include="Source\ObjectCreation\Factory\AbstractFactoryCreation.cs" />
     <Compile Include="Source\ObjectCreation\Factory\GuardianFactoryCreation.cs" />
     <Compile Include="Source\ObjectCreation\Factory\PersonFactoryCreation.cs" />
@@ -543,6 +552,9 @@
     <Compile Include="Source\ObjectCreation\PersonCreation.cs" />
     <Compile Include="Source\ObjectCreation\PlayerCreation.cs" />
     <Compile Include="Source\ObjectCreation\ProgramCreation.cs" />
+    <Compile Include="Source\Pages\LoggedInPage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Source\Pages\MasterPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -578,6 +590,7 @@
     <Compile Include="Source\Usability\PageStack.cs" />
     <Compile Include="Source\Utils\BindUtils.cs" />
     <Compile Include="Source\Utils\LinqExtensions.cs" />
+    <Compile Include="Source\Utils\SessionUtils.cs" />
     <Compile Include="Source\Utils\SortHelper.cs" />
     <Compile Include="Source\Utils\UIStructs\DropdownList.cs" />
     <Compile Include="Source\Utils\UserManagement.cs" />
@@ -588,7 +601,6 @@
     <Compile Include="ViewSwitcher.ascx.designer.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\WebUsersController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -21,31 +21,31 @@ using Telerik.OpenAccess.Metadata.Fluent.Advanced;
 
 namespace BanditsModel	
 {
-	public partial class GuardianType
+	public partial class Auth_Scope
 	{
-		private int _guardianTypeId;
-		public virtual int GuardianTypeId
+		private int _scopeId;
+		public virtual int ScopeId
 		{
 			get
 			{
-				return this._guardianTypeId;
+				return this._scopeId;
 			}
 			set
 			{
-				this._guardianTypeId = value;
+				this._scopeId = value;
 			}
 		}
 		
-		private string _guardianName;
-		public virtual string GuardianName
+		private ScopeType _scope;
+		public virtual ScopeType Scope
 		{
 			get
 			{
-				return this._guardianName;
+				return this._scope;
 			}
 			set
 			{
-				this._guardianName = value;
+				this._scope = value;
 			}
 		}
 		

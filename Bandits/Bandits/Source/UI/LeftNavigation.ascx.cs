@@ -12,21 +12,6 @@ namespace Bandits.UI
 {
     public partial class LeftNavigation : UserControl
     {
-        public IList<LeftNavigationGroup> GroupsSource { get; set; }
-        public string ActiveLinkKey { get; set; }
-        
-        protected void Page_Load(object sender, EventArgs e)
-        {
-            if (GroupsSource != null)
-            {
-                Groups.DataSource = GroupsSource;
-                Groups.DataBind();
-            }
-        }
 
-        protected bool IsActive(string LinkKey)
-        {
-            return ActiveLinkKey == LinkKey;
-        }
     }
 }

@@ -5,7 +5,7 @@ using System.Web;
 using BanditsModel;
 using System.Web.Security;
 
-namespace Bandits.Utils
+namespace Bandits
 {
     public static class UserManagement
     {
@@ -53,6 +53,33 @@ namespace Bandits.Utils
             }
 
             return false;
+        }
+
+        public static bool HasPermission(this Page refr, string permission)
+        {
+            WebUser user = GetCurrentWebUser();
+            return WebUsersController.HasPermission(user, permission);
+        }
+
+        public static bool HasPermission(this Page refr, WebUser user, string permission)
+        {
+            return WebUsersController.HasPermission(user, permission);
+        }
+
+        public static bool HasPermission(this Page refr, int userId, string permission)
+        {
+            using (WebUsersController c = new WebUsersController())
+            {
+                return c.HasPermission(userId, permission);
+            }
+        }
+
+        public static void RequirePermission(this Page refr, string permission)
+        {
+            if (!WebUsersController.HasPermission(GetCurrentWebUser(), permission))
+            {
+                FormsAuthentication.RedirectToLoginPage();
+            }
         }
     }
 }
