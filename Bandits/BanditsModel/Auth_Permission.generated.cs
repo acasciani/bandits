@@ -18,6 +18,7 @@ using Telerik.OpenAccess.Metadata;
 using Telerik.OpenAccess.Data.Common;
 using Telerik.OpenAccess.Metadata.Fluent;
 using Telerik.OpenAccess.Metadata.Fluent.Advanced;
+using BanditsModel;
 
 namespace BanditsModel	
 {
@@ -62,16 +63,12 @@ namespace BanditsModel
 			}
 		}
 		
-		private bool _deny;
-		public virtual bool Deny
+		private IList<Auth_Role> _auth_Roles = new List<Auth_Role>();
+		public virtual IList<Auth_Role> Roles
 		{
 			get
 			{
-				return this._deny;
-			}
-			set
-			{
-				this._deny = value;
+				return this._auth_Roles;
 			}
 		}
 		

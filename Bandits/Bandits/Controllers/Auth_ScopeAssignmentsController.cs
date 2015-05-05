@@ -43,7 +43,7 @@ namespace Bandits
         /// </summary>
         /// <param name="id">Primary key value to filter by</param>
         /// <returns>Entity instance if a matching entity is found</returns>
-        public virtual BanditsModel.Auth_ScopeAssignment Get(Int32 id)
+        public virtual BanditsModel.Auth_ScopeAssignment Get(Int64 id)
         {
             BanditsModel.Auth_ScopeAssignment entity = repository.GetBy(b => b.ScopeAssignmentId == id);
 
@@ -64,7 +64,7 @@ namespace Bandits
         /// <param name="entity">Entity with the new updated values</param>
         /// <returns>HttpStatusCode.BadRequest if ID parameter does not match the ID value of the entity,
         /// or HttpStatusCode.NoContent if the operation was successful</returns>
-        public virtual HttpResponseMessage Put(Int32 id, BanditsModel.Auth_ScopeAssignment entity)
+        public virtual HttpResponseMessage Put(Int64 id, BanditsModel.Auth_ScopeAssignment entity)
         {
                         if (entity == null ||
                 id != entity.ScopeAssignmentId)
@@ -80,7 +80,7 @@ namespace Bandits
         /// </summary>
         /// <param name="id">ID of the entity to delete</param>
         /// <returns>Always HttpStatusCode.OK</returns>
-        public virtual HttpResponseMessage Delete(Int32 id)
+        public virtual HttpResponseMessage Delete(Int64 id)
         {
                         BanditsModel.Auth_ScopeAssignment entity = repository.GetBy(b => b.ScopeAssignmentId == id);
             if (entity != null)

@@ -130,14 +130,6 @@ namespace BanditsModel
 			}
 		}
 		
-		public IQueryable<Auth_ScopeAssignment> Auth_ScopeAssignments 
-		{
-			get
-			{
-				return this.GetAll<Auth_ScopeAssignment>();
-			}
-		}
-		
 		public IQueryable<Auth_Permission> Auth_Permissions 
 		{
 			get
@@ -146,11 +138,19 @@ namespace BanditsModel
 			}
 		}
 		
-		public IQueryable<Auth_RoleAssignment> Auth_RoleAssignments 
+		public IQueryable<Auth_Assignment> Auth_Assignments 
 		{
 			get
 			{
-				return this.GetAll<Auth_RoleAssignment>();
+				return this.GetAll<Auth_Assignment>();
+			}
+		}
+		
+		public IQueryable<Auth_ScopeAssignment> Auth_ScopeAssignments 
+		{
+			get
+			{
+				return this.GetAll<Auth_ScopeAssignment>();
 			}
 		}
 		
@@ -218,15 +218,15 @@ namespace BanditsModel
 		{
 			get;
 		}
-		IQueryable<Auth_ScopeAssignment> Auth_ScopeAssignments
-		{
-			get;
-		}
 		IQueryable<Auth_Permission> Auth_Permissions
 		{
 			get;
 		}
-		IQueryable<Auth_RoleAssignment> Auth_RoleAssignments
+		IQueryable<Auth_Assignment> Auth_Assignments
+		{
+			get;
+		}
+		IQueryable<Auth_ScopeAssignment> Auth_ScopeAssignments
 		{
 			get;
 		}

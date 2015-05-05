@@ -7,18 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bandits.Modules.ProgramManagement {
+namespace Bandits.Modules.ClubManagement {
     
     
-    public partial class ManageProgram {
+    public partial class Default {
         
         /// <summary>
-        /// ProgramWizard control.
+        /// Results control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Bandits.ProgramManagement.ProgramWizard ProgramWizard;
+        protected global::System.Web.UI.WebControls.GridView Results;
     }
 }

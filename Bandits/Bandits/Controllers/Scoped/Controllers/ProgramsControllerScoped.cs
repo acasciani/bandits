@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Telerik.OpenAccess;
 
 namespace Bandits
 {
@@ -9,7 +10,7 @@ namespace Bandits
     {
         public IQueryable<Program> GetScopedObjects(Auth_ScopeAssignment assignment)
         {
-            ScopeType type = assignment.Scope.Scope;
+            ScopeType type = assignment.Auth_Scope.Scope;
             int resourceId = Convert.ToInt32(assignment.ResourceId);
             List<Program> scoped = new List<Program>();
             
@@ -34,8 +35,20 @@ namespace Bandits
                     break;
 
                 case ScopeType.Team: // team level access, only have access to the program they belong in
-                    TeamRepository team = new TeamRepository();
-                    scoped.Add(team.GetBy(i => i.TeamId == resourceId).Program);
+                    BanditsModel.BanditsModel model = null;
+                    try
+                    {
+                        model = new BanditsModel.BanditsModel();
+                        Team team = model.Teams.Where(i => i.TeamId == resourceId).Include(i => i.Program).FirstOrDefault();
+                        if (team != null && team.Program != null)
+                        {
+                            scoped.Add(team.Program);
+                        }
+                    }
+                    finally
+                    {
+                        model.Dispose();
+                    }
                     break;
 
                 default:

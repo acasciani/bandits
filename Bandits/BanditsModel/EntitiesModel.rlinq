@@ -28,14 +28,11 @@
         <orm:field name="_person" property="Person" behavior="readwrite" uniqueId="5d1ab400-1bb6-4a88-a542-fcb352da2716" type="BanditsModel.Person" dependent="true">
           <orm:reference uniqueId="c3db0c78-f7be-4798-9346-ce311ac61226" association-name="WebUserHasPerson" />
         </orm:field>
-        <orm:field name="_auth_Permissions" property="Permissions" behavior="readwrite" uniqueId="fb0198c2-3eb2-4fe0-bdb2-46e9063d5293" type="BanditsModel.Auth_Permission" default-fetch-group="true">
-          <orm:join-table uniqueId="6e2781db-5b4b-4f52-90d2-4a936d3f0450" association-name="WebUsersHaveAuth_Permissions" />
+        <orm:field name="_auth_Roles" property="Auth_Roles" behavior="readwrite" uniqueId="a2c7f1d9-46ac-477f-a627-f096f92233c8" type="BanditsModel.Auth_Role">
+          <orm:collection element-class="BanditsModel.Auth_Role" inverse-field="_webUsers" order-by="" uniqueId="25765848-b462-4400-a552-061a4bcd9a5f" />
         </orm:field>
-        <orm:field name="_auth_RoleAssignments" property="RoleAssignments" behavior="readwrite" uniqueId="fbaff463-e5cf-4197-a612-8a0ea9ea65c4" type="BanditsModel.Auth_RoleAssignment" default-fetch-group="true">
-          <orm:join-table uniqueId="f61036f0-13ba-4fad-8a2a-cae7e2eabd0d" association-name="WebUsersHaveAuth_RoleAssignments" />
-        </orm:field>
-        <orm:field name="_auth_ScopeAssignments" property="ScopeAssignments" behavior="readwrite" uniqueId="b7d6d9b9-0d95-4a04-bf5b-44cf349917af" type="BanditsModel.Auth_ScopeAssignment" default-fetch-group="true">
-          <orm:join-table uniqueId="88fd04cc-46e5-48dc-91bb-141239897090" association-name="WebUsersHaveAuth_ScopeAssignments" />
+        <orm:field name="_auth_Assignments" property="Auth_Assignments" behavior="readwrite" uniqueId="f0e4c1cc-c46a-4fad-8876-40d7015d7008" type="BanditsModel.Auth_Assignment">
+          <orm:collection element-class="BanditsModel.Auth_Assignment" inverse-field="_webUser" order-by="" uniqueId="9e083b12-e2f7-4728-b235-0141eff80ef1" />
         </orm:field>
       </orm:class>
       <orm:class name="Team" use-default-mapping="true" uniqueId="8a10939b-07d2-4429-9a88-2d9f405524ac">
@@ -92,11 +89,6 @@
         <orm:field name="_player" property="Player" behavior="readwrite" uniqueId="bcb88134-159f-49f7-b552-5eaf889d19f7" type="BanditsModel.Player">
           <orm:reference uniqueId="92c6c090-9c8c-4b9c-b29f-4f79edd3b0b7" association-name="TeamPlayerHasPlayer" />
         </orm:field>
-        <orm:index name="idx_TeamPlayer_TeamId">
-          <orm:columnMapping>
-            <orm:column name="TeamId" sql-type="int" nullable="true" length="0" scale="0" converter="OpenAccessRuntime.Data.IntConverter" ado-type="Int32" />
-          </orm:columnMapping>
-        </orm:index>
       </orm:class>
       <orm:class name="Person" use-default-mapping="true" uniqueId="e441df23-a46b-464c-ab61-3414e5236e16">
         <orm:identity>
@@ -235,7 +227,8 @@
           <orm:column name="Scope" sql-type="int" nullable="false" length="0" scale="0" converter="OpenAccessRuntime.Data.IntConverter" ado-type="Int32" />
         </orm:field>
       </orm:class>
-      <orm:class name="Auth_Role" use-default-mapping="true" uniqueId="40ab96a4-31b0-4c03-a183-ad2ba009d918">
+      <orm:class name="Auth_Role" uniqueId="40ab96a4-31b0-4c03-a183-ad2ba009d918">
+        <orm:table name="Auth_Role" />
         <orm:identity>
           <orm:key-generator name="autoinc">
             <orm:key-generator-member property-name="RoleId" />
@@ -246,34 +239,20 @@
           <orm:column name="RoleId" sql-type="int" nullable="false" length="0" scale="0" primary-key="true" converter="OpenAccessRuntime.Data.IntConverter" backend-calculated="true" ado-type="Int32" />
         </orm:field>
         <orm:field name="_roleName" property="RoleName" uniqueId="996f5b81-7497-4089-960c-1aaea741ef74" type="System.String">
-          <orm:column name="RoleName" sql-type="varchar" nullable="true" length="255" scale="0" converter="OpenAccessRuntime.Data.VariableLengthAnsiStringConverter" ado-type="StringVariableLength" />
+          <orm:column name="RoleName" sql-type="varchar" nullable="true" length="150" scale="0" converter="OpenAccessRuntime.Data.VariableLengthAnsiStringConverter" ado-type="StringVariableLength" />
         </orm:field>
         <orm:field name="_comments" property="Comments" uniqueId="2adbf325-387a-4627-9a64-b20742133561" type="System.String">
           <orm:column name="Comments" sql-type="varchar" nullable="true" length="255" scale="0" converter="OpenAccessRuntime.Data.VariableLengthAnsiStringConverter" ado-type="StringVariableLength" />
         </orm:field>
-      </orm:class>
-      <orm:class name="Auth_ScopeAssignment" uniqueId="d3eca622-3a90-47f5-9631-f54c193c2ff2">
-        <orm:table name="Auth_ScopeAssignment" />
-        <orm:identity>
-          <orm:key-generator name="autoinc">
-            <orm:key-generator-member property-name="ScopeAssignmentId" />
-          </orm:key-generator>
-          <orm:single-field field-name="_scopeAssignmentId" />
-        </orm:identity>
-        <orm:field name="_scopeAssignmentId" property="ScopeAssignmentId" uniqueId="8cd62816-4653-4035-b7a6-425a72d8d773" type="System.Int32">
-          <orm:column name="ScopeAssignmentId" sql-type="int" nullable="false" length="0" scale="0" primary-key="true" converter="OpenAccessRuntime.Data.IntConverter" backend-calculated="true" ado-type="Int32" />
+        <orm:field name="_auth_Permissions" property="Permissions" behavior="readwrite" uniqueId="6928b682-2a15-48e5-a06f-268b2b48ed61" type="BanditsModel.Auth_Permission">
+          <orm:join-table uniqueId="e1b2035b-077b-4b8d-b033-106d812dd01e" association-name="Auth_RolesHaveAuth_Permissions" />
         </orm:field>
-        <orm:field name="_resourceId" property="ResourceId" uniqueId="bc5d4263-c8ca-4b6e-a3d3-dfac1bf8bba7" type="System.Int64">
-          <orm:column name="ResourceId" sql-type="bigint" nullable="false" length="0" scale="0" converter="OpenAccessRuntime.Data.BigIntConverter" ado-type="Int64" />
-        </orm:field>
-        <orm:field name="_deny" property="Deny" uniqueId="0c6c035e-f8d4-45fe-b40a-da3722a9ff91" type="System.Boolean">
-          <orm:column name="Deny" sql-type="tinyint" nullable="false" length="0" scale="0" converter="OpenAccessRuntime.Data.OneZero2BooleanConverter" ado-type="Bit" />
-        </orm:field>
-        <orm:field name="_auth_Scope" property="Scope" behavior="readwrite" uniqueId="4d3d1b71-d9ba-498d-9cc0-68bdda0cfb43" type="BanditsModel.Auth_Scope" default-fetch-group="true">
-          <orm:reference uniqueId="f3a1c5c1-c3f2-4be5-ad53-cb2a92ef9489" association-name="Auth_ScopeAssignmentHasAuth_Scope" />
+        <orm:field name="_webUsers" property="WebUsers" behavior="readwrite" uniqueId="618e9cd8-54c3-4f45-95c1-c7531d6665d6" type="BanditsModel.WebUser">
+          <orm:join-table uniqueId="25765848-b462-4400-a552-061a4bcd9a5f" association-name="Auth_RolesHaveWebUsers" />
         </orm:field>
       </orm:class>
-      <orm:class name="Auth_Permission" use-default-mapping="true" uniqueId="a5052eef-c18c-48e0-a334-9ef855ee656b">
+      <orm:class name="Auth_Permission" uniqueId="a5052eef-c18c-48e0-a334-9ef855ee656b">
+        <orm:table name="Auth_Permission" />
         <orm:identity>
           <orm:key-generator name="autoinc">
             <orm:key-generator-member property-name="PermissionId" />
@@ -283,56 +262,94 @@
         <orm:field name="_permissionId" property="PermissionId" uniqueId="a8828b8c-5c8c-479d-9f62-48510cea5149" type="System.Int32">
           <orm:column name="PermissionId" sql-type="int" nullable="false" length="0" scale="0" primary-key="true" converter="OpenAccessRuntime.Data.IntConverter" backend-calculated="true" ado-type="Int32" />
         </orm:field>
-        <orm:field name="_permissionName" property="PermissionName" uniqueId="b99295a0-6e3c-432d-8a67-6d6312d3ef6c" type="System.String">
-          <orm:column name="PermissionName" sql-type="varchar" nullable="true" length="255" scale="0" converter="OpenAccessRuntime.Data.VariableLengthAnsiStringConverter" ado-type="StringVariableLength" />
-        </orm:field>
-        <orm:field name="_comments" property="Comments" uniqueId="1465289d-4ee1-4bef-a4ec-24eaa688b81a" type="System.String">
-          <orm:column name="Comments" sql-type="varchar" nullable="true" length="255" scale="0" converter="OpenAccessRuntime.Data.VariableLengthAnsiStringConverter" ado-type="StringVariableLength" />
-        </orm:field>
-        <orm:field name="_deny" property="Deny" uniqueId="039a6fd8-d2ef-4344-b833-3816ec4a8741" type="System.Boolean">
-          <orm:column name="Deny" sql-type="tinyint" nullable="false" length="0" scale="0" converter="OpenAccessRuntime.Data.OneZero2BooleanConverter" ado-type="Bit" />
+        <orm:field name="_permissionName" property="PermissionName" uniqueId="b99295a0-6e3c-432d-8a67-6d6312d3ef6c" type="System.String" />
+        <orm:field name="_comments" property="Comments" uniqueId="1465289d-4ee1-4bef-a4ec-24eaa688b81a" type="System.String" />
+        <orm:field name="_auth_Roles" property="Roles" behavior="readwrite" uniqueId="87e2e206-f9d4-450b-ad76-85b967acab2d" type="BanditsModel.Auth_Role">
+          <orm:collection element-class="BanditsModel.Auth_Role" inverse-field="_auth_Permissions" order-by="" uniqueId="e1b2035b-077b-4b8d-b033-106d812dd01e" />
         </orm:field>
       </orm:class>
-      <orm:class name="Auth_RoleAssignment" use-default-mapping="true" uniqueId="efba8ac2-a5e0-4ce3-8e81-82a936d5e1b9">
+      <orm:class name="Auth_Assignment" uniqueId="c7279374-fd8c-4f24-b3cb-ea9f5de50990">
+        <orm:table name="Auth_Assignment" />
         <orm:identity>
-          <orm:key-generator name="autoinc">
-            <orm:key-generator-member property-name="RoleAssignmentId" />
-          </orm:key-generator>
-          <orm:single-field field-name="_roleAssignmentId" />
+          <orm:single-field field-name="_assignmentId" />
         </orm:identity>
-        <orm:field name="_roleAssignmentId" property="RoleAssignmentId" uniqueId="f0828903-d240-4069-b433-b4d4c662b938" type="System.Int32">
-          <orm:column name="RoleAssignmentId" sql-type="int" nullable="false" length="0" scale="0" primary-key="true" converter="OpenAccessRuntime.Data.IntConverter" backend-calculated="true" ado-type="Int32" />
+        <orm:field name="_assignmentId" property="AssignmentId" uniqueId="360b3656-88b0-46db-926e-2691562cffaf" type="System.Int64">
+          <orm:column name="AssignmentId" sql-type="bigint" nullable="false" length="0" scale="0" primary-key="true" converter="OpenAccessRuntime.Data.BigIntConverter" ado-type="Int64" />
         </orm:field>
-        <orm:field name="_auth_Role" property="Role" behavior="readwrite" uniqueId="d552df85-c88b-45f4-9a13-0b5b069d61b5" type="BanditsModel.Auth_Role" default-fetch-group="true">
-          <orm:reference uniqueId="5d3e9796-3742-4264-9f56-bc0b84ab97f4" association-name="Auth_RoleAssignmentsHaveAuth_Roles" />
+        <orm:field name="_isExplicit" property="IsExplicit" uniqueId="328a6f08-ef06-4d74-b7b9-a5cba747a242" type="System.Boolean">
+          <orm:column name="IsExplicit" sql-type="tinyint" nullable="false" length="0" scale="0" converter="OpenAccessRuntime.Data.OneZero2BooleanConverter" ado-type="Bit" />
         </orm:field>
-        <orm:field name="_auth_ScopeAssignments" property="ScopeAssignments" behavior="readwrite" uniqueId="fd526f88-aaa9-4f80-befb-fb19f34c4a46" type="BanditsModel.Auth_ScopeAssignment" default-fetch-group="true">
-          <orm:join-table uniqueId="d34a100a-b6d8-443d-88c3-60ee5aa27ffd" association-name="Auth_RoleAssignmentHasAuth_ScopeAssignment" />
+        <orm:field name="_userId" property="UserId" uniqueId="49330b30-facd-4ce9-82f3-b820c9d3762c" type="System.Int32">
+          <orm:column name="UserId" sql-type="int" nullable="false" length="0" scale="0" converter="OpenAccessRuntime.Data.IntConverter" ado-type="Int32" />
         </orm:field>
-        <orm:field name="_auth_Permissions" property="Permissions" behavior="readwrite" uniqueId="e1c07952-e009-4ffa-9df0-0aa55436b94c" type="BanditsModel.Auth_Permission" default-fetch-group="true">
-          <orm:join-table uniqueId="c296713c-d673-4dd2-8c4b-6f94b5cebd68" association-name="Auth_RoleAssignmentsHaveAuth_Permissions" />
+        <orm:field name="_permissionId" property="PermissionId" uniqueId="56bb7871-adfb-4b57-8de1-b16f1dd6a60e" type="System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]" />
+        <orm:field name="_roleId" property="RoleId" uniqueId="28d5b6ef-1205-4bd3-bc4c-f8ca6f344d4d" type="System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]" />
+        <orm:field name="_auth_Role" description="Role is null if IsExplicit is true" property="Role" behavior="readwrite" uniqueId="0428acf5-d51a-44d8-bb9f-1817e5875200" type="BanditsModel.Auth_Role">
+          <orm:reference uniqueId="e342d30f-e1e5-4fcd-8918-da7eebdefcba" association-name="Auth_AssignmentHasAuth_Role">
+            <orm:sharedfield name="_roleId" target-class="BanditsModel.Auth_Role" target-field="_roleId" />
+          </orm:reference>
+        </orm:field>
+        <orm:field name="_auth_Permission" description="Permission is null if IsExplicit is false" property="Permission" behavior="readwrite" uniqueId="35f843a7-adf1-4cd8-8bc9-0fca5ffce4a5" type="BanditsModel.Auth_Permission">
+          <orm:reference uniqueId="51583050-08be-4039-bf9d-532c39bd7c64" association-name="Auth_AssignmentsHaveAuth_Permissions">
+            <orm:sharedfield name="_permissionId" target-class="BanditsModel.Auth_Permission" target-field="_permissionId" />
+          </orm:reference>
+        </orm:field>
+        <orm:field name="_auth_ScopeAssignments" property="Auth_ScopeAssignments" behavior="readwrite" uniqueId="1572f0de-a8be-4bc0-a1c2-0def2d3b9007" type="BanditsModel.Auth_ScopeAssignment">
+          <orm:collection element-class="BanditsModel.Auth_ScopeAssignment" inverse-field="_auth_Assignment" order-by="" uniqueId="9a8b205b-cc57-4c6a-9c6a-f1ba97276e2c" />
+        </orm:field>
+        <orm:field name="_webUser" property="WebUser" behavior="readwrite" uniqueId="40e74068-6b7b-4db9-8327-9a5f7cf546d4" type="BanditsModel.WebUser">
+          <orm:reference uniqueId="9e083b12-e2f7-4728-b235-0141eff80ef1" association-name="Auth_AssignmentHasWebUser">
+            <orm:sharedfield name="_userId" target-class="BanditsModel.WebUser" target-field="_webUserId" />
+          </orm:reference>
+        </orm:field>
+        <orm:index name="idx_Auth_Assignment_UserId">
+          <orm:columnMapping>
+            <orm:column name="UserId" sql-type="int" nullable="false" length="0" scale="0" converter="OpenAccessRuntime.Data.IntConverter" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
+      </orm:class>
+      <orm:class name="Auth_ScopeAssignment" uniqueId="deb7e7dd-077b-4c8c-b09b-a323440876a9">
+        <orm:table name="Auth_ScopeAssignment" />
+        <orm:identity>
+          <orm:single-field field-name="_scopeAssignmentId" />
+        </orm:identity>
+        <orm:field name="_scopeAssignmentId" property="ScopeAssignmentId" uniqueId="a9c071be-6100-477d-9a63-351d5b54f4bb" type="System.Int64">
+          <orm:column name="ScopeAssignmentId" sql-type="bigint" nullable="false" length="0" scale="0" primary-key="true" converter="OpenAccessRuntime.Data.BigIntConverter" ado-type="Int64" />
+        </orm:field>
+        <orm:field name="_resourceId" property="ResourceId" uniqueId="70954051-1c3c-467b-8013-4d41d50d59ac" type="System.Int64">
+          <orm:column name="ResourceId" sql-type="bigint" nullable="false" length="0" scale="0" converter="OpenAccessRuntime.Data.BigIntConverter" ado-type="Int64" />
+        </orm:field>
+        <orm:field name="_scopeId" property="ScopeId" uniqueId="7e069db7-b9e8-4fc2-91b1-f962e4f5b02d" type="System.Int32">
+          <orm:column name="ScopeId" sql-type="int" nullable="false" length="0" scale="0" converter="OpenAccessRuntime.Data.IntConverter" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_assignmentId" property="AssignmentId" uniqueId="78142996-0405-4c5d-921e-03de90049d71" type="System.Int64">
+          <orm:column name="AssignmentId" sql-type="bigint" nullable="false" length="0" scale="0" converter="OpenAccessRuntime.Data.BigIntConverter" ado-type="Int64" />
+        </orm:field>
+        <orm:field name="_deny" property="Deny" uniqueId="59238e96-e315-4237-bf28-0f846d2f73cc" type="System.Boolean">
+          <orm:column name="Deny" sql-type="tinyint" nullable="false" length="0" scale="0" converter="OpenAccessRuntime.Data.OneZero2BooleanConverter" ado-type="Bit" />
+        </orm:field>
+        <orm:field name="_auth_Scope" property="Auth_Scope" behavior="readwrite" uniqueId="c5ea3783-0fd7-4706-9ecd-7391a1610708" type="BanditsModel.Auth_Scope">
+          <orm:reference uniqueId="bd5ee580-6bf8-481c-8b15-891f6e0e650b" association-name="Auth_ScopeAssignmentHasAuth_Scope">
+            <orm:sharedfield name="_scopeId" target-class="BanditsModel.Auth_Scope" target-field="_scopeId" />
+          </orm:reference>
+        </orm:field>
+        <orm:field name="_auth_Assignment" property="Auth_Assignment" behavior="readwrite" uniqueId="24848349-e348-442c-ae47-6dc854b9c1f9" type="BanditsModel.Auth_Assignment">
+          <orm:reference uniqueId="9a8b205b-cc57-4c6a-9c6a-f1ba97276e2c" association-name="Auth_ScopeAssignmentHasAuth_Assignment">
+            <orm:sharedfield name="_assignmentId" target-class="BanditsModel.Auth_Assignment" target-field="_assignmentId" />
+          </orm:reference>
         </orm:field>
       </orm:class>
     </orm:namespace>
     <orm:schema schema="">
       <orm:table name="Auth_Permission">
         <orm:column name="PermissionId" sql-type="int" nullable="false" length="0" scale="0" primary-key="true" converter="OpenAccessRuntime.Data.IntConverter" backend-calculated="true" ado-type="Int32" />
-        <orm:column name="Name" sql-type="varchar" nullable="true" length="255" scale="0" converter="OpenAccessRuntime.Data.VariableLengthAnsiStringConverter" ado-type="StringVariableLength" />
-      </orm:table>
-      <orm:table name="Auth_Role">
-        <orm:column name="RoleId" sql-type="int" nullable="false" length="0" scale="0" primary-key="true" converter="OpenAccessRuntime.Data.IntConverter" backend-calculated="true" ado-type="Int32" />
-        <orm:column name="Name" sql-type="varchar" nullable="true" length="255" scale="0" converter="OpenAccessRuntime.Data.VariableLengthAnsiStringConverter" ado-type="StringVariableLength" />
+        <orm:column name="Name" sql-type="varchar" nullable="true" length="150" scale="0" converter="OpenAccessRuntime.Data.VariableLengthAnsiStringConverter" ado-type="StringVariableLength" />
       </orm:table>
       <orm:table name="Auth_Scope">
         <orm:column name="ScopeId" sql-type="int" nullable="false" length="0" scale="0" primary-key="true" converter="OpenAccessRuntime.Data.IntConverter" backend-calculated="true" ado-type="Int32" />
         <orm:column name="Scope" sql-type="int" nullable="false" length="0" scale="0" converter="OpenAccessRuntime.Data.IntConverter" ado-type="Int32" />
       </orm:table>
-      <orm:table name="Auth_ScopeAssignment">
-        <orm:column name="ScopeAssignmentId" sql-type="int" nullable="false" length="0" scale="0" primary-key="true" converter="OpenAccessRuntime.Data.IntConverter" backend-calculated="true" ado-type="Int32" />
-        <orm:column name="ResourceId" sql-type="bigint" nullable="false" length="0" scale="0" converter="OpenAccessRuntime.Data.BigIntConverter" ado-type="Int64" />
-        <orm:column name="Deny" sql-type="tinyint" nullable="false" length="0" scale="0" converter="OpenAccessRuntime.Data.OneZero2BooleanConverter" ado-type="Bit" />
-        <orm:column name="ScopeId" sql-type="int" nullable="true" length="0" scale="0" converter="OpenAccessRuntime.Data.IntConverter" ado-type="Int32" />
-      </orm:table>
+      <orm:table name="Auth_ScopeAssignment" />
       <orm:table name="WebUser">
         <orm:column name="WebUserId" sql-type="int" nullable="false" length="0" scale="0" primary-key="true" converter="OpenAccessRuntime.Data.IntConverter" backend-calculated="true" ado-type="Int32" />
         <orm:column name="Email" sql-type="varchar" nullable="true" length="255" scale="0" converter="OpenAccessRuntime.Data.VariableLengthAnsiStringConverter" ado-type="StringVariableLength" />
@@ -340,6 +357,24 @@
         <orm:column name="CreateDate" sql-type="datetime" nullable="false" length="0" scale="0" converter="OpenAccessRuntime.Data.MssqlMinDateConverter" ado-type="DateTime" />
         <orm:column name="ModifyDate" sql-type="datetime" nullable="true" length="0" scale="0" converter="OpenAccessRuntime.Data.MssqlMinDateConverter" ado-type="DateTime" />
         <orm:column name="PersonId" sql-type="int" nullable="true" length="0" scale="0" converter="OpenAccessRuntime.Data.IntConverter" ado-type="Int32" />
+      </orm:table>
+      <orm:table name="Auth_Role">
+        <orm:column name="RoleId" sql-type="int" nullable="false" length="0" scale="0" primary-key="true" converter="OpenAccessRuntime.Data.IntConverter" backend-calculated="true" ado-type="Int32" />
+        <orm:column name="RoleName" sql-type="varchar" nullable="true" length="150" scale="0" converter="OpenAccessRuntime.Data.VariableLengthAnsiStringConverter" ado-type="StringVariableLength" />
+        <orm:column name="Comments" sql-type="varchar" nullable="true" length="255" scale="0" converter="OpenAccessRuntime.Data.VariableLengthAnsiStringConverter" ado-type="StringVariableLength" />
+      </orm:table>
+      <orm:table name="Auth_Assignment">
+        <orm:column name="AssignmentId" sql-type="bigint" nullable="false" length="0" scale="0" primary-key="true" converter="OpenAccessRuntime.Data.BigIntConverter" ado-type="Int64" />
+        <orm:column name="IsExplicit" sql-type="tinyint" nullable="false" length="0" scale="0" converter="OpenAccessRuntime.Data.OneZero2BooleanConverter" ado-type="Bit" />
+        <orm:column name="RoleId" sql-type="int" nullable="true" length="0" scale="0" converter="OpenAccessRuntime.Data.IntConverter" ado-type="Int32" />
+        <orm:column name="PermissionId" sql-type="int" nullable="true" length="0" scale="0" converter="OpenAccessRuntime.Data.IntConverter" ado-type="Int32" />
+        <orm:column name="UserId" sql-type="int" nullable="false" length="0" scale="0" converter="OpenAccessRuntime.Data.IntConverter" ado-type="Int32" />
+        <orm:column name="ScopeAssignmentId" sql-type="bigint" nullable="true" length="0" scale="0" converter="OpenAccessRuntime.Data.BigIntConverter" ado-type="Int64" />
+        <orm:index name="idx_Auth_Assignment_UserId">
+          <orm:columnMapping>
+            <orm:column name="UserId" sql-type="int" nullable="false" length="0" scale="0" converter="OpenAccessRuntime.Data.IntConverter" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
       </orm:table>
     </orm:schema>
     <orm:relational-naming-settings>
@@ -404,43 +439,16 @@
             </associationDefinesSourceProperty>
           </sourceNavigationalProperty>
         </Association>
-        <Association Id="6e2781db-5b4b-4f52-90d2-4a936d3f0450" name="WebUsersHaveAuth_Permissions">
-          <DomainClassMoniker name="/BanditsModel/Auth_Permission" />
-          <sourceNavigationalProperty>
-            <associationDefinesSourceProperty Id="a5d3882e-cd81-431e-8c36-1a21eee56ecc">
-              <NavigationalPropertyMoniker name="/BanditsModel/WebUser/Permissions" />
-            </associationDefinesSourceProperty>
-          </sourceNavigationalProperty>
-        </Association>
-        <Association Id="f61036f0-13ba-4fad-8a2a-cae7e2eabd0d" name="WebUsersHaveAuth_RoleAssignments">
-          <DomainClassMoniker name="/BanditsModel/Auth_RoleAssignment" />
-          <sourceNavigationalProperty>
-            <associationDefinesSourceProperty Id="0557314f-ea7c-45c8-ad03-400e3620b682">
-              <NavigationalPropertyMoniker name="/BanditsModel/WebUser/RoleAssignments" />
-            </associationDefinesSourceProperty>
-          </sourceNavigationalProperty>
-        </Association>
-        <Association Id="88fd04cc-46e5-48dc-91bb-141239897090" name="WebUsersHaveAuth_ScopeAssignments">
-          <DomainClassMoniker name="/BanditsModel/Auth_ScopeAssignment" />
-          <sourceNavigationalProperty>
-            <associationDefinesSourceProperty Id="58f18190-a6f5-499e-ac26-b9b50ed76064">
-              <NavigationalPropertyMoniker name="/BanditsModel/WebUser/ScopeAssignments" />
-            </associationDefinesSourceProperty>
-          </sourceNavigationalProperty>
-        </Association>
       </AssociationTargets>
       <navigationalProperties>
         <classHasNavigationalProperties Id="36df2ba2-b734-4044-8331-d5af25f9cc08">
           <NavigationalProperty Id="5d1ab400-1bb6-4a88-a542-fcb352da2716" name="Person" type="Person" label="Person : Person" nullable="true" kind="Persistent" fieldName="_person" isDependent="true" isManaged="false" />
         </classHasNavigationalProperties>
-        <classHasNavigationalProperties Id="63f080d5-1e43-460a-ae38-f2212981db71">
-          <NavigationalProperty Id="fb0198c2-3eb2-4fe0-bdb2-46e9063d5293" name="Permissions" type="IList&lt;Auth_Permission&gt;" label="Permissions : IList&lt;Auth_Permission&gt;" nullable="true" kind="Persistent" loadBehavior="Eager" fieldName="_auth_Permissions" isDependent="false" isManaged="false" />
+        <classHasNavigationalProperties Id="e3138766-e9dc-4fa5-8350-2397d6e4c675">
+          <NavigationalProperty Id="a2c7f1d9-46ac-477f-a627-f096f92233c8" name="Auth_Roles" type="IList&lt;Auth_Role&gt;" label="Auth_Roles : IList&lt;Auth_Role&gt;" nullable="true" kind="Persistent" fieldName="_auth_Roles" isDependent="false" isManaged="false" />
         </classHasNavigationalProperties>
-        <classHasNavigationalProperties Id="4f75722f-c25c-45b5-9eac-9e3bf780b7cd">
-          <NavigationalProperty Id="fbaff463-e5cf-4197-a612-8a0ea9ea65c4" name="RoleAssignments" type="IList&lt;Auth_RoleAssignment&gt;" label="RoleAssignments : IList&lt;Auth_RoleAssignment&gt;" nullable="true" kind="Persistent" loadBehavior="Eager" fieldName="_auth_RoleAssignments" isDependent="false" isManaged="false" />
-        </classHasNavigationalProperties>
-        <classHasNavigationalProperties Id="c6496144-ab5f-44ba-8a38-6a734a854678">
-          <NavigationalProperty Id="b7d6d9b9-0d95-4a04-bf5b-44cf349917af" name="ScopeAssignments" type="IList&lt;Auth_ScopeAssignment&gt;" label="ScopeAssignments : IList&lt;Auth_ScopeAssignment&gt;" nullable="true" kind="Persistent" loadBehavior="Eager" fieldName="_auth_ScopeAssignments" isDependent="false" isManaged="false" />
+        <classHasNavigationalProperties Id="c7c0ff37-9973-4059-bae9-f45bee6cada1">
+          <NavigationalProperty Id="f0e4c1cc-c46a-4fad-8876-40d7015d7008" name="Auth_Assignments" type="IList&lt;Auth_Assignment&gt;" label="Auth_Assignments : IList&lt;Auth_Assignment&gt;" nullable="true" kind="Persistent" fieldName="_auth_Assignments" isDependent="false" isManaged="false" />
         </classHasNavigationalProperties>
       </navigationalProperties>
     </DomainClass>
@@ -630,24 +638,40 @@
       <Property Id="0bd24058-2997-48e5-8bad-37d5484d9584" name="RoleId" type="System.Int32" label="RoleId : System.Int32" identity="true" fieldName="_roleId" />
       <Property Id="996f5b81-7497-4089-960c-1aaea741ef74" name="RoleName" label="RoleName : String" fieldName="_roleName" />
       <Property Id="2adbf325-387a-4627-9a64-b20742133561" name="Comments" label="Comments : String" fieldName="_comments" />
-    </DomainClass>
-    <DomainClass Id="d3eca622-3a90-47f5-9631-f54c193c2ff2" name="Auth_ScopeAssignment" namespace="BanditsModel" showPropertiesCompartment="true" identityMechanism="DatabaseServerCalculated" showNavigationCompartment="true" showImplementationCompartment="true" identityMechanismMember="ScopeAssignmentId">
-      <Property Id="8cd62816-4653-4035-b7a6-425a72d8d773" name="ScopeAssignmentId" type="System.Int32" label="ScopeAssignmentId : System.Int32" identity="true" fieldName="_scopeAssignmentId" />
-      <Property Id="bc5d4263-c8ca-4b6e-a3d3-dfac1bf8bba7" name="ResourceId" type="Int64" label="ResourceId : Int64" fieldName="_resourceId" />
-      <Property Id="0c6c035e-f8d4-45fe-b40a-da3722a9ff91" name="Deny" type="Boolean" label="Deny : Boolean" fieldName="_deny" />
       <AssociationTargets>
-        <Association Id="f3a1c5c1-c3f2-4be5-ad53-cb2a92ef9489" SourceMultiplicity="ZeroOne" name="Auth_ScopeAssignmentHasAuth_Scope">
-          <DomainClassMoniker name="/BanditsModel/Auth_Scope" />
+        <Association Id="e1b2035b-077b-4b8d-b033-106d812dd01e" name="Auth_RolesHaveAuth_Permissions">
+          <DomainClassMoniker name="/BanditsModel/Auth_Permission" />
+          <targetNavigationalProperty>
+            <associationDefinesTargetProperty Id="358926d5-3290-4915-98ec-d2873f6f571f">
+              <NavigationalPropertyMoniker name="/BanditsModel/Auth_Permission/Roles" />
+            </associationDefinesTargetProperty>
+          </targetNavigationalProperty>
           <sourceNavigationalProperty>
-            <associationDefinesSourceProperty Id="ad73fc55-c52a-470a-89ef-a30a6bb99e26">
-              <NavigationalPropertyMoniker name="/BanditsModel/Auth_ScopeAssignment/Scope" />
+            <associationDefinesSourceProperty Id="7a3e3882-ec05-4308-a16a-93e17a928918">
+              <NavigationalPropertyMoniker name="/BanditsModel/Auth_Role/Permissions" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+        <Association Id="25765848-b462-4400-a552-061a4bcd9a5f" name="Auth_RolesHaveWebUsers">
+          <DomainClassMoniker name="/BanditsModel/WebUser" />
+          <targetNavigationalProperty>
+            <associationDefinesTargetProperty Id="20ea3216-2d31-4808-b9a2-5e5b8c01f3be">
+              <NavigationalPropertyMoniker name="/BanditsModel/WebUser/Auth_Roles" />
+            </associationDefinesTargetProperty>
+          </targetNavigationalProperty>
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="368ad274-f33c-4f0b-a267-0429ca6125a0">
+              <NavigationalPropertyMoniker name="/BanditsModel/Auth_Role/WebUsers" />
             </associationDefinesSourceProperty>
           </sourceNavigationalProperty>
         </Association>
       </AssociationTargets>
       <navigationalProperties>
-        <classHasNavigationalProperties Id="0213c17d-81d5-4363-ab22-3577ec8d1f96">
-          <NavigationalProperty Id="4d3d1b71-d9ba-498d-9cc0-68bdda0cfb43" name="Scope" type="Auth_Scope" label="Scope : Auth_Scope" nullable="true" kind="Persistent" loadBehavior="Eager" fieldName="_auth_Scope" isDependent="false" isManaged="false" />
+        <classHasNavigationalProperties Id="1084537b-38d9-42a5-8d5c-26c42557a8e7">
+          <NavigationalProperty Id="6928b682-2a15-48e5-a06f-268b2b48ed61" name="Permissions" type="IList&lt;Auth_Permission&gt;" label="Permissions : IList&lt;Auth_Permission&gt;" nullable="true" kind="Persistent" fieldName="_auth_Permissions" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="56339a5d-f30a-4ad0-b7ac-2c818f578156">
+          <NavigationalProperty Id="618e9cd8-54c3-4f45-95c1-c7531d6665d6" name="WebUsers" type="IList&lt;WebUser&gt;" label="WebUsers : IList&lt;WebUser&gt;" nullable="true" kind="Persistent" fieldName="_webUsers" isDependent="false" isManaged="false" />
         </classHasNavigationalProperties>
       </navigationalProperties>
     </DomainClass>
@@ -655,45 +679,99 @@
       <Property Id="a8828b8c-5c8c-479d-9f62-48510cea5149" name="PermissionId" type="System.Int32" label="PermissionId : System.Int32" identity="true" fieldName="_permissionId" />
       <Property Id="b99295a0-6e3c-432d-8a67-6d6312d3ef6c" name="PermissionName" label="PermissionName : String" fieldName="_permissionName" />
       <Property Id="1465289d-4ee1-4bef-a4ec-24eaa688b81a" name="Comments" label="Comments : String" fieldName="_comments" />
-      <Property Id="039a6fd8-d2ef-4344-b833-3816ec4a8741" name="Deny" type="Boolean" label="Deny : Boolean" fieldName="_deny" />
+      <navigationalProperties>
+        <classHasNavigationalProperties Id="f6655e88-dde0-4426-8e12-95b0c36a8508">
+          <NavigationalProperty Id="87e2e206-f9d4-450b-ad76-85b967acab2d" name="Roles" type="IList&lt;Auth_Role&gt;" label="Roles : IList&lt;Auth_Role&gt;" nullable="true" kind="Persistent" fieldName="_auth_Roles" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+      </navigationalProperties>
     </DomainClass>
-    <DomainClass Id="efba8ac2-a5e0-4ce3-8e81-82a936d5e1b9" name="Auth_RoleAssignment" namespace="BanditsModel" showPropertiesCompartment="true" identityMechanism="DatabaseServerCalculated" showNavigationCompartment="true" showImplementationCompartment="true" identityMechanismMember="RoleAssignmentId">
-      <Property Id="f0828903-d240-4069-b433-b4d4c662b938" name="RoleAssignmentId" type="System.Int32" label="RoleAssignmentId : System.Int32" identity="true" fieldName="_roleAssignmentId" />
+    <DomainClass Id="c7279374-fd8c-4f24-b3cb-ea9f5de50990" name="Auth_Assignment" namespace="BanditsModel" showPropertiesCompartment="true" showNavigationCompartment="true" showImplementationCompartment="true">
+      <Property Id="360b3656-88b0-46db-926e-2691562cffaf" name="AssignmentId" type="System.Int64" label="AssignmentId : System.Int64" identity="true" fieldName="_assignmentId" />
+      <Property Id="328a6f08-ef06-4d74-b7b9-a5cba747a242" name="IsExplicit" type="Boolean" label="IsExplicit : Boolean" fieldName="_isExplicit" />
+      <Property Id="49330b30-facd-4ce9-82f3-b820c9d3762c" name="UserId" type="System.Int32" label="UserId : System.Int32" fieldName="_userId" />
+      <Property Id="56bb7871-adfb-4b57-8de1-b16f1dd6a60e" name="PermissionId" type="System.Int32" label="PermissionId : System.Int32" nullable="true" fieldName="_permissionId" />
+      <Property Id="28d5b6ef-1205-4bd3-bc4c-f8ca6f344d4d" name="RoleId" type="System.Int32" label="RoleId : System.Int32" nullable="true" fieldName="_roleId" />
       <AssociationTargets>
-        <Association Id="5d3e9796-3742-4264-9f56-bc0b84ab97f4" SourceMultiplicity="ZeroOne" name="Auth_RoleAssignmentsHaveAuth_Roles">
-          <DomainClassMoniker name="/BanditsModel/Auth_Role" />
-          <sourceNavigationalProperty>
-            <associationDefinesSourceProperty Id="936abd67-886c-4736-8172-3743d34a6e01">
-              <NavigationalPropertyMoniker name="/BanditsModel/Auth_RoleAssignment/Role" />
-            </associationDefinesSourceProperty>
-          </sourceNavigationalProperty>
-        </Association>
-        <Association Id="d34a100a-b6d8-443d-88c3-60ee5aa27ffd" name="Auth_RoleAssignmentHasAuth_ScopeAssignment">
-          <DomainClassMoniker name="/BanditsModel/Auth_ScopeAssignment" />
-          <sourceNavigationalProperty>
-            <associationDefinesSourceProperty Id="665602e7-1ffd-4bcc-8389-6538164928cc">
-              <NavigationalPropertyMoniker name="/BanditsModel/Auth_RoleAssignment/ScopeAssignments" />
-            </associationDefinesSourceProperty>
-          </sourceNavigationalProperty>
-        </Association>
-        <Association Id="c296713c-d673-4dd2-8c4b-6f94b5cebd68" name="Auth_RoleAssignmentsHaveAuth_Permissions">
+        <Association Id="51583050-08be-4039-bf9d-532c39bd7c64" SourceMultiplicity="ZeroOne" name="Auth_AssignmentsHaveAuth_Permissions">
           <DomainClassMoniker name="/BanditsModel/Auth_Permission" />
           <sourceNavigationalProperty>
-            <associationDefinesSourceProperty Id="c93decb1-ef85-4e17-b15d-1f4373d83405">
-              <NavigationalPropertyMoniker name="/BanditsModel/Auth_RoleAssignment/Permissions" />
+            <associationDefinesSourceProperty Id="6425395d-ce76-477b-bbd9-d77e32d749bf">
+              <NavigationalPropertyMoniker name="/BanditsModel/Auth_Assignment/Permission" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+        <Association Id="e342d30f-e1e5-4fcd-8918-da7eebdefcba" SourceMultiplicity="ZeroOne" name="Auth_AssignmentHasAuth_Role">
+          <DomainClassMoniker name="/BanditsModel/Auth_Role" />
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="6cbfc7c9-1f23-4092-a89e-b43affc74ab5">
+              <NavigationalPropertyMoniker name="/BanditsModel/Auth_Assignment/Role" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+        <Association Id="9e083b12-e2f7-4728-b235-0141eff80ef1" SourceMultiplicity="ZeroOne" name="Auth_AssignmentHasWebUser">
+          <DomainClassMoniker name="/BanditsModel/WebUser" />
+          <targetNavigationalProperty>
+            <associationDefinesTargetProperty Id="e4d8c29b-07ff-49e3-b5ef-5fe1bd283905">
+              <NavigationalPropertyMoniker name="/BanditsModel/WebUser/Auth_Assignments" />
+            </associationDefinesTargetProperty>
+          </targetNavigationalProperty>
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="daf1039b-fb7d-4d4c-9677-44d0a7bf2415">
+              <NavigationalPropertyMoniker name="/BanditsModel/Auth_Assignment/WebUser" />
             </associationDefinesSourceProperty>
           </sourceNavigationalProperty>
         </Association>
       </AssociationTargets>
       <navigationalProperties>
-        <classHasNavigationalProperties Id="8115b41a-4569-4904-8018-2eacc5c3987e">
-          <NavigationalProperty Id="d552df85-c88b-45f4-9a13-0b5b069d61b5" name="Role" type="Auth_Role" label="Role : Auth_Role" nullable="true" kind="Persistent" loadBehavior="Eager" fieldName="_auth_Role" isDependent="false" isManaged="false" />
+        <classHasNavigationalProperties Id="16e20331-39f3-45e2-a04e-cf3ef721d33a">
+          <NavigationalProperty Id="35f843a7-adf1-4cd8-8bc9-0fca5ffce4a5" name="Permission" Description="Permission is null if IsExplicit is false" type="Auth_Permission" label="Permission : Auth_Permission" nullable="true" kind="Persistent" fieldName="_auth_Permission" isDependent="false" isManaged="false" />
         </classHasNavigationalProperties>
-        <classHasNavigationalProperties Id="23ce39b7-d7e1-4821-99a6-fce341117d32">
-          <NavigationalProperty Id="fd526f88-aaa9-4f80-befb-fb19f34c4a46" name="ScopeAssignments" type="IList&lt;Auth_ScopeAssignment&gt;" label="ScopeAssignments : IList&lt;Auth_ScopeAssignment&gt;" nullable="true" kind="Persistent" loadBehavior="Eager" fieldName="_auth_ScopeAssignments" isDependent="false" isManaged="false" />
+        <classHasNavigationalProperties Id="fd70caed-9bdf-4f63-922b-c9c5c5d3a44f">
+          <NavigationalProperty Id="0428acf5-d51a-44d8-bb9f-1817e5875200" name="Role" Description="Role is null if IsExplicit is true" type="Auth_Role" label="Role : Auth_Role" nullable="true" kind="Persistent" fieldName="_auth_Role" isDependent="false" isManaged="false" />
         </classHasNavigationalProperties>
-        <classHasNavigationalProperties Id="a767d522-371d-45c1-ba26-ab9df2e0eb2a">
-          <NavigationalProperty Id="e1c07952-e009-4ffa-9df0-0aa55436b94c" name="Permissions" type="IList&lt;Auth_Permission&gt;" label="Permissions : IList&lt;Auth_Permission&gt;" nullable="true" kind="Persistent" loadBehavior="Eager" fieldName="_auth_Permissions" isDependent="false" isManaged="false" />
+        <classHasNavigationalProperties Id="22bca6b7-be88-402a-962c-5cd38147c7e5">
+          <NavigationalProperty Id="1572f0de-a8be-4bc0-a1c2-0def2d3b9007" name="Auth_ScopeAssignments" type="IList&lt;Auth_ScopeAssignment&gt;" label="Auth_ScopeAssignments : IList&lt;Auth_ScopeAssignment&gt;" nullable="true" kind="Persistent" fieldName="_auth_ScopeAssignments" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="65db66e4-17ab-44df-a3c7-558ff017346c">
+          <NavigationalProperty Id="40e74068-6b7b-4db9-8327-9a5f7cf546d4" name="WebUser" type="WebUser" label="WebUser : WebUser" nullable="true" kind="Persistent" fieldName="_webUser" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+      </navigationalProperties>
+    </DomainClass>
+    <DomainClass Id="deb7e7dd-077b-4c8c-b09b-a323440876a9" name="Auth_ScopeAssignment" namespace="BanditsModel" showPropertiesCompartment="true" showNavigationCompartment="true" showImplementationCompartment="true">
+      <Property Id="a9c071be-6100-477d-9a63-351d5b54f4bb" name="ScopeAssignmentId" type="System.Int64" label="ScopeAssignmentId : System.Int64" identity="true" fieldName="_scopeAssignmentId" />
+      <Property Id="70954051-1c3c-467b-8013-4d41d50d59ac" name="ResourceId" type="Int64" label="ResourceId : Int64" fieldName="_resourceId" />
+      <Property Id="7e069db7-b9e8-4fc2-91b1-f962e4f5b02d" name="ScopeId" type="Int32" label="ScopeId : Int32" fieldName="_scopeId" />
+      <Property Id="78142996-0405-4c5d-921e-03de90049d71" name="AssignmentId" type="Int64" label="AssignmentId : Int64" fieldName="_assignmentId" />
+      <Property Id="59238e96-e315-4237-bf28-0f846d2f73cc" name="Deny" type="Boolean" label="Deny : Boolean" fieldName="_deny" />
+      <AssociationTargets>
+        <Association Id="bd5ee580-6bf8-481c-8b15-891f6e0e650b" SourceMultiplicity="ZeroOne" name="Auth_ScopeAssignmentHasAuth_Scope">
+          <DomainClassMoniker name="/BanditsModel/Auth_Scope" />
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="5e3809b7-719d-4e1a-9911-54363bc077d0">
+              <NavigationalPropertyMoniker name="/BanditsModel/Auth_ScopeAssignment/Auth_Scope" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+        <Association Id="9a8b205b-cc57-4c6a-9c6a-f1ba97276e2c" SourceMultiplicity="ZeroOne" name="Auth_ScopeAssignmentHasAuth_Assignment">
+          <DomainClassMoniker name="/BanditsModel/Auth_Assignment" />
+          <targetNavigationalProperty>
+            <associationDefinesTargetProperty Id="eac2bced-5b29-40d9-89a1-f9d416eb3a6e">
+              <NavigationalPropertyMoniker name="/BanditsModel/Auth_Assignment/Auth_ScopeAssignments" />
+            </associationDefinesTargetProperty>
+          </targetNavigationalProperty>
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="b5e386a9-b5b2-4d3f-b1d2-348c2d7adac5">
+              <NavigationalPropertyMoniker name="/BanditsModel/Auth_ScopeAssignment/Auth_Assignment" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+      </AssociationTargets>
+      <navigationalProperties>
+        <classHasNavigationalProperties Id="4eb137f8-5288-40d9-aa79-20ab21cb1b93">
+          <NavigationalProperty Id="c5ea3783-0fd7-4706-9ecd-7391a1610708" name="Auth_Scope" type="Auth_Scope" label="Auth_Scope : Auth_Scope" nullable="true" kind="Persistent" fieldName="_auth_Scope" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="9295d4e3-2e0f-4db7-a183-8902a311e620">
+          <NavigationalProperty Id="24848349-e348-442c-ae47-6dc854b9c1f9" name="Auth_Assignment" type="Auth_Assignment" label="Auth_Assignment : Auth_Assignment" nullable="true" kind="Persistent" fieldName="_auth_Assignment" isDependent="false" isManaged="false" />
         </classHasNavigationalProperties>
       </navigationalProperties>
     </DomainClass>
@@ -711,9 +789,9 @@
         <entitySetProperty name="GuardianTypes" namespace="BanditsModel" type="GuardianType" label="GuardianTypes : IQueryable&lt;BanditsModel.GuardianType&gt;" />
         <entitySetProperty name="Auth_Scopes" namespace="BanditsModel" type="Auth_Scope" label="Auth_Scopes : IQueryable&lt;BanditsModel.Auth_Scope&gt;" />
         <entitySetProperty name="Auth_Roles" namespace="BanditsModel" type="Auth_Role" label="Auth_Roles : IQueryable&lt;BanditsModel.Auth_Role&gt;" />
-        <entitySetProperty name="Auth_ScopeAssignments" namespace="BanditsModel" type="Auth_ScopeAssignment" label="Auth_ScopeAssignments : IQueryable&lt;BanditsModel.Auth_ScopeAssignment&gt;" />
         <entitySetProperty name="Auth_Permissions" namespace="BanditsModel" type="Auth_Permission" label="Auth_Permissions : IQueryable&lt;BanditsModel.Auth_Permission&gt;" />
-        <entitySetProperty name="Auth_RoleAssignments" namespace="BanditsModel" type="Auth_RoleAssignment" label="Auth_RoleAssignments : IQueryable&lt;BanditsModel.Auth_RoleAssignment&gt;" />
+        <entitySetProperty name="Auth_Assignments" namespace="BanditsModel" type="Auth_Assignment" label="Auth_Assignments : IQueryable&lt;BanditsModel.Auth_Assignment&gt;" />
+        <entitySetProperty name="Auth_ScopeAssignments" namespace="BanditsModel" type="Auth_ScopeAssignment" label="Auth_ScopeAssignments : IQueryable&lt;BanditsModel.Auth_ScopeAssignment&gt;" />
       </domainContainer>
     </domainModelHasDomainContext>
   </domainContext>

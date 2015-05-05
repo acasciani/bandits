@@ -52,13 +52,13 @@
     <Reference Include="Telerik.OpenAccess.35.Extensions" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Auth_Assignment.generated.cs">
+      <DependentUpon>EntitiesModel.rlinq</DependentUpon>
+    </Compile>
     <Compile Include="Auth_Permission.generated.cs">
       <DependentUpon>EntitiesModel.rlinq</DependentUpon>
     </Compile>
     <Compile Include="Auth_Role.generated.cs">
-      <DependentUpon>EntitiesModel.rlinq</DependentUpon>
-    </Compile>
-    <Compile Include="Auth_RoleAssignment.generated.cs">
       <DependentUpon>EntitiesModel.rlinq</DependentUpon>
     </Compile>
     <Compile Include="Auth_Scope.generated.cs">
@@ -67,6 +67,8 @@
     <Compile Include="Auth_ScopeAssignment.generated.cs">
       <DependentUpon>EntitiesModel.rlinq</DependentUpon>
     </Compile>
+    <Compile Include="Comparer\Auth_Permission.cs" />
+    <Compile Include="Comparer\Program.cs" />
     <Compile Include="EntitiesModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -78,6 +80,8 @@
     <Compile Include="GuardianType.generated.cs">
       <DependentUpon>EntitiesModel.rlinq</DependentUpon>
     </Compile>
+    <Compile Include="Permissions\ProgramPermissions.cs" />
+    <Compile Include="Permissions\ClubPermissions.cs" />
     <Compile Include="Person.generated.cs">
       <DependentUpon>EntitiesModel.rlinq</DependentUpon>
     </Compile>
@@ -95,6 +99,7 @@
       <DependentUpon>EntitiesModel.rlinq</DependentUpon>
     </Compile>
     <Compile Include="TypeCode\ModelEnums.cs" />
+    <Compile Include="TypeCode\Roles.cs" />
     <Compile Include="WebUser.generated.cs">
       <DependentUpon>EntitiesModel.rlinq</DependentUpon>
     </Compile>
@@ -113,17 +118,39 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="BanditsConnection%282015-03-14 22-17-42%29.rlinq.sql" />
-    <Content Include="BanditsConnection%282015-03-14 22-21-07%29.rlinq.sql" />
-    <Content Include="BanditsConnection%282015-03-14 22-22-14%29.rlinq.sql" />
-    <Content Include="BanditsConnection%282015-03-17 21-09-20%29.rlinq.sql" />
-    <Content Include="BanditsConnection%282015-03-17 22-28-14%29.rlinq.sql" />
-    <Content Include="BanditsConnection%282015-03-17 22-30-51%29.rlinq.sql" />
-    <Content Include="BanditsConnection%282015-03-17 22-32-21%29.rlinq.sql" />
-    <Content Include="BanditsConnection%282015-03-17 22-44-30%29.rlinq.sql" />
-    <Content Include="BanditsConnection%282015-03-19 22-38-49%29.rlinq.sql" />
-    <Content Include="BanditsConnection%282015-04-09 21-42-29%29.rlinq.sql" />
-    <Content Include="BanditsConnection%282015-04-10 20-28-10%29.rlinq.sql" />
+    <Content Include="SQL\BanditsConnection%282015-05-03 11-00-46%29.rlinq.sql" />
+    <Content Include="SQL\BanditsConnection%282015-05-03 11-03-25%29.rlinq.sql" />
+    <Content Include="SQL\BanditsConnection%282015-05-03 11-05-16%29.rlinq.sql" />
+    <Content Include="SQL\BanditsConnection%282015-05-03 11-06-35%29.rlinq.sql" />
+    <Content Include="SQL\BanditsConnection%282015-05-03 11-11-37%29.rlinq.sql" />
+    <Content Include="SQL\BanditsConnection%282015-05-03 11-27-45%29.rlinq.sql" />
+    <Content Include="SQL\BanditsConnection%282015-05-03 11-28-09%29.rlinq.sql" />
+    <Content Include="SQL\BanditsConnection%282015-05-03 11-28-43%29.rlinq.sql" />
+    <Content Include="SQL\BanditsConnection%282015-05-03 11-29-34%29.rlinq.sql" />
+    <Content Include="SQL\BanditsConnection%282015-05-03 11-30-06%29.rlinq.sql" />
+    <Content Include="SQL\BanditsConnection%282015-05-03 11-30-37%29.rlinq.sql" />
+    <Content Include="SQL\BanditsConnection%282015-05-03 11-31-16%29.rlinq.sql" />
+    <Content Include="SQL\BanditsConnection%282015-05-03 11-32-15%29.rlinq.sql" />
+    <Content Include="SQL\BanditsConnection%282015-03-14 22-17-42%29.rlinq.sql" />
+    <Content Include="SQL\BanditsConnection%282015-03-14 22-21-07%29.rlinq.sql" />
+    <Content Include="SQL\BanditsConnection%282015-03-14 22-22-14%29.rlinq.sql" />
+    <Content Include="SQL\BanditsConnection%282015-03-17 21-09-20%29.rlinq.sql" />
+    <Content Include="SQL\BanditsConnection%282015-03-17 22-28-14%29.rlinq.sql" />
+    <Content Include="SQL\BanditsConnection%282015-03-17 22-30-51%29.rlinq.sql" />
+    <Content Include="SQL\BanditsConnection%282015-03-17 22-32-21%29.rlinq.sql" />
+    <Content Include="SQL\BanditsConnection%282015-03-17 22-44-30%29.rlinq.sql" />
+    <Content Include="SQL\BanditsConnection%282015-03-19 22-38-49%29.rlinq.sql" />
+    <Content Include="SQL\BanditsConnection%282015-04-09 21-42-29%29.rlinq.sql" />
+    <Content Include="SQL\BanditsConnection%282015-04-10 20-28-10%29.rlinq.sql" />
+    <Content Include="SQL\BanditsConnection%282015-04-28 18-23-51%29.rlinq.sql" />
+    <Content Include="SQL\BanditsConnection%282015-04-29 17-57-44%29.rlinq.sql" />
+    <Content Include="SQL\BanditsConnection%282015-04-29 17-58-18%29.rlinq.sql" />
+    <Content Include="SQL\BanditsConnection%282015-04-29 17-58-50%29.rlinq.sql" />
+    <Content Include="SQL\BanditsConnection%282015-04-29 18-01-20%29.rlinq.sql" />
+    <Content Include="SQL\BanditsConnection%282015-04-29 18-03-29%29.rlinq.sql" />
+    <Content Include="SQL\BanditsConnection%282015-04-29 19-22-42%29.rlinq.sql" />
+    <Content Include="SQL\BanditsConnection%282015-04-29 19-48-31%29.rlinq.sql" />
+    <Content Include="SQL\BanditsConnection%282015-05-03 10-51-59%29.rlinq.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Condition="Exists('$(MSBuildExtensionsPath)\OpenAccess.targets')" Project="$(MSBuildExtensionsPath)\OpenAccess.targets" />

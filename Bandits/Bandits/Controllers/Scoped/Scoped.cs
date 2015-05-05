@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Telerik.OpenAccess;
 
 namespace Bandits
 {
@@ -12,40 +13,53 @@ namespace Bandits
         where Q : struct // The primary key identifier
     {
 
-        public IQueryable<U> GetScopedObjects()
+        public IQueryable<U> GetScopedObjects(string permission)
         {
             WebUser user = UserManagement.GetCurrentWebUser();
-            return GetScopedObjects(user);
+            return GetScopedObjects_Local(user.WebUserId, permission);
         }
 
-        public IQueryable<U> GetScopedObjects(Func<U, bool> where)
+        public IQueryable<U> GetScopedObjects(string permission, Func<U, bool> where)
         {
-            return GetScopedObjects().Where(i => where(i));
+            return GetScopedObjects(permission).Where(i => where(i));
         }
 
-        public IQueryable<U> GetScopedObjects(int userId)
+        public IQueryable<U> GetScopedObjects(int userId, string permission)
         {
-            WebUserRepository repo = new WebUserRepository();
-            WebUser user = repo.GetBy(i => i.WebUserId == userId);
-            return GetScopedObjects(user);
+            return GetScopedObjects_Local(userId, permission);
         }
 
-        public IQueryable<U> GetScopedObjects(int userId, Func<U, bool> where)
+        public IQueryable<U> GetScopedObjects(int userId, string permission, Func<U, bool> where)
         {
-            return GetScopedObjects(userId).Where(i => where(i));
+            return GetScopedObjects(userId, permission).Where(i => where(i));
         }
 
-        private IQueryable<U> GetScopedObjects(WebUser user)
+        private IQueryable<U> GetScopedObjects_Local(int userId, string permission)
         {
+            if (string.IsNullOrWhiteSpace(permission))
+            {
+                throw new ArgumentNullException("Permission was null, empty or whitespace. A permission must be specified.");
+            }
+            BanditsModel.BanditsModel model = new BanditsModel.BanditsModel();
+            permission = permission.ToLower();
+            WebUser user;
+            IQueryable<WebUser> results = model.WebUsers.Where(i => i.WebUserId == userId).Include(i => i.Auth_Assignments);
+
+            if(results == null || results.Count() != 1){
+                return null;
+            }
+
+            user=results.First();
+             IQueryable<Auth_Assignment> assignments = user.Auth_Assignments.AsQueryable().Include(i=>i.Permission).Include(i=>i.Role).Include(i=>i.Auth_ScopeAssignments);
+
             // Get all scope assignments per user level and per role level
-            IEnumerable<Auth_ScopeAssignment> assignments = user.ScopeAssignments.Union(user.RoleAssignments.SelectMany(r => r.ScopeAssignments));
+            IEnumerable<Auth_ScopeAssignment> individualSAssignments = assignments.Where(i => i.IsExplicit && i.Permission.PermissionName.ToLower() == permission).SelectMany(i => i.Auth_ScopeAssignments);
+            IEnumerable<Auth_ScopeAssignment> roleSAssignments = assignments.Where(i=> !i.IsExplicit && i.Role.Permissions.Select(k=>k.PermissionName.ToLower()).Contains(permission)).SelectMany(i=>i.Auth_ScopeAssignments);
+            IEnumerable<Auth_ScopeAssignment> allowAssignments = individualSAssignments.Where(i => !i.Deny).Union(roleSAssignments.Where(i => !i.Deny));
+            IEnumerable<Auth_ScopeAssignment> denyAssignments = individualSAssignments.Where(i => i.Deny).Union(roleSAssignments.Where(i => i.Deny));
 
-            IEnumerable<Auth_ScopeAssignment> allowAssignments = assignments.Where(i => !i.Deny);
-            IEnumerable<Auth_ScopeAssignment> denyAssignments = assignments.Where(i => i.Deny);
-
+            IEnumerable<U> scoped = new List<U>();
             T scoper = new T();
-            IQueryable<U> scoped = Enumerable.Empty<U>().AsQueryable();
-
             foreach (Auth_ScopeAssignment assignment in allowAssignments)
             {
                 scoped = scoped.Union(scoper.GetScopedObjects(assignment));
@@ -56,7 +70,9 @@ namespace Bandits
                 scoped = scoped.Except(scoper.GetScopedObjects(assignment));
             }
 
-            return scoped;
+            model.Dispose();
+
+            return scoped.Distinct().AsQueryable();
         }
     }
 }

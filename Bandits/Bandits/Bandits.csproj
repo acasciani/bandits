@@ -190,23 +190,38 @@
     <Reference Include="Telerik.OpenAccess.35.Extensions, Version=2014.3.1209.1, Culture=neutral, PublicKeyToken=7ce17eeaf1d59342, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\Auth_AssignmentsController.cs" />
     <Compile Include="Controllers\Auth_PermissionsController.cs" />
-    <Compile Include="Controllers\Auth_RoleAssignmentsController.cs" />
     <Compile Include="Controllers\Auth_RolesController.cs" />
     <Compile Include="Controllers\Auth_ScopeAssignmentsController.cs" />
     <Compile Include="Controllers\Auth_ScopesController.cs" />
-    <Compile Include="Controllers\GuardiansController.cs" />
-    <Compile Include="Controllers\GuardianTypesController.cs" />
-    <Compile Include="Controllers\OpenAccessBaseApiController.cs" />
-    <Compile Include="Controllers\PeopleController.cs" />
-    <Compile Include="Controllers\PlayersController.cs" />
-    <Compile Include="Controllers\ProgramsController.cs" />
+    <Compile Include="Controllers\Scoped\Controllers\WebUsersControllerSoped.cs" />
+    <Compile Include="Modules\ClubManagement\ClubManagement.master.cs">
+      <DependentUpon>ClubManagement.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\ClubManagement\ClubManagement.master.designer.cs">
+      <DependentUpon>ClubManagement.master</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\ClubManagement\User\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\ClubManagement\User\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\ClubManagement\User\UpsertUser.ascx.cs">
+      <DependentUpon>UpsertUser.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\ClubManagement\User\UpsertUser.ascx.designer.cs">
+      <DependentUpon>UpsertUser.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Repositories\BanditsModelRepositories.cs" />
     <Compile Include="Controllers\Scoped\Controllers\ProgramsControllerScoped.cs" />
     <Compile Include="Controllers\Scoped\IScopable.cs" />
     <Compile Include="Controllers\Scoped\Scoped.cs" />
     <Compile Include="Controllers\Scoped\Controllers\TeamsControllerScoped.cs" />
-    <Compile Include="Controllers\TeamPlayersController.cs" />
-    <Compile Include="Controllers\TeamsController.cs" />
     <Compile Include="Controllers\WebUsersController.cs" />
     <Content Include="Account\Login.aspx" />
     <Content Include="Account\Manage.aspx" />
@@ -292,13 +307,14 @@
     <Content Include="Global.asax" />
     <Content Include="img\glyphicons-halflings-white.png" />
     <Content Include="img\glyphicons-halflings.png" />
+    <Content Include="Modules\ClubManagement\User\Default.aspx" />
+    <Content Include="Modules\ClubManagement\User\UpsertUser.ascx" />
     <Content Include="Modules\PlayerManagement\Create.aspx" />
     <Content Include="Modules\PlayerManagement\Default.aspx" />
     <Content Include="Modules\PlayerManagement\Manage.aspx" />
     <Content Include="Modules\PlayerManagement\ManageFind.aspx" />
-    <Content Include="Modules\ProgramManagement\CreateProgram.aspx" />
     <Content Include="Modules\ProgramManagement\Default.aspx" />
-    <Content Include="Modules\ProgramManagement\ManageProgram.aspx" />
+    <Content Include="Modules\ProgramManagement\UpsertProgram.ascx" />
     <Content Include="packages.config" />
     <Content Include="OpenAccessTemplates\WebApiBaseRepository.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -310,6 +326,7 @@
     <Content Include="Modules\PlayerManagement\PlayerManagement.master" />
     <Compile Include="Controllers\Partials\PeopleController.Partial.cs" />
     <Content Include="Modules\ProgramManagement\ProgramManagement.master" />
+    <Content Include="Modules\ClubManagement\ClubManagement.master" />
     <None Include="Properties\PublishProfiles\deploy stage.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
@@ -390,6 +407,7 @@
     <Content Include="Source\PlayerManagement\PlayerWizard.ascx" />
     <Content Include="Source\ProgramManagement\ProgramWizard.ascx" />
     <Content Include="Source\UI\LeftNavigation.ascx" />
+    <Content Include="Source\Usability\Loading.ascx" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
     <Content Include="Web.sitemap" />
@@ -446,6 +464,8 @@
     <Compile Include="Controllers\Partials\PlayersController.Partial.cs" />
     <Compile Include="Controllers\Partials\ProgramsController.Partial.cs" />
     <Compile Include="Controllers\Partials\WebUsersController.Partial.cs" />
+    <Compile Include="Controllers\GuardiansController.cs" />
+    <Compile Include="Controllers\GuardianTypesController.cs" />
     <Compile Include="Modules\PlayerManagement\Manage.aspx.cs">
       <DependentUpon>Manage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -481,13 +501,6 @@
     <Compile Include="Modules\PlayerManagement\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Modules\ProgramManagement\CreateProgram.aspx.cs">
-      <DependentUpon>CreateProgram.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Modules\ProgramManagement\CreateProgram.aspx.designer.cs">
-      <DependentUpon>CreateProgram.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Modules\ProgramManagement\Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -495,14 +508,6 @@
     <Compile Include="Modules\ProgramManagement\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Modules\ProgramManagement\ManageProgram.aspx.cs">
-      <DependentUpon>ManageProgram.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Modules\ProgramManagement\ManageProgram.aspx.designer.cs">
-      <DependentUpon>ManageProgram.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Modules\ProgramManagement\Permissions.cs" />
     <Compile Include="Modules\ProgramManagement\ProgramManagement.master.cs">
       <DependentUpon>ProgramManagement.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -510,6 +515,18 @@
     <Compile Include="Modules\ProgramManagement\ProgramManagement.master.designer.cs">
       <DependentUpon>ProgramManagement.master</DependentUpon>
     </Compile>
+    <Compile Include="Modules\ProgramManagement\UpsertProgram.ascx.cs">
+      <DependentUpon>UpsertProgram.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\ProgramManagement\UpsertProgram.ascx.designer.cs">
+      <DependentUpon>UpsertProgram.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\OpenAccessBaseApiController.cs" />
+    <Compile Include="Repositories\OpenAccessBaseRepository.cs" />
+    <Compile Include="Controllers\PeopleController.cs" />
+    <Compile Include="Controllers\PlayersController.cs" />
+    <Compile Include="Controllers\ProgramsController.cs" />
     <Compile Include="Providers\Security\ActivityAuthorized.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
@@ -525,8 +542,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ProviderUtils.cs" />
     <Compile Include="Providers\Security\EFMembershipProvider.cs" />
-    <Compile Include="Repositories\BanditsModelRepositories.cs" />
-    <Compile Include="Repositories\OpenAccessBaseRepository.cs" />
     <Compile Include="Repositories\Partials\OpenAccessBaseRepository.Partial.cs" />
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
@@ -586,14 +601,26 @@
       <DependentUpon>LeftNavigation.ascx</DependentUpon>
     </Compile>
     <Compile Include="Source\Usability\LeftNavigation.cs" />
+    <Compile Include="Source\Usability\Loading.ascx.cs">
+      <DependentUpon>Loading.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Source\Usability\Loading.ascx.designer.cs">
+      <DependentUpon>Loading.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Source\Usability\PageRef.cs" />
     <Compile Include="Source\Usability\PageStack.cs" />
+    <Compile Include="Source\Usability\UpsertBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Source\Utils\BindUtils.cs" />
     <Compile Include="Source\Utils\LinqExtensions.cs" />
     <Compile Include="Source\Utils\SessionUtils.cs" />
     <Compile Include="Source\Utils\SortHelper.cs" />
     <Compile Include="Source\Utils\UIStructs\DropdownList.cs" />
     <Compile Include="Source\Utils\UserManagement.cs" />
+    <Compile Include="Controllers\TeamPlayersController.cs" />
+    <Compile Include="Controllers\TeamsController.cs" />
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -604,6 +631,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Modules\ProgramManagement\Team\" />
     <Folder Include="Source\CacheManagement\" />
     <Folder Include="Source\UI\Modules\PlayerManagement\" />
   </ItemGroup>

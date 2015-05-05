@@ -13,16 +13,16 @@ using BanditsModel;
 namespace Bandits
 {
     /// <summary>
-    /// Web API Controller for Auth_RoleAssignments entity defined in BanditsModel.BanditsModel data model
+    /// Web API Controller for Auth_Assignments entity defined in BanditsModel.BanditsModel data model
     /// </summary>
-    public partial class Auth_RoleAssignmentsController : OpenAccessBaseApiController<BanditsModel.Auth_RoleAssignment, BanditsModel.BanditsModel>
+    public partial class Auth_AssignmentsController : OpenAccessBaseApiController<BanditsModel.Auth_Assignment, BanditsModel.BanditsModel>
     {
         /// <summary>
         /// Constructor used by the Web API infrastructure.
         /// </summary>
-        public Auth_RoleAssignmentsController()
+        public Auth_AssignmentsController()
         {
-            this.repository = new Auth_RoleAssignmentRepository();
+            this.repository = new Auth_AssignmentRepository();
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Bandits
         /// </summary>
         /// <remarks>Web API Infrastructure will ALWAYS use the default constructor!</remarks>
         /// <param name="repository">Repository instance of the specific type</param>
-        public Auth_RoleAssignmentsController(IOpenAccessBaseRepository<BanditsModel.Auth_RoleAssignment , BanditsModel.BanditsModel> repository)
+        public Auth_AssignmentsController(IOpenAccessBaseRepository<BanditsModel.Auth_Assignment , BanditsModel.BanditsModel> repository)
         {
             this.repository = repository;
         }
@@ -43,9 +43,9 @@ namespace Bandits
         /// </summary>
         /// <param name="id">Primary key value to filter by</param>
         /// <returns>Entity instance if a matching entity is found</returns>
-        public virtual BanditsModel.Auth_RoleAssignment Get(Int32 id)
+        public virtual BanditsModel.Auth_Assignment Get(Int64 id)
         {
-            BanditsModel.Auth_RoleAssignment entity = repository.GetBy(b => b.RoleAssignmentId == id);
+            BanditsModel.Auth_Assignment entity = repository.GetBy(b => b.AssignmentId == id);
 
             if (entity == null)
             {
@@ -64,10 +64,10 @@ namespace Bandits
         /// <param name="entity">Entity with the new updated values</param>
         /// <returns>HttpStatusCode.BadRequest if ID parameter does not match the ID value of the entity,
         /// or HttpStatusCode.NoContent if the operation was successful</returns>
-        public virtual HttpResponseMessage Put(Int32 id, BanditsModel.Auth_RoleAssignment entity)
+        public virtual HttpResponseMessage Put(Int64 id, BanditsModel.Auth_Assignment entity)
         {
                         if (entity == null ||
-                id != entity.RoleAssignmentId)
+                id != entity.AssignmentId)
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
 
             repository.Update(entity);
@@ -80,9 +80,9 @@ namespace Bandits
         /// </summary>
         /// <param name="id">ID of the entity to delete</param>
         /// <returns>Always HttpStatusCode.OK</returns>
-        public virtual HttpResponseMessage Delete(Int32 id)
+        public virtual HttpResponseMessage Delete(Int64 id)
         {
-                        BanditsModel.Auth_RoleAssignment entity = repository.GetBy(b => b.RoleAssignmentId == id);
+                        BanditsModel.Auth_Assignment entity = repository.GetBy(b => b.AssignmentId == id);
             if (entity != null)
             {
                 repository.Delete(entity);
@@ -100,11 +100,11 @@ namespace Bandits
         /// <param name="httpStatusCode">Status code to return</param>
         /// <param name="entityToEmbed">Entity instance to embed in the response</param>
         /// <returns>HttpResponseMessage with the provided status code and object to embed</returns>
-        protected override HttpResponseMessage CreateResponse(HttpStatusCode httpStatusCode, BanditsModel.Auth_RoleAssignment entityToEmbed)
+        protected override HttpResponseMessage CreateResponse(HttpStatusCode httpStatusCode, BanditsModel.Auth_Assignment entityToEmbed)
         {
-            HttpResponseMessage response = Request.CreateResponse<BanditsModel.Auth_RoleAssignment>(httpStatusCode, entityToEmbed);
+            HttpResponseMessage response = Request.CreateResponse<BanditsModel.Auth_Assignment>(httpStatusCode, entityToEmbed);
 
-            string uri = Url.Link("DefaultApi", new { id = entityToEmbed.RoleAssignmentId });
+            string uri = Url.Link("DefaultApi", new { id = entityToEmbed.AssignmentId });
             response.Headers.Location = new Uri(uri);
 
             return response;

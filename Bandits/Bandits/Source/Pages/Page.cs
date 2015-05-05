@@ -6,6 +6,7 @@ using System.Web;
 using BanditsModel;
 using Bandits.Utils;
 using Bandits.Pages;
+using System.Web.Security;
 
 namespace Bandits
 {
@@ -17,7 +18,16 @@ namespace Bandits
         {
             get
             {
-                return UserManagement.GetCurrentWebUser();
+                WebUser user = UserManagement.GetCurrentWebUser();
+                if (user == null)
+                {
+                    FormsAuthentication.RedirectToLoginPage();
+                    return null;
+                }
+                else
+                {
+                    return UserManagement.GetCurrentWebUser();
+                }
             }
         }
 

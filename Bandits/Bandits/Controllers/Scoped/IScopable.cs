@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Bandits
 {
-    interface IScopable<T, Q>
+    public interface IScopable<T, Q>
         where T : class, new()
         where Q : struct
     {

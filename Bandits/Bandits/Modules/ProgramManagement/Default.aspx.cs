@@ -43,7 +43,7 @@ namespace Bandits.Modules.ProgramManagement
                 return;
             }
 
-            BindProgramsResults();
+            //BindProgramsResults();
         }
 
         private IEnumerable<ProgramSortable> ProgramsSortable(IEnumerable<Program> data)
@@ -77,6 +77,11 @@ namespace Bandits.Modules.ProgramManagement
                     break;
                 default: break;
             }
+        }
+
+        protected void Unnamed_Click(object sender, EventArgs e)
+        {
+            System.Threading.Thread.Sleep(5000);
         }
     }
 }

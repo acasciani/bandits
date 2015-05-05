@@ -18,6 +18,7 @@ using Telerik.OpenAccess.Metadata;
 using Telerik.OpenAccess.Data.Common;
 using Telerik.OpenAccess.Metadata.Fluent;
 using Telerik.OpenAccess.Metadata.Fluent.Advanced;
+using BanditsModel;
 
 namespace BanditsModel	
 {
@@ -59,6 +60,24 @@ namespace BanditsModel
 			set
 			{
 				this._comments = value;
+			}
+		}
+		
+		private IList<Auth_Permission> _auth_Permissions = new List<Auth_Permission>();
+		public virtual IList<Auth_Permission> Permissions
+		{
+			get
+			{
+				return this._auth_Permissions;
+			}
+		}
+		
+		private IList<WebUser> _webUsers = new List<WebUser>();
+		public virtual IList<WebUser> WebUsers
+		{
+			get
+			{
+				return this._webUsers;
 			}
 		}
 		

@@ -10,17 +10,17 @@ using BanditsModel;
 
 namespace Bandits
 {
+	public partial class Auth_AssignmentRepository : OpenAccessBaseRepository<BanditsModel.Auth_Assignment, BanditsModel.BanditsModel>
+    {
+	
+    }
+
 	public partial class Auth_PermissionRepository : OpenAccessBaseRepository<BanditsModel.Auth_Permission, BanditsModel.BanditsModel>
     {
 	
     }
 
 	public partial class Auth_RoleRepository : OpenAccessBaseRepository<BanditsModel.Auth_Role, BanditsModel.BanditsModel>
-    {
-	
-    }
-
-	public partial class Auth_RoleAssignmentRepository : OpenAccessBaseRepository<BanditsModel.Auth_RoleAssignment, BanditsModel.BanditsModel>
     {
 	
     }

@@ -24,8 +24,8 @@ namespace BanditsModel
 {
 	public partial class Auth_ScopeAssignment
 	{
-		private int _scopeAssignmentId;
-		public virtual int ScopeAssignmentId
+		private long _scopeAssignmentId;
+		public virtual long ScopeAssignmentId
 		{
 			get
 			{
@@ -50,6 +50,32 @@ namespace BanditsModel
 			}
 		}
 		
+		private int _scopeId;
+		public virtual int ScopeId
+		{
+			get
+			{
+				return this._scopeId;
+			}
+			set
+			{
+				this._scopeId = value;
+			}
+		}
+		
+		private long _assignmentId;
+		public virtual long AssignmentId
+		{
+			get
+			{
+				return this._assignmentId;
+			}
+			set
+			{
+				this._assignmentId = value;
+			}
+		}
+		
 		private bool _deny;
 		public virtual bool Deny
 		{
@@ -64,7 +90,7 @@ namespace BanditsModel
 		}
 		
 		private Auth_Scope _auth_Scope;
-		public virtual Auth_Scope Scope
+		public virtual Auth_Scope Auth_Scope
 		{
 			get
 			{
@@ -73,6 +99,19 @@ namespace BanditsModel
 			set
 			{
 				this._auth_Scope = value;
+			}
+		}
+		
+		private Auth_Assignment _auth_Assignment;
+		public virtual Auth_Assignment Auth_Assignment
+		{
+			get
+			{
+				return this._auth_Assignment;
+			}
+			set
+			{
+				this._auth_Assignment = value;
 			}
 		}
 		
