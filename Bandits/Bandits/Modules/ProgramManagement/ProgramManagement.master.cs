@@ -10,7 +10,6 @@ namespace Bandits.Modules.ProgramManagement
 {
     public partial class ProgramManagement : MasterPage
     {
-        public override string ModuleCacheKey { get { return "ProgramManagement"; } }
-
+        public override IList<LeftNavItem> LeftNavContents { get { return LeftNav.Items; } }
     }
 }

@@ -89,6 +89,11 @@
         <orm:field name="_player" property="Player" behavior="readwrite" uniqueId="bcb88134-159f-49f7-b552-5eaf889d19f7" type="BanditsModel.Player">
           <orm:reference uniqueId="92c6c090-9c8c-4b9c-b29f-4f79edd3b0b7" association-name="TeamPlayerHasPlayer" />
         </orm:field>
+        <orm:index name="idx_TeamPlayer_TeamId">
+          <orm:columnMapping>
+            <orm:column name="TeamId" sql-type="int" nullable="true" length="0" scale="0" converter="OpenAccessRuntime.Data.IntConverter" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
       </orm:class>
       <orm:class name="Person" use-default-mapping="true" uniqueId="e441df23-a46b-464c-ab61-3414e5236e16">
         <orm:identity>
@@ -284,23 +289,23 @@
         </orm:field>
         <orm:field name="_permissionId" property="PermissionId" uniqueId="56bb7871-adfb-4b57-8de1-b16f1dd6a60e" type="System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]" />
         <orm:field name="_roleId" property="RoleId" uniqueId="28d5b6ef-1205-4bd3-bc4c-f8ca6f344d4d" type="System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]" />
-        <orm:field name="_auth_Role" description="Role is null if IsExplicit is true" property="Role" behavior="readwrite" uniqueId="0428acf5-d51a-44d8-bb9f-1817e5875200" type="BanditsModel.Auth_Role">
+        <orm:field name="_auth_Role" property="Role" behavior="readwrite" uniqueId="0428acf5-d51a-44d8-bb9f-1817e5875200" type="BanditsModel.Auth_Role">
           <orm:reference uniqueId="e342d30f-e1e5-4fcd-8918-da7eebdefcba" association-name="Auth_AssignmentHasAuth_Role">
             <orm:sharedfield name="_roleId" target-class="BanditsModel.Auth_Role" target-field="_roleId" />
           </orm:reference>
         </orm:field>
-        <orm:field name="_auth_Permission" description="Permission is null if IsExplicit is false" property="Permission" behavior="readwrite" uniqueId="35f843a7-adf1-4cd8-8bc9-0fca5ffce4a5" type="BanditsModel.Auth_Permission">
+        <orm:field name="_auth_Permission" property="Permission" behavior="readwrite" uniqueId="35f843a7-adf1-4cd8-8bc9-0fca5ffce4a5" type="BanditsModel.Auth_Permission">
           <orm:reference uniqueId="51583050-08be-4039-bf9d-532c39bd7c64" association-name="Auth_AssignmentsHaveAuth_Permissions">
             <orm:sharedfield name="_permissionId" target-class="BanditsModel.Auth_Permission" target-field="_permissionId" />
           </orm:reference>
-        </orm:field>
-        <orm:field name="_auth_ScopeAssignments" property="Auth_ScopeAssignments" behavior="readwrite" uniqueId="1572f0de-a8be-4bc0-a1c2-0def2d3b9007" type="BanditsModel.Auth_ScopeAssignment">
-          <orm:collection element-class="BanditsModel.Auth_ScopeAssignment" inverse-field="_auth_Assignment" order-by="" uniqueId="9a8b205b-cc57-4c6a-9c6a-f1ba97276e2c" />
         </orm:field>
         <orm:field name="_webUser" property="WebUser" behavior="readwrite" uniqueId="40e74068-6b7b-4db9-8327-9a5f7cf546d4" type="BanditsModel.WebUser">
           <orm:reference uniqueId="9e083b12-e2f7-4728-b235-0141eff80ef1" association-name="Auth_AssignmentHasWebUser">
             <orm:sharedfield name="_userId" target-class="BanditsModel.WebUser" target-field="_webUserId" />
           </orm:reference>
+        </orm:field>
+        <orm:field name="_auth_ScopeAssignments" property="Auth_ScopeAssignments" behavior="readwrite" uniqueId="1572f0de-a8be-4bc0-a1c2-0def2d3b9007" type="BanditsModel.Auth_ScopeAssignment">
+          <orm:collection element-class="BanditsModel.Auth_ScopeAssignment" inverse-field="_auth_Assignment" order-by="" uniqueId="9a8b205b-cc57-4c6a-9c6a-f1ba97276e2c" />
         </orm:field>
         <orm:index name="idx_Auth_Assignment_UserId">
           <orm:columnMapping>
@@ -313,21 +318,11 @@
         <orm:identity>
           <orm:single-field field-name="_scopeAssignmentId" />
         </orm:identity>
-        <orm:field name="_scopeAssignmentId" property="ScopeAssignmentId" uniqueId="a9c071be-6100-477d-9a63-351d5b54f4bb" type="System.Int64">
-          <orm:column name="ScopeAssignmentId" sql-type="bigint" nullable="false" length="0" scale="0" primary-key="true" converter="OpenAccessRuntime.Data.BigIntConverter" ado-type="Int64" />
-        </orm:field>
-        <orm:field name="_resourceId" property="ResourceId" uniqueId="70954051-1c3c-467b-8013-4d41d50d59ac" type="System.Int64">
-          <orm:column name="ResourceId" sql-type="bigint" nullable="false" length="0" scale="0" converter="OpenAccessRuntime.Data.BigIntConverter" ado-type="Int64" />
-        </orm:field>
-        <orm:field name="_scopeId" property="ScopeId" uniqueId="7e069db7-b9e8-4fc2-91b1-f962e4f5b02d" type="System.Int32">
-          <orm:column name="ScopeId" sql-type="int" nullable="false" length="0" scale="0" converter="OpenAccessRuntime.Data.IntConverter" ado-type="Int32" />
-        </orm:field>
-        <orm:field name="_assignmentId" property="AssignmentId" uniqueId="78142996-0405-4c5d-921e-03de90049d71" type="System.Int64">
-          <orm:column name="AssignmentId" sql-type="bigint" nullable="false" length="0" scale="0" converter="OpenAccessRuntime.Data.BigIntConverter" ado-type="Int64" />
-        </orm:field>
-        <orm:field name="_deny" property="Deny" uniqueId="59238e96-e315-4237-bf28-0f846d2f73cc" type="System.Boolean">
-          <orm:column name="Deny" sql-type="tinyint" nullable="false" length="0" scale="0" converter="OpenAccessRuntime.Data.OneZero2BooleanConverter" ado-type="Bit" />
-        </orm:field>
+        <orm:field name="_scopeAssignmentId" property="ScopeAssignmentId" uniqueId="a9c071be-6100-477d-9a63-351d5b54f4bb" type="System.Int64" />
+        <orm:field name="_resourceId" property="ResourceId" uniqueId="70954051-1c3c-467b-8013-4d41d50d59ac" type="System.Int64" />
+        <orm:field name="_scopeId" property="ScopeId" uniqueId="7e069db7-b9e8-4fc2-91b1-f962e4f5b02d" type="System.Int32" />
+        <orm:field name="_assignmentId" property="AssignmentId" uniqueId="78142996-0405-4c5d-921e-03de90049d71" type="System.Int64" />
+        <orm:field name="_deny" property="Deny" uniqueId="59238e96-e315-4237-bf28-0f846d2f73cc" type="System.Boolean" />
         <orm:field name="_auth_Scope" property="Auth_Scope" behavior="readwrite" uniqueId="c5ea3783-0fd7-4706-9ecd-7391a1610708" type="BanditsModel.Auth_Scope">
           <orm:reference uniqueId="bd5ee580-6bf8-481c-8b15-891f6e0e650b" association-name="Auth_ScopeAssignmentHasAuth_Scope">
             <orm:sharedfield name="_scopeId" target-class="BanditsModel.Auth_Scope" target-field="_scopeId" />

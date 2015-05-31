@@ -5,47 +5,41 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Bandits.SessionManagement;
 
 namespace Bandits.Modules.ClubManagement
 {
     public partial class Default : Page
     {
-        public class SearchResult
+        public override string PageKey { get { return "ViewUsers"; } }
+
+        public class UserResult
         {
             public string Email { get; set; }
         }
 
-        public override string PageKey { get { return "ClubManagement.User.ViewAll"; } }
-
         protected void Page_Load(object sender, EventArgs e)
         {
-            WebUsersController.HasPermission(CurrentUser, Permissions.ViewUser);
+            this.RequirePermission(Permissions.ViewUser);
 
-            BindUsers();
-            Scoped<ProgramsControllerScoped, Program, Int32> controller = new Scoped<ProgramsControllerScoped, Program, Int32>();
+            if (IsPostBack) { return; }
 
-            var test1 = controller.GetScopedObjects(3, Bandits.Modules.ProgramManagement.Permissions.ViewAllPrograms); // alex
-            var test2 = controller.GetScopedObjects(7, Bandits.Modules.ProgramManagement.Permissions.ViewAllPrograms); // jerry
-            var test3 = controller.GetScopedObjects(10, Bandits.Modules.ProgramManagement.Permissions.ViewAllPrograms); // syd
-            var test4 = controller.GetScopedObjects(13, Bandits.Modules.ProgramManagement.Permissions.ViewAllPrograms); // dave k
-            var test5 = controller.GetScopedObjects(14, Bandits.Modules.ProgramManagement.Permissions.ViewAllPrograms); // cheryl c
-            var test6 = controller.GetScopedObjects(16, Bandits.Modules.ProgramManagement.Permissions.ViewAllPrograms); // betsy
-            var test7 = controller.GetScopedObjects(17, Bandits.Modules.ProgramManagement.Permissions.ViewAllPrograms); // todd
+            BindUsers(reload:true);
         }
-
-
 
         private void BindUsers(bool reload=false)
         {
-            IList<SearchResult> results = Session["Results"] as IList<SearchResult>;
+            List<UserResult> results = SearchResults<UserResult>.GetSession();
+
             if (results == null || reload)
             {
                 Scoped<WebUsersControllerSoped, WebUser, Int32> controller = new Scoped<WebUsersControllerSoped, WebUser, Int32>();
-                results = controller.GetScopedObjects(CurrentUser.WebUserId, Permissions.ViewUser).Select(i => new SearchResult()
+                results = controller.GetScopedObjects(CurrentUser.WebUserId, Permissions.ViewUser).Select(i => new UserResult()
                 {
                     Email = i.Email
                 }).ToList();
-                Session["Results"] = results;
+
+                SearchResults<UserResult>.SetSession(results);
             }
 
             Results.DataSource = results;

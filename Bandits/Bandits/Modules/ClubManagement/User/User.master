@@ -1,0 +1,28 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/Modules/ClubManagement/ClubManagement.master" AutoEventWireup="true" CodeBehind="User.master.cs" Inherits="Bandits.Modules.ClubManagement.User.User" %>
+
+<asp:Content runat="server" ContentPlaceHolderID="TopLevelNav">
+    <nav class="navbar navbar-default">
+        <div>
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#module-navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/Modules/ClubManagement/User/">Users</a>
+            </div>
+            <div class="collapse navbar-collapse" id="module-navbar">
+                <ul class="nav navbar-nav">
+                    <li runat="server" id="ViewUsers"><a href="/Modules/ClubManagement/User/">View</a></li>
+                    <li runat="server" id="AddUsers"><a href="/Modules/ClubManagement/User/Create">Add</a></li>
+                    <li runat="server" id="EditUsers"><a href="/Modules/ClubManagement/User/">Edit</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</asp:Content>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ModuleContent" runat="server">
+    <asp:ContentPlaceHolder runat="server" ID="ModuleContent" />
+</asp:Content>

@@ -14,6 +14,7 @@
     <!-- Custom styles for this template -->
     <link href="~/Content/Site.css" rel="stylesheet" /> 
     <link href="~/Content/datepicker3.css" rel="stylesheet" /> 
+    <link href="~/Content/LeftNavigation.css" rel="stylesheet" /> 
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -68,20 +69,40 @@
     </asp:UpdateProgress>
 
     <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
-            <asp:ContentPlaceHolder ID="LeftNavigation" runat="server">
+        <div id="wrapper" class="active">
+            <div id="sidebar-wrapper-outer">
+                <div id="sidebar-wrapper">
+                    <ul id="sidebar_menu" class="sidebar-nav">
+                        <li class="sidebar-brand"><a id="menu-toggle" href="#">Menu<span id="main_icon" class="glyphicon glyphicon-align-justify"></span></a></li>
+                    </ul>
 
-            </asp:ContentPlaceHolder>
+                    <asp:Repeater runat="server" ID="LeftNavigation">
+                        <ItemTemplate>
+                            <ul class="sidebar-nav" id="sidebar">     
+                                <li title="<%# Eval("Name") %>"><a href="<%# ResolveUrl(Eval("Link").ToString()) %>"><%# Eval("Name") %> <span class="sub_icon <%# Eval("Glyphicon") %>"></span></a></li>
+                            </ul>
+                        </ItemTemplate>
+                    </asp:Repeater>
+                </div>
+            </div>
+        
+            <!-- Page content -->
+            <div id="page-content-wrapper">
+                <!-- Keep all page content within the page-content inset div! -->
+                <div class="page-content inset">
+                    <h3 runat="server" id="PageTitleLocal" visible="false"><%=Page.Title %></h3>
+                    <div style="padding-top:15px;">
+                        <asp:UpdatePanel runat="server">
+                            <ContentTemplate>
+                                <asp:ContentPlaceHolder runat="server" ID="MainContent" />
+                            </ContentTemplate>
+                        </asp:UpdatePanel>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <asp:UpdatePanel runat="server">
-                <ContentTemplate>
-                    <asp:ContentPlaceHolder runat="server" ID="MainContent" />
-                </ContentTemplate>
-            </asp:UpdatePanel>
-        </div>
-      </div>
+
+
     </div>
 
 
@@ -93,5 +114,6 @@
     <script src="<%: ResolveUrl("~/Scripts/bootstrap-datepicker.js") %>"></script>
     <script src="<%: ResolveUrl("~/Scripts/jquery.validate.min.js") %>"></script>
     <script src="<%: ResolveUrl("~/Scripts/jquery.validate.unobtrusive.min.js") %>"></script>
+    <script src="<%: ResolveUrl("~/Scripts/LeftNavigation.js") %>"></script>
 </body>
 </html>

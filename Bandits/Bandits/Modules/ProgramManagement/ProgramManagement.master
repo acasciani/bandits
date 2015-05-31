@@ -3,21 +3,8 @@
 <asp:Content ID="HeadContent" ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>
 
-<asp:Content ID="LeftNavigationContent" ContentPlaceHolderID="LeftNavigation" runat="server">
-    <ul class="nav nav-sidebar" runat="server" id="ddlPrograms">
-        <li runat="server" id="optProgramOverview"><a href="/Modules/ProgramManagement/">Overview</a></li>
-        <li runat="server" id="optAddProgram"><a href="/Modules/ProgramManagement/Create">Add Program</a></li>
-        <li runat="server" id="optManageProgram"><a href="/Modules/ProgramManagement/ManageFind">Manage Program</a></li>
-    </ul>
-    <ul class="nav nav-sidebar" runat="server" id="ddlTeams">
-        <li runat="server" id="optTeamOverview"><a href="/Modules/ProgramManagement/Team/">Overview</a></li>
-        <li runat="server" id="optAddTeam"><a href="/Modules/ProgramManagement/Team/Create">Add Team</a></li>
-        <li runat="server" id="optManageTeam"><a href="/Modules/ProgramManagement/Team/ManageFind">Manage Team</a></li>
-    </ul>
-</asp:Content>
-
 <asp:Content ID="MainContent" ContentPlaceHolderID="MainContent" runat="server">
-    <nav class="navbar navbar-default hidden-lg hidden-md hidden-sm">
+    <nav class="navbar navbar-default">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#module-navbar">
@@ -30,21 +17,21 @@
             </div>
             <div class="collapse navbar-collapse" id="module-navbar">
                 <ul class="nav navbar-nav">
-                    <li runat="server" visible="<%# ddlPrograms.Visible %>" class="dropdown">
+                    <li runat="server" class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Programs <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li runat="server" visible="<%# optProgramOverview.Visible %>"><a href="#">Overview</a></li>
-                            <li runat="server" visible="<%# optAddProgram.Visible %>"><a href="#">Add Program</a></li>
-                            <li runat="server" visible="<%# optManageProgram.Visible %>"><a href="#">Manage Program</a></li>
+                            <li runat="server" ><a href="#">Overview</a></li>
+                            <li runat="server" ><a href="#">Add Program</a></li>
+                            <li runat="server"><a href="#">Manage Program</a></li>
                         </ul>
                     </li>
 
-                    <li runat="server" visible="<%# ddlTeams.Visible %>" class="dropdown">
+                    <li runat="server" class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Teams <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li runat="server" visible="<%# optTeamOverview.Visible %>"><a href="#">Overview</a></li>
-                            <li runat="server" visible="<%# optAddTeam.Visible %>"><a href="#">Add Team</a></li>
-                            <li runat="server" visible="<%# optManageTeam.Visible %>"><a href="#">Manage Team</a></li>
+                            <li runat="server"><a href="#">Overview</a></li>
+                            <li runat="server"><a href="#">Add Team</a></li>
+                            <li runat="server"><a href="#">Manage Team</a></li>
                         </ul>
                     </li>
                 </ul>

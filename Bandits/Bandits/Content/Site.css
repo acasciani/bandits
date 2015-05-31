@@ -7,6 +7,14 @@ body {
   padding-top: 50px;
 }
 
+.margin-top-15 {
+    margin-top: 15px;
+}
+
+.upsert-navigation .btn{margin:0 5px;}
+.upsert-navigation .btn:first-child{margin-right:0px;}
+.upsert-navigation .btn:last-child{margin-left:0px;}
+
 
 /*
  * Global add-ons

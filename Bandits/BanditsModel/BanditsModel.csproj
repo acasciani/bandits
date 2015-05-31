@@ -98,6 +98,7 @@
     <Compile Include="TeamPlayer.generated.cs">
       <DependentUpon>EntitiesModel.rlinq</DependentUpon>
     </Compile>
+    <Compile Include="TypeCode\Gender.cs" />
     <Compile Include="TypeCode\ModelEnums.cs" />
     <Compile Include="TypeCode\Roles.cs" />
     <Compile Include="WebUser.generated.cs">

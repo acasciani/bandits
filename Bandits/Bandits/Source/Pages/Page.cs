@@ -12,7 +12,7 @@ namespace Bandits
 {
     public abstract class Page : System.Web.UI.Page
     {
-        public abstract string PageKey { get; }
+        public virtual string PageKey { get { return null; } }
 
         protected WebUser CurrentUser
         {

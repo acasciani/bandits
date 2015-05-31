@@ -203,6 +203,14 @@
     <Compile Include="Modules\ClubManagement\ClubManagement.master.designer.cs">
       <DependentUpon>ClubManagement.master</DependentUpon>
     </Compile>
+    <Compile Include="Modules\ClubManagement\LeftNav.cs" />
+    <Compile Include="Modules\ClubManagement\User\Create.aspx.cs">
+      <DependentUpon>Create.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\ClubManagement\User\Create.aspx.designer.cs">
+      <DependentUpon>Create.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Modules\ClubManagement\User\Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -217,6 +225,16 @@
     <Compile Include="Modules\ClubManagement\User\UpsertUser.ascx.designer.cs">
       <DependentUpon>UpsertUser.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Modules\ClubManagement\User\User.master.cs">
+      <DependentUpon>User.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\ClubManagement\User\User.master.designer.cs">
+      <DependentUpon>User.master</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\LeftNav.cs" />
+    <Compile Include="Modules\PlayerManagement\LeftNav.cs" />
+    <Compile Include="Modules\ProgramManagement\LeftNav.cs" />
     <Compile Include="Repositories\BanditsModelRepositories.cs" />
     <Compile Include="Controllers\Scoped\Controllers\ProgramsControllerScoped.cs" />
     <Compile Include="Controllers\Scoped\IScopable.cs" />
@@ -234,6 +252,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\datepicker.css" />
     <Content Include="Content\datepicker3.css" />
+    <Content Include="Content\LeftNavigation.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -307,6 +326,7 @@
     <Content Include="Global.asax" />
     <Content Include="img\glyphicons-halflings-white.png" />
     <Content Include="img\glyphicons-halflings.png" />
+    <Content Include="Modules\ClubManagement\User\Create.aspx" />
     <Content Include="Modules\ClubManagement\User\Default.aspx" />
     <Content Include="Modules\ClubManagement\User\UpsertUser.ascx" />
     <Content Include="Modules\PlayerManagement\Create.aspx" />
@@ -327,6 +347,7 @@
     <Compile Include="Controllers\Partials\PeopleController.Partial.cs" />
     <Content Include="Modules\ProgramManagement\ProgramManagement.master" />
     <Content Include="Modules\ClubManagement\ClubManagement.master" />
+    <Content Include="Modules\ClubManagement\User\User.master" />
     <None Include="Properties\PublishProfiles\deploy stage.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
@@ -342,6 +363,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\LeftNavigation.js" />
     <Content Include="Scripts\locales\bootstrap-datepicker.ar.js" />
     <Content Include="Scripts\locales\bootstrap-datepicker.az.js" />
     <Content Include="Scripts\locales\bootstrap-datepicker.bg.js" />
@@ -557,6 +579,8 @@
     <Compile Include="Site.Mobile.Master.designer.cs">
       <DependentUpon>Site.Mobile.Master</DependentUpon>
     </Compile>
+    <Compile Include="Source\CacheManagement\AuthorizationCache.cs" />
+    <Compile Include="Source\CacheManagement\WebUserCache.cs" />
     <Compile Include="Source\ObjectCreation\Factory\AbstractFactoryCreation.cs" />
     <Compile Include="Source\ObjectCreation\Factory\GuardianFactoryCreation.cs" />
     <Compile Include="Source\ObjectCreation\Factory\PersonFactoryCreation.cs" />
@@ -592,7 +616,7 @@
     <Compile Include="Source\ProgramManagement\ProgramWizard.ascx.designer.cs">
       <DependentUpon>ProgramWizard.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Source\Typecodes\Gender.cs" />
+    <Compile Include="Source\SessionManagement\SearchResults.cs" />
     <Compile Include="Source\UI\LeftNavigation.ascx.cs">
       <DependentUpon>LeftNavigation.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -601,6 +625,7 @@
       <DependentUpon>LeftNavigation.ascx</DependentUpon>
     </Compile>
     <Compile Include="Source\Usability\LeftNavigation.cs" />
+    <Compile Include="Source\Usability\LeftNavItem.cs" />
     <Compile Include="Source\Usability\Loading.ascx.cs">
       <DependentUpon>Loading.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -615,7 +640,6 @@
     </Compile>
     <Compile Include="Source\Utils\BindUtils.cs" />
     <Compile Include="Source\Utils\LinqExtensions.cs" />
-    <Compile Include="Source\Utils\SessionUtils.cs" />
     <Compile Include="Source\Utils\SortHelper.cs" />
     <Compile Include="Source\Utils\UIStructs\DropdownList.cs" />
     <Compile Include="Source\Utils\UserManagement.cs" />
@@ -632,7 +656,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Modules\ProgramManagement\Team\" />
-    <Folder Include="Source\CacheManagement\" />
     <Folder Include="Source\UI\Modules\PlayerManagement\" />
   </ItemGroup>
   <ItemGroup>

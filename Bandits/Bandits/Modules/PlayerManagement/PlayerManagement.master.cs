@@ -11,10 +11,6 @@ namespace Bandits.Modules.PlayerManagement
 {
     public partial class PlayerManagement : MasterPage
     {
-        public override string ModuleCacheKey { get { return "PlayerManagement"; } }
-
-
-
-
+        public override IList<LeftNavItem> LeftNavContents { get { return LeftNav.Items; } }
     }
 }

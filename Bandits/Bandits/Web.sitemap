@@ -1,6 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
-    <siteMapNode url="~/Modules/PlayerManagement" title="Player Management"  description="Pages responsible for player management">
-        <siteMapNode url="~/Modules/PlayerManagement/ViewAll.aspx" title="View All"  description="View all players in the system" />
+    <siteMapNode url="~/Default.aspx" title="Dashboard"  description="The dashboard main screen page.">
+      <siteMapNode url="~/Modules/ClubManagement/Default.aspx" title="Club Management" description="The main club management page.">
+        <siteMapNode url="~/Modules/ClubManagement/User/" resourceKey="" title="User Management" description="User management modules">
+          <siteMapNode url="~/Modules/ClubManagement/User/Create.aspx" title="Add User" description="Add a new user"/>
+          <siteMapNode url="~/Modules/ClubManagement/User/Default.aspx" title="Add User" description="Add a new user"/>
+        </siteMapNode>
+        <siteMapNode url="~/Modules/ClubManagement/User/Dat.aspx" title="Add User" description="Add a new user"/>
+      </siteMapNode>
     </siteMapNode>
 </siteMap>

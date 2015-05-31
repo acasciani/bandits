@@ -28,7 +28,16 @@ namespace Bandits {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder LeftNavigation;
+        protected global::System.Web.UI.WebControls.Repeater LeftNavigation;
+        
+        /// <summary>
+        /// PageTitleLocal control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl PageTitleLocal;
         
         /// <summary>
         /// MainContent control.

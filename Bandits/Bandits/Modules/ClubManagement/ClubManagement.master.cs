@@ -9,6 +9,6 @@ namespace Bandits.Modules.ClubManagement
 {
     public partial class ClubManagement : MasterPage
     {
-        public override string ModuleCacheKey { get { return "ClubManagement"; } }
+        public override IList<LeftNavItem> LeftNavContents { get { return LeftNav.Items; } }
     }
 }

@@ -7,19 +7,37 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bandits.Modules.ClubManagement {
+namespace Bandits.Modules.ClubManagement.User {
     
     
-    public partial class ClubManagement {
+    public partial class User {
         
         /// <summary>
-        /// TopLevelNav control.
+        /// ViewUsers control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder TopLevelNav;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ViewUsers;
+        
+        /// <summary>
+        /// AddUsers control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl AddUsers;
+        
+        /// <summary>
+        /// EditUsers control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl EditUsers;
         
         /// <summary>
         /// ModuleContent control.
@@ -29,17 +47,5 @@ namespace Bandits.Modules.ClubManagement {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ContentPlaceHolder ModuleContent;
-        
-        /// <summary>
-        /// Master property.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated property.
-        /// </remarks>
-        public new Bandits.SiteMaster Master {
-            get {
-                return ((Bandits.SiteMaster)(base.Master));
-            }
-        }
     }
 }

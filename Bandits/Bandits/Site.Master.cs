@@ -16,8 +16,6 @@ namespace Bandits
         private const string AntiXsrfUserNameKey = "__AntiXsrfUserName";
         private string _antiXsrfTokenValue;
 
-        public override string ModuleCacheKey { get { return "SiteMaster"; } }
-
         protected void Page_Init(object sender, EventArgs e)
         {
             // The code below helps to protect against XSRF attacks
@@ -69,5 +67,40 @@ namespace Bandits
             }
         }
 
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            LoadLeftNav();
+            LoadLocalPageTitle();
+        }
+
+        private void LoadLocalPageTitle()
+        {
+            MasterPage mp = Page.Master as MasterPage;
+            if (mp != null)
+            {
+                PageTitleLocal.Visible = mp.IsLocalTitleVisible;
+            }
+        }
+
+        private void LoadLeftNav()
+        {
+            System.Web.UI.MasterPage mpGeneric = Page.Master;
+
+            while (mpGeneric != null)
+            {
+                MasterPage mp = mpGeneric as MasterPage;
+                if (mp != null && mp.LeftNavContents != null && mp.LeftNavContents.Count() > 0)
+                { // The next level up, the left nav has contents.
+                    LeftNavigation.DataSource = mp.LeftNavContents;
+                    LeftNavigation.DataBind();
+                    return;
+                }
+
+                mpGeneric = mpGeneric.Master;
+            }
+        }
+
+        public override IList<LeftNavItem> LeftNavContents { get { return Modules.LeftNav.Items; } }
+        public override bool IsLocalTitleVisible { get { return false; } }
     }
 }
