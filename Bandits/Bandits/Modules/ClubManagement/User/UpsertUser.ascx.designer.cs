@@ -130,22 +130,40 @@ namespace Bandits.Modules.ClubManagement {
         protected global::System.Web.UI.WebControls.DropDownList ddlScopeLevel;
         
         /// <summary>
-        /// Repeater1 control.
+        /// txtFilterAvailableScopeResults control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater Repeater1;
+        protected global::System.Web.UI.WebControls.TextBox txtFilterAvailableScopeResults;
         
         /// <summary>
-        /// Repeater2 control.
+        /// ddlAvailableScopes control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater Repeater2;
+        protected global::System.Web.UI.WebControls.ListBox ddlAvailableScopes;
+        
+        /// <summary>
+        /// btnTransferScopes control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnTransferScopes;
+        
+        /// <summary>
+        /// ddlAssignedScopes control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ListBox ddlAssignedScopes;
         
         /// <summary>
         /// SaveBtn control.

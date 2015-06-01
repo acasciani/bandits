@@ -8,6 +8,7 @@ using Bandits.Usability;
 using BanditsModel;
 using System.Collections;
 using Bandits.CacheManagement;
+using Telerik.OpenAccess.FetchOptimization;
 
 namespace Bandits.Modules.ClubManagement
 {
@@ -30,7 +31,8 @@ namespace Bandits.Modules.ClubManagement
             get { return ViewState["AssignedPermissionIds"] as List<int>; }
             set { ViewState["AssignedPermissionIds"] = value; }
         }
-        private List<Auth_ScopeAssignment> AssignedScopeAssignments{
+        private List<Auth_ScopeAssignment> AssignedScopeAssignments
+        {
             get { return ViewState["AssignedScopeAssignments"] as List<Auth_ScopeAssignment>; }
             set { ViewState["AssignedScopeAssignments"] = value; }
         }
@@ -45,6 +47,8 @@ namespace Bandits.Modules.ClubManagement
                 BindToModel();
                 BindRoles(init: true);
                 BindPermissions(init: true);
+                BindScopeLevels();
+                BindPersonalTab();
             }
 
             if (IsPostBack)
@@ -57,7 +61,7 @@ namespace Bandits.Modules.ClubManagement
         {
             using (WebUsersController c = new WebUsersController())
             {
-                return c.GetWhere(i => i.WebUserId == id).FirstOrDefault();
+                return c.GetWhere(i => i.WebUserId == id, i => i.Person).FirstOrDefault();
             }
         }
 
@@ -114,6 +118,12 @@ namespace Bandits.Modules.ClubManagement
             Password.ReadOnly = true;
         }
 
+        private void BindPersonalTab()
+        {
+            WebUser user = Entity;
+            FirstName.Text = user.Person.FName;
+        }
+
         private void BindRoles(bool init = false)
         {
             using (Auth_AssignmentsController aac = new Auth_AssignmentsController())
@@ -122,7 +132,7 @@ namespace Bandits.Modules.ClubManagement
                 List<int> unavailableIDs;
                 if (init)
                 {
-                    unavailableIDs = aac.GetWhere(i => i.UserId == userid).Select(i => i.Role).Select(i => i.RoleId).ToList();
+                    unavailableIDs = aac.GetWhere(i => i.UserId == userid && i.RoleId.HasValue).Select(i => i.RoleId.Value).ToList();
                     AssignedRoleIds = unavailableIDs;
                 }
                 else
@@ -147,7 +157,7 @@ namespace Bandits.Modules.ClubManagement
                 List<int> unavailableIDs;
                 if (init)
                 {
-                    unavailableIDs = apc.GetWhere(i => i.UserId == userid).Select(i => i.Permission).Select(i => i.PermissionId).ToList();
+                    unavailableIDs = apc.GetWhere(i => i.UserId == userid && i.PermissionId.HasValue).Select(i => i.PermissionId.Value).ToList();
                     AssignedPermissionIds = unavailableIDs;
                 }
                 else
@@ -164,21 +174,55 @@ namespace Bandits.Modules.ClubManagement
             }
         }
 
+        private void BindScopeLevels()
+        {
+            using (Auth_ScopesController asc = new Auth_ScopesController())
+            {
+                var levels = asc.Get().OrderBy(i => i.Scope.ToString());
+                ddlScopeLevel.DataSource = levels.Select(i => new { Label = i.Scope.ToString(), Value = i.Scope });
+                ddlScopeLevel.DataTextField = "Label";
+                ddlScopeLevel.DataValueField = "Value";
+                ddlScopeLevel.DataBind();
+            }
+        }
+
         private void BindScopeAssignments(ScopeType type, bool init = false)
         {
             using (Auth_ScopeAssignmentsController asac = new Auth_ScopeAssignmentsController())
+            using (ProgramsController pc = new ProgramsController())
             {
                 int userid = Entity.WebUserId;
-                List<int> unavailableIDs;
-                
-                asac.GetWhere(i=>i.ScopeId == (int)type)
+                List<long> unavailableIDs = asac.GetWhere(i => (i.Auth_Scope.Scope == type && i.Auth_Assignment.UserId == userid), i => i.Auth_Assignment, i=>i.Auth_Scope)
+                    .Select(i => i.ResourceId).ToList();
 
-                IEnumerable<Auth_Permission> allPermissions = AuthorizationCache.Permissions.Values.AsEnumerable();
+                // We now have the unavailable resource IDs, but we need to see which scope type this is for an understandable translation
+                switch (type)
+                {
+                    case ScopeType.Client: break; // Not supported at this time.
 
-                rptrAvailablePermissions.DataSource = allPermissions.Where(i => !unavailableIDs.Contains(i.PermissionId)).ToList().OrderBy(i => i.PermissionName);
-                rptrAvailablePermissions.DataBind();
-                rptrAssignedPermissions.DataSource = allPermissions.Where(i => unavailableIDs.Contains(i.PermissionId)).ToList().OrderBy(i => i.PermissionName);
-                rptrAssignedPermissions.DataBind();
+                    case ScopeType.ClubDepartment: break; // Not supported at this time.
+
+                    case ScopeType.Program: // Need to represent results as programs.
+                        List<int> programIDs = unavailableIDs.Select(i => Convert.ToInt32(i)).ToList();
+                        ddlAssignedScopes.DataSource = pc.GetWhere(i => programIDs.Contains(i.ProgramId)).Select(i => new { Label = string.Format("{0}", i.ProgramName), Value = i.ProgramId });
+                        ddlAssignedScopes.DataValueField = "Value";
+                        ddlAssignedScopes.DataTextField = "Label";
+                        ddlAssignedScopes.DataBind();
+
+                        // in the available scopes dropdown list, add those that aren't already assigned and if there is a filter, then apply the filter
+                        ddlAvailableScopes.DataSource = pc.GetWhere(i => !programIDs.Contains(i.ProgramId) && !string.IsNullOrWhiteSpace(txtFilterAvailableScopeResults.Text) ? (
+                            i.ProgramName.Contains(txtFilterAvailableScopeResults.Text.Trim()) // the program name contains the filter
+                            ) : true).OrderBy(i=>i.ProgramName).Take(10) // otherwise if filter is empty just return true. only display first 10 
+                            .Select(i=> new {Label=i.ProgramName, Value=i.ProgramId});
+                        ddlAvailableScopes.DataTextField = "Label";
+                        ddlAvailableScopes.DataValueField = "Value";
+                        ddlAvailableScopes.DataBind();
+
+                        break;
+
+                    default: break;
+
+                }
             }
         }
 
@@ -245,7 +289,7 @@ namespace Bandits.Modules.ClubManagement
             ScopeType scopeType;
             if (Enum.TryParse<ScopeType>(ddlScopeLevel.SelectedValue, out scopeType))
             {
-
+                BindScopeAssignments(scopeType, init: true);
             }
         }
     }

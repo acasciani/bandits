@@ -116,42 +116,35 @@
 
             <div role="tabpanel" class="tab-pane" id="scopinginformation">
                 <h4>Scope Levels</h4>
-                <div class="col-sm-6">
+                <div class="col-sm-12">
                     <div class="form-group">
-                        <asp:DropDownList runat="server" ID="ddlScopeLevel" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="ddlScopeLevel_SelectedIndexChanged">
+                        <asp:DropDownList runat="server" ID="ddlScopeLevel" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="ddlScopeLevel_SelectedIndexChanged" AppendDataBoundItems="true">
                             <asp:ListItem Value="">-- Select a Scope Level --</asp:ListItem>
-                            <asp:ListItem Value="0" Text="Client" />
-                            <asp:ListItem Value="1" Text="Program" />
-                            <asp:ListItem Value="2" Text="Team" />
-                            <asp:ListItem Value="3" Text="ClubDepartment" />
-                            <asp:ListItem Value="4" Text="Player" />
                         </asp:DropDownList>
                     </div>
                 </div>
 
-                <div class="col-sm-6">
-                    <strong>Available Roles</strong>
-                    <div class="well well-sm">
-                        <asp:Repeater runat="server" ID="Repeater1">
-                            <ItemTemplate>
-                                <span style="margin:10px"><asp:LinkButton runat="server" CssClass="label label-primary" CommandName="Role" CommandArgument='<%# Eval("RoleId") %>' OnClick="Assign_Click">
-                                    <%# Eval("RoleName") %> <span class="glyphicon glyphicon-plus"></span>
-                                </asp:LinkButton></span>
-                            </ItemTemplate>
-                        </asp:Repeater>
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <asp:TextBox runat="server" ID="txtFilterAvailableScopeResults" CssClass="form-control" placeholder="Filter available scopes" />
                     </div>
                 </div>
 
-                <div class="col-sm-6">
-                    <strong>Assigned Roles</strong>
-                    <div class="well well-sm">
-                        <asp:Repeater runat="server" ID="Repeater2">
-                            <ItemTemplate>
-                                <span style="margin:10px"><asp:LinkButton runat="server" CssClass="label label-danger" CommandName="Role" CommandArgument='<%# Eval("RoleId") %>' OnClick="Unassign_Click">
-                                    <%# Eval("RoleName") %> <span class="glyphicon glyphicon-minus"></span>
-                                </asp:LinkButton></span>
-                            </ItemTemplate>
-                        </asp:Repeater>
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label class="control-label col-sm-12">Available Scopes</label>
+                        <asp:ListBox runat="server" ID="ddlAvailableScopes" SelectionMode="Multiple" CssClass="form-control" />
+                    </div>
+                </div>
+
+                <div class="col-md-2 text-center">
+                    <asp:LinkButton runat="server" ID="btnTransferScopes" CssClass="glyphicon glyphicon-transfer un_assign" ToolTip="Unassign/Assign selected" />
+                </div>
+
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label class="control-label col-sm-12">Assigned Scopes</label>
+                        <asp:ListBox runat="server" ID="ddlAssignedScopes" SelectionMode="Multiple" CssClass="form-control" />
                     </div>
                 </div>
 

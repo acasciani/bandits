@@ -218,6 +218,13 @@
     <Compile Include="Modules\ClubManagement\User\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Modules\ClubManagement\User\Edit.aspx.cs">
+      <DependentUpon>Edit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\ClubManagement\User\Edit.aspx.designer.cs">
+      <DependentUpon>Edit.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Modules\ClubManagement\User\UpsertUser.ascx.cs">
       <DependentUpon>UpsertUser.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -328,6 +335,7 @@
     <Content Include="img\glyphicons-halflings.png" />
     <Content Include="Modules\ClubManagement\User\Create.aspx" />
     <Content Include="Modules\ClubManagement\User\Default.aspx" />
+    <Content Include="Modules\ClubManagement\User\Edit.aspx" />
     <Content Include="Modules\ClubManagement\User\UpsertUser.ascx" />
     <Content Include="Modules\PlayerManagement\Create.aspx" />
     <Content Include="Modules\PlayerManagement\Default.aspx" />
